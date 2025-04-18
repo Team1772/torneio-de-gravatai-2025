@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Leitor de Planilha Google</title>
+  </head>
+  <body>
+    <h1></h1>
+    <input type="text" id="sheetUrl" placeholder="Cole a URL da planilha" />
+    <button id="btnCarregar">Carregar dados</button>
+
+    <pre id="output"></pre>
+
+    <script src="sheetUtils.js"></script>
+
+    <script>
+      function carregar() {
+        const url = document.getElementById("sheetUrl").value;
+
+        carregarSheetData(url)
+          .then((dados) => {
+            document.getElementById("output").textContent = JSON.stringify(
+              dados,
+              null,
+              2
+            );
+          })
+          .catch((err) => {
+            document.getElementById("output").textContent = "Erro: " + err;
+          });
+      }
+
+      document
+        .getElementById("btnCarregar")
+        .addEventListener("click", carregar);
+    </script>
+  </body>
+</html>
