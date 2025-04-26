@@ -1,0 +1,47 @@
+<form id="myCustomForm">
+  <input type="text" name="pontuacao-bola" placeholder="pontuacao-bola" />
+  <input type="text" name="pontuacao-quadrado" placeholder="pontuacao-quadrado" />
+  <input type="text" name="juiz" placeholder="juiz" />
+
+  <button type="submit">Submit</button>
+</form>
+
+
+<script type="module">
+  import { submitToGoogleForms } from "./googleFormsSubmit.js";
+
+  document
+    .getElementById("myCustomForm")
+    .addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const form = e.target;
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      if (data["pontuacao-bola"]) {
+        data["pontuacao-bola"] = data["pontuacao-bola"] * 4;
+      }
+      if (data["pontuacao-quadrado"]) {
+        data["pontuacao-quadrado"] = data["pontuacao-quadrado"] * 2;
+      }
+
+      const googleFormData = {
+        "entry.444824717": data["pontuacao-bola"],
+        "entry.1991385268": data["pontuacao-quadrado"],
+        "entry.1355821864": data["juiz"],
+      };
+
+      try {
+        await submitToGoogleForms({
+          url: "https://docs.google.com/forms/u/1/d/e/1FAIpQLSftHIGzsVGwiwmPwwPgbK3paaVOmDfscqeMenBCXHLMV4-vrw/formResponse",
+          data: googleFormData,
+        });
+
+        alert("Form submitted successfully!");
+      } catch (err) {
+        console.error("Submission error:", err);
+        alert("Failed to submit the form.");
+      }
+    });
+</script>
