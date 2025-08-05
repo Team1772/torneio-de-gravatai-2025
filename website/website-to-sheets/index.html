@@ -1,11 +1,11 @@
 <form id="myCustomForm">
-  <input type="text" name="pontuacao-bola" placeholder="pontuacao-bola" />
-  <input type="text" name="pontuacao-quadrado" placeholder="pontuacao-quadrado" />
-  <input type="text" name="juiz" placeholder="juiz" />
+  <input type="text" name="num-partida" placeholder="numero partida" />
+  <input type="text" name="equipe" placeholder="equipe" />
+  <input type="text" name="pontuacao-ind" placeholder="pontuacao-ind" />
+  <input type="text" name="pontuacao-coop" placeholder="pontuacao-coop" />
 
   <button type="submit">Submit</button>
 </form>
-
 
 <script type="module">
   import { submitToGoogleForms } from "./googleFormsSubmit.js";
@@ -19,25 +19,21 @@
       const formData = new FormData(form);
       const data = Object.fromEntries(formData.entries());
 
-      if (data["pontuacao-bola"]) {
-        data["pontuacao-bola"] = data["pontuacao-bola"] * 4;
-      }
-      if (data["pontuacao-quadrado"]) {
-        data["pontuacao-quadrado"] = data["pontuacao-quadrado"] * 2;
-      }
-
       const googleFormData = {
-        "entry.444824717": data["pontuacao-bola"],
-        "entry.1991385268": data["pontuacao-quadrado"],
-        "entry.1355821864": data["juiz"],
+        "entry.1589049360": data["num-partida"],
+        "entry.716767655": data["equipe"],
+        "entry.1061580246": data["pontuacao-ind"],
+        "entry.1383902084": data["pontuacao-coop"],
       };
 
       try {
         await submitToGoogleForms({
-          url: "https://docs.google.com/forms/u/1/d/e/1FAIpQLSftHIGzsVGwiwmPwwPgbK3paaVOmDfscqeMenBCXHLMV4-vrw/formResponse",
+          url: "https://docs.google.com/forms/u/0/d/e/1FAIpQLSdnXoIhHymASG9yfasIBmk6bYtF4g3cT3tgg6_tIuGIvVvJEA/formResponse",
           data: googleFormData,
         });
 
+        console.log("Form submitted successfully:", googleFormData);
+      
         alert("Form submitted successfully!");
       } catch (err) {
         console.error("Submission error:", err);
