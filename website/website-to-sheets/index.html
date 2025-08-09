@@ -1,14 +1,41 @@
 <form id="myCustomForm">
-  <input type="text" name="num-partida" placeholder="numero partida" />
+  <!-- <input type="number" name="num-partida" placeholder="numero partida" />
   <input type="text" name="equipe" placeholder="equipe" />
-  <input type="text" name="pontuacao-ind" placeholder="pontuacao-ind" />
-  <input type="text" name="pontuacao-coop" placeholder="pontuacao-coop" />
-
+  <input type="number" name="pontuacao-ind" placeholder="pontuacao-ind" />
+  <input type="number" name="pontuacao-coop" placeholder="pontuacao-coop" /> -->
+  <h2>Equipe X</h2>
+  <h3>Equipe X: qtd materias número 1</h3>
+  <button type="button" onclick="sub_materias_n1_x()"> -1</button>
+  <span id="span_count_n1_x">0</span>
+  <button type="button" onclick="add_materias_n1_x()"> +1</button>
+  <span id="span_result_n1_x"></span>0<span>pts</span>
+<br>
   <button type="submit">Submit</button>
 </form>
 
 <script type="module">
   import { submitToGoogleForms } from "./googleFormsSubmit.js";
+
+  const valor_n1 = 2;
+
+  function atualizarPontos() {
+    const count_n1_x = parseInt(document.getElementById("span_count_n1_x").textContent);
+    document.getElementById("span_result_n1_x").textContent = `${count_n1_x * valor_n1}`;
+  }
+  window.add_materias_n1_x = function() {
+    const span_count = document.getElementById("span_count_n1_x");
+    span_count.textContent = parseInt(span_count.textContent) + 1;
+    atualizarPontos();
+  }
+  window.sub_materias_n1_x = function() {
+    const span_count = document.getElementById("span_count_n1_x");
+    span_count.textContent = parseInt(span_count.textContent) - 1;
+    if (parseInt(span_count.textContent) < 0) {
+      span_count.textContent = 0;
+    }
+    atualizarPontos();
+  }
+
 
   document
     .getElementById("myCustomForm")
@@ -22,7 +49,7 @@
       const googleFormData = {
         "entry.1589049360": data["num-partida"],
         "entry.716767655": data["equipe"],
-        "entry.1061580246": data["pontuacao-ind"],
+        "entry.1061580246": document.getElementById("span_result_n1_x").textContent,
         "entry.1383902084": data["pontuacao-coop"],
       };
 
@@ -40,4 +67,6 @@
         alert("Failed to submit the form.");
       }
     });
+
+
 </script>
