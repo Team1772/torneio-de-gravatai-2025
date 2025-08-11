@@ -8,7 +8,56 @@
   <button type="button" onclick="sub_materias_n1_x()"> -1</button>
   <span id="span_count_n1_x">0</span>
   <button type="button" onclick="add_materias_n1_x()"> +1</button>
-  <span id="span_result_n1_x"></span>0<span>pts</span>
+  <span id="span_result_n1_x">0</span><span>pts</span>
+
+  <h3>Equipe X: qtd materias no N2</h3>
+  <button type="button" onclick="sub_materias_n2_x()"> -1</button>
+  <span id="span_count_n2_x">0</span>
+  <button type="button" onclick="add_materias_n2_x()"> +1</button>
+  <span id="span_result_n2_x">0</span><span>pts</span>
+  <br>
+
+  <h3>Equipe X: qtd materias no N3</h3>
+  <button type="button" onclick="sub_materias_n3_x()"> -1</button>
+  <span id="span_count_n3_x">0</span>
+  <button type="button" onclick="add_materias_n3_x()"> +1</button>
+  <span id="span_result_n3_x">0</span><span>pts</span>
+  <br>
+
+  <h3>Equipe X: qtd materias movimentados</h3>
+  <button type="button" onclick="sub_materias_mov_x()"> -1</button>
+  <span id="span_count_mov_x">0</span>
+  <button type="button" onclick="add_materias_mov_x()"> +1</button>
+  <span id="span_result_mov_x">0</span><span>pts</span>
+  
+
+  <h2>Equipe Y</h2>
+<h3>Equipe Y: qtd materias número 1</h3>
+<button type="button" onclick="sub_materias_n1_y()"> -1</button>
+<span id="span_count_n1_y">0</span>
+<button type="button" onclick="add_materias_n1_y()"> +1</button>
+<span id="span_result_n1_y">0</span><span>pts</span>
+
+<h3>Equipe Y: qtd materias no N2</h3>
+<button type="button" onclick="sub_materias_n2_y()"> -1</button>
+<span id="span_count_n2_y">0</span>
+<button type="button" onclick="add_materias_n2_y()"> +1</button>
+<span id="span_result_n2_y">0</span><span>pts</span>
+<br>
+
+<h3>Equipe Y: qtd materias no N3</h3>
+<button type="button" onclick="sub_materias_n3_y()"> -1</button>
+<span id="span_count_n3_y">0</span>
+<button type="button" onclick="add_materias_n3_y()"> +1</button>
+<span id="span_result_n3_y">0</span><span>pts</span>
+<br>
+
+<h3>Equipe Y: qtd materias movimentados</h3>
+<button type="button" onclick="sub_materias_mov_y()"> -1</button>
+<span id="span_count_mov_y">0</span>
+<button type="button" onclick="add_materias_mov_y()"> +1</button>
+<span id="span_result_mov_y">0</span><span>pts</span>
+
 <br>
   <button type="submit">Submit</button>
 </form>
@@ -17,11 +66,28 @@
   import { submitToGoogleForms } from "./googleFormsSubmit.js";
 
   const valor_n1 = 2;
+  const valor_n2 = 3;
+  const valor_n3 = 4;
+  const valor_mov = 1;
 
+  
   function atualizarPontos() {
     const count_n1_x = parseInt(document.getElementById("span_count_n1_x").textContent);
-    document.getElementById("span_result_n1_x").textContent = `${count_n1_x * valor_n1}`;
+    document.getElementById("span_result_n1_x").textContent = count_n1_x * valor_n1;
   }
+  function atualizarPontosN2() {
+    const count_n2_x = parseInt(document.getElementById("span_count_n2_x").textContent);
+    document.getElementById("span_result_n2_x").textContent = count_n2_x * valor_n2;
+  }
+  function atualizarPontosN3() {
+    const count_n3_x = parseInt(document.getElementById("span_count_n3_x").textContent);
+    document.getElementById("span_result_n3_x").textContent = count_n3_x * valor_n3;
+  }
+  function atualizarPontosMov() {
+    const count_mov_x = parseInt(document.getElementById("span_count_mov_x").textContent);
+    document.getElementById("span_result_mov_x").textContent = count_mov_x * valor_mov;
+  }
+
   window.add_materias_n1_x = function() {
     const span_count = document.getElementById("span_count_n1_x");
     span_count.textContent = parseInt(span_count.textContent) + 1;
@@ -34,6 +100,126 @@
       span_count.textContent = 0;
     }
     atualizarPontos();
+  }
+
+  window.add_materias_n2_x = function() {
+    const span_count = document.getElementById("span_count_n2_x");
+    span_count.textContent = parseInt(span_count.textContent) + 1;
+    atualizarPontosN2();
+  }
+  window.sub_materias_n2_x = function() {
+    const span_count = document.getElementById("span_count_n2_x");
+    span_count.textContent = parseInt(span_count.textContent) - 1;
+    if (parseInt(span_count.textContent) < 0) {
+      span_count.textContent = 0;
+    }
+    atualizarPontosN2();
+  }
+
+  window.add_materias_n3_x = function() {
+    const span_count = document.getElementById("span_count_n3_x");
+    span_count.textContent = parseInt(span_count.textContent) + 1;
+    atualizarPontosN3();
+  }
+  window.sub_materias_n3_x = function() {
+    const span_count = document.getElementById("span_count_n3_x");
+    span_count.textContent = parseInt(span_count.textContent) - 1;
+    if (parseInt(span_count.textContent) < 0) {
+      span_count.textContent = 0;
+    }
+    atualizarPontosN3();
+  }
+
+  window.add_materias_mov_x = function() {
+    const span_count = document.getElementById("span_count_mov_x");
+    span_count.textContent = parseInt(span_count.textContent) + 1;
+    atualizarPontosMov();
+  }
+  window.sub_materias_mov_x = function() {
+    const span_count = document.getElementById("span_count_mov_x");
+    span_count.textContent = parseInt(span_count.textContent) - 1;
+    if (parseInt(span_count.textContent) < 0) {
+      span_count.textContent = 0;
+    }
+    atualizarPontosMov();
+  }
+  
+  
+
+
+
+
+  function atualizarPontosY() {
+    const count_n1_y = parseInt(document.getElementById("span_count_n1_y").textContent);
+    document.getElementById("span_result_n1_y").textContent = count_n1_y * valor_n1;
+  }
+  function atualizarPontosN2Y() {
+    const count_n2_y = parseInt(document.getElementById("span_count_n2_y").textContent);
+    document.getElementById("span_result_n2_y").textContent = count_n2_y * valor_n2;
+  }
+  function atualizarPontosN3Y() {
+    const count_n3_y = parseInt(document.getElementById("span_count_n3_y").textContent);
+    document.getElementById("span_result_n3_y").textContent = count_n3_y * valor_n3;
+  }
+  function atualizarPontosMovY() {
+    const count_mov_y = parseInt(document.getElementById("span_count_mov_y").textContent);
+    document.getElementById("span_result_mov_y").textContent = count_mov_y * valor_mov;
+  }
+
+  window.add_materias_n1_y = function() {
+    const span_count = document.getElementById("span_count_n1_y");
+    span_count.textContent = parseInt(span_count.textContent) + 1;
+    atualizarPontosY();
+  }
+  window.sub_materias_n1_y = function() {
+    const span_count = document.getElementById("span_count_n1_y");
+    span_count.textContent = parseInt(span_count.textContent) - 1;
+    if (parseInt(span_count.textContent) < 0) {
+      span_count.textContent = 0;
+    }
+    atualizarPontosY();
+  }
+
+  window.add_materias_n2_y = function() {
+    const span_count = document.getElementById("span_count_n2_y");
+    span_count.textContent = parseInt(span_count.textContent) + 1;
+    atualizarPontosN2Y();
+  }
+  window.sub_materias_n2_y = function() {
+    const span_count = document.getElementById("span_count_n2_y");
+    span_count.textContent = parseInt(span_count.textContent) - 1;
+    if (parseInt(span_count.textContent) < 0) {
+      span_count.textContent = 0;
+    }
+    atualizarPontosN2Y();
+  }
+
+  window.add_materias_n3_y = function() {
+    const span_count = document.getElementById("span_count_n3_y");
+    span_count.textContent = parseInt(span_count.textContent) + 1;
+    atualizarPontosN3Y();
+  }
+  window.sub_materias_n3_y = function() {
+    const span_count = document.getElementById("span_count_n3_y");
+    span_count.textContent = parseInt(span_count.textContent) - 1;
+    if (parseInt(span_count.textContent) < 0) {
+      span_count.textContent = 0;
+    }
+    atualizarPontosN3Y();
+  }
+
+  window.add_materias_mov_y = function() {
+    const span_count = document.getElementById("span_count_mov_y");
+    span_count.textContent = parseInt(span_count.textContent) + 1;
+    atualizarPontosMovY();
+  }
+  window.sub_materias_mov_y = function() {
+    const span_count = document.getElementById("span_count_mov_y");
+    span_count.textContent = parseInt(span_count.textContent) - 1;
+    if (parseInt(span_count.textContent) < 0) {
+      span_count.textContent = 0;
+    }
+    atualizarPontosMovY();
   }
 
 
