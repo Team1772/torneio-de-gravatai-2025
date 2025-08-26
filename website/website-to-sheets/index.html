@@ -133,7 +133,11 @@
     <p>Cooperação N1: <span id="coop_n1">0</span> pts</p>
     <p>Cooperação N2: <span id="coop_n2">0</span> pts</p>
     <p>Cooperação N3: <span id="coop_n3">0</span> pts</p>
-    <p><strong>Total cooperação:</strong> <span id="coop_total">0</span> pts</p>
+    <p><strong>Total cooperação:</strong> <span id="coop_total">0</span> pts</p><br>
+
+    <h2>Pontuação Total</h2>
+    <p>Total Equipe X: <span id="total_x">0</span> pts</p>
+    <p>Total Equipe Y: <span id="total_y">0</span> pts</p>
 
     <br>
     <button type="submit">Submit</button>
@@ -152,26 +156,31 @@
     const count_n1_x = parseInt(document.getElementById("span_count_n1_x").textContent);
     document.getElementById("span_result_n1_x").textContent = count_n1_x * valor_n1;
     atualizarCooperacao();
+    atualizarTotais();
   }
   function atualizarPontosN2() {
     const count_n2_x = parseInt(document.getElementById("span_count_n2_x").textContent);
     document.getElementById("span_result_n2_x").textContent = count_n2_x * valor_n2;
     atualizarCooperacao();
+    atualizarTotais();
   }
   function atualizarPontosN3() {
     const count_n3_x = parseInt(document.getElementById("span_count_n3_x").textContent);
     document.getElementById("span_result_n3_x").textContent = count_n3_x * valor_n3;
     atualizarCooperacao();
+    atualizarTotais();
   }
   function atualizarPontosMov() {
     const count_mov_x = parseInt(document.getElementById("span_count_mov_x").textContent);
     document.getElementById("span_result_mov_x").textContent = count_mov_x * valor_mov;
+    atualizarTotais();
   }
 
   window.add_materias_n1_x = function () {
     const span_count = document.getElementById("span_count_n1_x");
     span_count.textContent = parseInt(span_count.textContent) + 1;
     atualizarPontos();
+    atualizarTotais();
   }
   window.sub_materias_n1_x = function () {
     const span_count = document.getElementById("span_count_n1_x");
@@ -180,12 +189,14 @@
       span_count.textContent = 0;
     }
     atualizarPontos();
+    atualizarTotais();
   }
 
   window.add_materias_n2_x = function () {
     const span_count = document.getElementById("span_count_n2_x");
     span_count.textContent = parseInt(span_count.textContent) + 1;
     atualizarPontosN2();
+    atualizarTotais();
   }
   window.sub_materias_n2_x = function () {
     const span_count = document.getElementById("span_count_n2_x");
@@ -194,12 +205,14 @@
       span_count.textContent = 0;
     }
     atualizarPontosN2();
+    atualizarTotais();
   }
 
   window.add_materias_n3_x = function () {
     const span_count = document.getElementById("span_count_n3_x");
     span_count.textContent = parseInt(span_count.textContent) + 1;
     atualizarPontosN3();
+    atualizarTotais();
   }
   window.sub_materias_n3_x = function () {
     const span_count = document.getElementById("span_count_n3_x");
@@ -208,12 +221,14 @@
       span_count.textContent = 0;
     }
     atualizarPontosN3();
+    atualizarTotais();
   }
 
   window.add_materias_mov_x = function () {
     const span_count = document.getElementById("span_count_mov_x");
     span_count.textContent = parseInt(span_count.textContent) + 1;
     atualizarPontosMov();
+    atualizarTotais();
   }
   window.sub_materias_mov_x = function () {
     const span_count = document.getElementById("span_count_mov_x");
@@ -222,6 +237,7 @@
       span_count.textContent = 0;
     }
     atualizarPontosMov();
+    atualizarTotais();
   }
 
 
@@ -233,26 +249,31 @@
     const count_n1_y = parseInt(document.getElementById("span_count_n1_y").textContent);
     document.getElementById("span_result_n1_y").textContent = count_n1_y * valor_n1;
     atualizarCooperacao();
+    atualizarTotais();
   }
   function atualizarPontosN2Y() {
     const count_n2_y = parseInt(document.getElementById("span_count_n2_y").textContent);
     document.getElementById("span_result_n2_y").textContent = count_n2_y * valor_n2;
     atualizarCooperacao();
+    atualizarTotais();
   }
   function atualizarPontosN3Y() {
     const count_n3_y = parseInt(document.getElementById("span_count_n3_y").textContent);
     document.getElementById("span_result_n3_y").textContent = count_n3_y * valor_n3;
     atualizarCooperacao();
+    atualizarTotais();
   }
   function atualizarPontosMovY() {
     const count_mov_y = parseInt(document.getElementById("span_count_mov_y").textContent);
     document.getElementById("span_result_mov_y").textContent = count_mov_y * valor_mov;
+    atualizarTotais();
   }
 
   window.add_materias_n1_y = function () {
     const span_count = document.getElementById("span_count_n1_y");
     span_count.textContent = parseInt(span_count.textContent) + 1;
     atualizarPontosY();
+    atualizarTotais();
   }
   window.sub_materias_n1_y = function () {
     const span_count = document.getElementById("span_count_n1_y");
@@ -261,12 +282,14 @@
       span_count.textContent = 0;
     }
     atualizarPontosY();
+    atualizarTotais();
   }
 
   window.add_materias_n2_y = function () {
     const span_count = document.getElementById("span_count_n2_y");
     span_count.textContent = parseInt(span_count.textContent) + 1;
     atualizarPontosN2Y();
+    atualizarTotais();
   }
   window.sub_materias_n2_y = function () {
     const span_count = document.getElementById("span_count_n2_y");
@@ -275,12 +298,14 @@
       span_count.textContent = 0;
     }
     atualizarPontosN2Y();
+    atualizarTotais();
   }
 
   window.add_materias_n3_y = function () {
     const span_count = document.getElementById("span_count_n3_y");
     span_count.textContent = parseInt(span_count.textContent) + 1;
     atualizarPontosN3Y();
+    atualizarTotais();
   }
   window.sub_materias_n3_y = function () {
     const span_count = document.getElementById("span_count_n3_y");
@@ -289,12 +314,14 @@
       span_count.textContent = 0;
     }
     atualizarPontosN3Y();
+    atualizarTotais();
   }
 
   window.add_materias_mov_y = function () {
     const span_count = document.getElementById("span_count_mov_y");
     span_count.textContent = parseInt(span_count.textContent) + 1;
     atualizarPontosMovY();
+    atualizarTotais();
   }
   window.sub_materias_mov_y = function () {
     const span_count = document.getElementById("span_count_mov_y");
@@ -303,6 +330,7 @@
       span_count.textContent = 0;
     }
     atualizarPontosMovY();
+    atualizarTotais();
   }
 
   function atualizarCooperacao() {
@@ -329,6 +357,35 @@
 
   const total_coop = coop_n1 + coop_n2 + coop_n3;
   document.getElementById("coop_total").textContent = total_coop;
+  atualizarTotais();
+}
+
+function atualizarTotais() {
+  // Pontos por nível para Equipe X
+  const n1_x = parseInt(document.getElementById("span_result_n1_x").textContent);
+  const n2_x = parseInt(document.getElementById("span_result_n2_x").textContent);
+  const n3_x = parseInt(document.getElementById("span_result_n3_x").textContent);
+  const mov_x = parseInt(document.getElementById("span_result_mov_x").textContent);
+
+  // Pontos por nível para Equipe Y
+  const n1_y = parseInt(document.getElementById("span_result_n1_y").textContent);
+  const n2_y = parseInt(document.getElementById("span_result_n2_y").textContent);
+  const n3_y = parseInt(document.getElementById("span_result_n3_y").textContent);
+  const mov_y = parseInt(document.getElementById("span_result_mov_y").textContent);
+
+  // Cooperação
+  const coop_n1 = parseInt(document.getElementById("coop_n1").textContent);
+  const coop_n2 = parseInt(document.getElementById("coop_n2").textContent);
+  const coop_n3 = parseInt(document.getElementById("coop_n3").textContent);
+
+  const coop_total_x = (coop_n1 > 0 ? 5 : 0) + (coop_n2 > 0 ? 5 : 0) + (coop_n3 > 0 ? 5 : 0);
+  const coop_total_y = coop_total_x; // Mesmo valor para ambas as equipes
+
+  const total_x = n1_x + n2_x + n3_x + mov_x + coop_total_x;
+  const total_y = n1_y + n2_y + n3_y + mov_y + coop_total_y;
+
+  document.getElementById("total_x").textContent = total_x;
+  document.getElementById("total_y").textContent = total_y;
 }
 
 
