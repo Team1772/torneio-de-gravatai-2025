@@ -140,7 +140,9 @@
     <p>Total Equipe Y: <span id="total_y">0</span> pts</p>
 
     <br>
-    <button type="submit">Submit</button>
+    <button type="submit">Finalizar partida</button>
+    <br>
+    <span id="loadingEnvioDados"></span>
   </form>
 
 <script type="module">
@@ -409,11 +411,14 @@ function atualizarTotais() {
       const pontosIndividuaisX = pontosN1X + pontosN2X + pontosN3X + pontosMovX
 
       const googleFormData = {
-        "entry.1589049360": numJogo,
-        "entry.716767655": nomeTimeX,
-        "entry.1061580246": pontosIndividuaisX,
-        "entry.1383902084": pontosCoop,
+        "entry.1589049360": numJogo, //numero jogo
+        "entry.716767655": nomeTimeX, //nome time
+        "entry.1061580246": pontosIndividuaisX, // pontos individuais
+        "entry.1383902084": pontosCoop, // pontos coop
       };
+
+      const loadingEnvioDados = document.getElementById("loadingEnvioDados")
+      loadingEnvioDados.innerText = "Enviando dados..."
 
       try {
         await submitToGoogleForms({
@@ -421,9 +426,21 @@ function atualizarTotais() {
           data: googleFormData,
         });
 
-        console.log("Form submitted successfully:", googleFormData);
+        console.log("Form 1 submitted successfully:", googleFormData);
 
-        alert("Form submitted successfully!");
+        await submitToGoogleForms({
+          url: "https://docs.google.com/forms/u/0/d/e/1FAIpQLSdnXoIhHymASG9yfasIBmk6bYtF4g3cT3tgg6_tIuGIvVvJEA/formResponse",
+          data: googleFormData,
+        });
+
+        console.log("Form 2 submitted successfully:", googleFormData);
+
+        loadingEnvioDados.innerText = "Dados enviados com sucesso"
+
+        alert("Enviado com sucesso");
+
+        window.location.replace(window.location.href + "?t=" + new Date().getTime());
+        
       } catch (err) {
         console.error("Submission error:", err);
         alert("Failed to submit the form.");
