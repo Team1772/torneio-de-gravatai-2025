@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PartidaQualificatoria</title>
+  <style>
+    body {
+      text-align: center;
+      background-color: rgb(202, 202, 202);
+      font-family: arial;
+    }
+
+    #titulo {
+      color: blue;
+      text-shadow: 2px 2px 2px gray;
+    }
+
+    .vermelho {
+      background-color: red;
+      color: red;
+      border-radius: 6px;
+    }
+
+    .azul {
+      background-color: blue;
+      color: blue;
+      border-radius: 6px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    select {
+      border-radius: 4px;
+      width: 200px;
+      padding: 2px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1 id="titulo">Nova partida qualificatória</h1>
+
+  <form id="myCustomForm">
+
+    <label for="nomejuiz">Juiz:</label><br>
+    <select id="nomejuiz" name="nomejuiz">
+      <option value="fulano">Fulano</option>
+      <option value="ciclano">Ciclano</option>
+      <option value="beltrano">Beltrano</option>
+    </select>
+
+    <br> <br> <label for="proxjogo">Seu próximo jogo:</label><br>
+    <select id="proxjogo" name="proxjogo">
+      <option value="1"> N° 1: Equipe X - Equipe Y </option>
+      <option value="2"> N° 2: Equipe X - Equipe Y </option>
+      <option value="3"> N° 3: Equipe X - Equipe Y </option>
+    </select>
+
+    <br> <br> <label for="equipe1">Equipe 1: <span class="vermelho">coOr</span> </label><br>
+    <select id="equipe1" name="equipe1">
+      <option value="equipex">Equipe X</option>
+      <option value="equipey">Equipe Y</option>
+      <option value="equipez">Equipe Z</option>
+    </select>
+
+    <br> <br> <label for="equipe2">Equipe 2: <span class="azul">coOr</span> </label><br>
+    <select id="equipe2" name="equipe2">
+      <option value="equipex">Equipe X</option>
+      <option value="equipey">Equipe Y</option>
+      <option value="equipez">Equipe Z</option>
+    </select>
+
+    <h2>Equipe X</h2>
+    <h3>Equipe X: qtd materias número 1</h3>
+    <button type="button" onclick="sub_materias_n1_x()"> -1</button>
+    <span id="span_count_n1_x">0</span>
+    <button type="button" onclick="add_materias_n1_x()"> +1</button>
+    <span id="span_result_n1_x">0</span><span>pts</span>
+
+    <h3>Equipe X: qtd materias no N2</h3>
+    <button type="button" onclick="sub_materias_n2_x()"> -1</button>
+    <span id="span_count_n2_x">0</span>
+    <button type="button" onclick="add_materias_n2_x()"> +1</button>
+    <span id="span_result_n2_x">0</span><span>pts</span>
+    <br>
+
+    <h3>Equipe X: qtd materias no N3</h3>
+    <button type="button" onclick="sub_materias_n3_x()"> -1</button>
+    <span id="span_count_n3_x">0</span>
+    <button type="button" onclick="add_materias_n3_x()"> +1</button>
+    <span id="span_result_n3_x">0</span><span>pts</span>
+    <br>
+
+    <h3>Equipe X: qtd materias movimentados</h3>
+    <button type="button" onclick="sub_materias_mov_x()"> -1</button>
+    <span id="span_count_mov_x">0</span>
+    <button type="button" onclick="add_materias_mov_x()"> +1</button>
+    <span id="span_result_mov_x">0</span><span>pts</span>
+
+
+    <h2>Equipe Y</h2>
+    <h3>Equipe Y: qtd materias número 1</h3>
+    <button type="button" onclick="sub_materias_n1_y()"> -1</button>
+    <span id="span_count_n1_y">0</span>
+    <button type="button" onclick="add_materias_n1_y()"> +1</button>
+    <span id="span_result_n1_y">0</span><span>pts</span>
+
+    <h3>Equipe Y: qtd materias no N2</h3>
+    <button type="button" onclick="sub_materias_n2_y()"> -1</button>
+    <span id="span_count_n2_y">0</span>
+    <button type="button" onclick="add_materias_n2_y()"> +1</button>
+    <span id="span_result_n2_y">0</span><span>pts</span>
+    <br>
+
+    <h3>Equipe Y: qtd materias no N3</h3>
+    <button type="button" onclick="sub_materias_n3_y()"> -1</button>
+    <span id="span_count_n3_y">0</span>
+    <button type="button" onclick="add_materias_n3_y()"> +1</button>
+    <span id="span_result_n3_y">0</span><span>pts</span>
+    <br>
+
+    <h3>Equipe Y: qtd materias movimentados</h3>
+    <button type="button" onclick="sub_materias_mov_y()"> -1</button>
+    <span id="span_count_mov_y">0</span>
+    <button type="button" onclick="add_materias_mov_y()"> +1</button>
+    <span id="span_result_mov_y">0</span><span>pts</span><br>
+
+    <h2>Cooperação</h2>
+    <p>Cooperação N1: <span id="coop_n1">0</span> pts</p>
+    <p>Cooperação N2: <span id="coop_n2">0</span> pts</p>
+    <p>Cooperação N3: <span id="coop_n3">0</span> pts</p>
+    <p><strong>Total cooperação:</strong> <span id="coop_total">0</span> pts</p><br>
+
+    <h2>Pontuação Total</h2>
+    <p>Total Equipe X: <span id="total_x">0</span> pts</p>
+    <p>Total Equipe Y: <span id="total_y">0</span> pts</p>
+
+    <br>
+    <button type="submit">Finalizar partida</button>
+    <br>
+    <span id="loadingEnvioDados"></span>
+  </form>
+
+<script type="module">
+  import { submitToGoogleForms } from "./googleFormsSubmit.js";
+
+  const valor_n1 = 2;
+  const valor_n2 = 3;
+  const valor_n3 = 4;
+  const valor_mov = 1;
+
+  function atualizarPontos() {
+    const count_n1_x = parseInt(document.getElementById("span_count_n1_x").textContent);
+    document.getElementById("span_result_n1_x").textContent = count_n1_x * valor_n1;
+    atualizarCooperacao();
+    atualizarTotais();
+  }
+  function atualizarPontosN2() {
+    const count_n2_x = parseInt(document.getElementById("span_count_n2_x").textContent);
+    document.getElementById("span_result_n2_x").textContent = count_n2_x * valor_n2;
+    atualizarCooperacao();
+    atualizarTotais();
+  }
+  function atualizarPontosN3() {
+    const count_n3_x = parseInt(document.getElementById("span_count_n3_x").textContent);
+    document.getElementById("span_result_n3_x").textContent = count_n3_x * valor_n3;
+    atualizarCooperacao();
+    atualizarTotais();
+  }
+  function atualizarPontosMov() {
+    const count_mov_x = parseInt(document.getElementById("span_count_mov_x").textContent);
+    document.getElementById("span_result_mov_x").textContent = count_mov_x * valor_mov;
+    atualizarTotais();
+  }
+
+  window.add_materias_n1_x = function () {
+    const span_count = document.getElementById("span_count_n1_x");
+    span_count.textContent = parseInt(span_count.textContent) + 1;
+    atualizarPontos();
+    atualizarTotais();
+  }
+  window.sub_materias_n1_x = function () {
+    const span_count = document.getElementById("span_count_n1_x");
+    span_count.textContent = parseInt(span_count.textContent) - 1;
+    if (parseInt(span_count.textContent) < 0) {
+      span_count.textContent = 0;
+    }
+    atualizarPontos();
+    atualizarTotais();
+  }
+
+  window.add_materias_n2_x = function () {
+    const span_count = document.getElementById("span_count_n2_x");
+    span_count.textContent = parseInt(span_count.textContent) + 1;
+    atualizarPontosN2();
+    atualizarTotais();
+  }
+  window.sub_materias_n2_x = function () {
+    const span_count = document.getElementById("span_count_n2_x");
+    span_count.textContent = parseInt(span_count.textContent) - 1;
+    if (parseInt(span_count.textContent) < 0) {
+      span_count.textContent = 0;
+    }
+    atualizarPontosN2();
+    atualizarTotais();
+  }
+
+  window.add_materias_n3_x = function () {
+    const span_count = document.getElementById("span_count_n3_x");
+    span_count.textContent = parseInt(span_count.textContent) + 1;
+    atualizarPontosN3();
+    atualizarTotais();
+  }
+  window.sub_materias_n3_x = function () {
+    const span_count = document.getElementById("span_count_n3_x");
+    span_count.textContent = parseInt(span_count.textContent) - 1;
+    if (parseInt(span_count.textContent) < 0) {
+      span_count.textContent = 0;
+    }
+    atualizarPontosN3();
+    atualizarTotais();
+  }
+
+  window.add_materias_mov_x = function () {
+    const span_count = document.getElementById("span_count_mov_x");
+    span_count.textContent = parseInt(span_count.textContent) + 1;
+    atualizarPontosMov();
+    atualizarTotais();
+  }
+  window.sub_materias_mov_x = function () {
+    const span_count = document.getElementById("span_count_mov_x");
+    span_count.textContent = parseInt(span_count.textContent) - 1;
+    if (parseInt(span_count.textContent) < 0) {
+      span_count.textContent = 0;
+    }
+    atualizarPontosMov();
+    atualizarTotais();
+  }
+
+  function atualizarPontosY() {
+    const count_n1_y = parseInt(document.getElementById("span_count_n1_y").textContent);
+    document.getElementById("span_result_n1_y").textContent = count_n1_y * valor_n1;
+    atualizarCooperacao();
+    atualizarTotais();
+  }
+  function atualizarPontosN2Y() {
+    const count_n2_y = parseInt(document.getElementById("span_count_n2_y").textContent);
+    document.getElementById("span_result_n2_y").textContent = count_n2_y * valor_n2;
+    atualizarCooperacao();
+    atualizarTotais();
+  }
+  function atualizarPontosN3Y() {
+    const count_n3_y = parseInt(document.getElementById("span_count_n3_y").textContent);
+    document.getElementById("span_result_n3_y").textContent = count_n3_y * valor_n3;
+    atualizarCooperacao();
+    atualizarTotais();
+  }
+  function atualizarPontosMovY() {
+    const count_mov_y = parseInt(document.getElementById("span_count_mov_y").textContent);
+    document.getElementById("span_result_mov_y").textContent = count_mov_y * valor_mov;
+    atualizarTotais();
+  }
+
+  window.add_materias_n1_y = function () {
+    const span_count = document.getElementById("span_count_n1_y");
+    span_count.textContent = parseInt(span_count.textContent) + 1;
+    atualizarPontosY();
+    atualizarTotais();
+  }
+  window.sub_materias_n1_y = function () {
+    const span_count = document.getElementById("span_count_n1_y");
+    span_count.textContent = parseInt(span_count.textContent) - 1;
+    if (parseInt(span_count.textContent) < 0) {
+      span_count.textContent = 0;
+    }
+    atualizarPontosY();
+    atualizarTotais();
+  }
+
+  window.add_materias_n2_y = function () {
+    const span_count = document.getElementById("span_count_n2_y");
+    span_count.textContent = parseInt(span_count.textContent) + 1;
+    atualizarPontosN2Y();
+    atualizarTotais();
+  }
+  window.sub_materias_n2_y = function () {
+    const span_count = document.getElementById("span_count_n2_y");
+    span_count.textContent = parseInt(span_count.textContent) - 1;
+    if (parseInt(span_count.textContent) < 0) {
+      span_count.textContent = 0;
+    }
+    atualizarPontosN2Y();
+    atualizarTotais();
+  }
+
+  window.add_materias_n3_y = function () {
+    const span_count = document.getElementById("span_count_n3_y");
+    span_count.textContent = parseInt(span_count.textContent) + 1;
+    atualizarPontosN3Y();
+    atualizarTotais();
+  }
+  window.sub_materias_n3_y = function () {
+    const span_count = document.getElementById("span_count_n3_y");
+    span_count.textContent = parseInt(span_count.textContent) - 1;
+    if (parseInt(span_count.textContent) < 0) {
+      span_count.textContent = 0;
+    }
+    atualizarPontosN3Y();
+    atualizarTotais();
+  }
+
+  window.add_materias_mov_y = function () {
+    const span_count = document.getElementById("span_count_mov_y");
+    span_count.textContent = parseInt(span_count.textContent) + 1;
+    atualizarPontosMovY();
+    atualizarTotais();
+  }
+  window.sub_materias_mov_y = function () {
+    const span_count = document.getElementById("span_count_mov_y");
+    span_count.textContent = parseInt(span_count.textContent) - 1;
+    if (parseInt(span_count.textContent) < 0) {
+      span_count.textContent = 0;
+    }
+    atualizarPontosMovY();
+    atualizarTotais();
+  }
+
+  function atualizarCooperacao() {
+  let coop_n1 = 0;
+  let coop_n2 = 0;
+  let coop_n3 = 0;
+
+  const n1_x = parseInt(document.getElementById("span_result_n1_x").textContent);
+  const n1_y = parseInt(document.getElementById("span_result_n1_y").textContent);
+
+  const n2_x = parseInt(document.getElementById("span_result_n2_x").textContent);
+  const n2_y = parseInt(document.getElementById("span_result_n2_y").textContent);
+
+  const n3_x = parseInt(document.getElementById("span_result_n3_x").textContent);
+  const n3_y = parseInt(document.getElementById("span_result_n3_y").textContent);
+
+  if (n1_x > 0 && n1_y > 0) coop_n1 = 5;
+  if (n2_x > 0 && n2_y > 0) coop_n2 = 5;
+  if (n3_x > 0 && n3_y > 0) coop_n3 = 5;
+
+  document.getElementById("coop_n1").textContent = coop_n1;
+  document.getElementById("coop_n2").textContent = coop_n2;
+  document.getElementById("coop_n3").textContent = coop_n3;
+
+  const total_coop = coop_n1 + coop_n2 + coop_n3;
+  document.getElementById("coop_total").textContent = total_coop;
+  atualizarTotais();
+}
+
+function atualizarTotais() {
+  // Pontos por nível para Equipe X
+  const n1_x = parseInt(document.getElementById("span_result_n1_x").textContent);
+  const n2_x = parseInt(document.getElementById("span_result_n2_x").textContent);
+  const n3_x = parseInt(document.getElementById("span_result_n3_x").textContent);
+  const mov_x = parseInt(document.getElementById("span_result_mov_x").textContent);
+
+  // Pontos por nível para Equipe Y
+  const n1_y = parseInt(document.getElementById("span_result_n1_y").textContent);
+  const n2_y = parseInt(document.getElementById("span_result_n2_y").textContent);
+  const n3_y = parseInt(document.getElementById("span_result_n3_y").textContent);
+  const mov_y = parseInt(document.getElementById("span_result_mov_y").textContent);
+
+  // Cooperação
+  const coop_n1 = parseInt(document.getElementById("coop_n1").textContent);
+  const coop_n2 = parseInt(document.getElementById("coop_n2").textContent);
+  const coop_n3 = parseInt(document.getElementById("coop_n3").textContent);
+
+  const coop_total_x = (coop_n1 > 0 ? 5 : 0) + (coop_n2 > 0 ? 5 : 0) + (coop_n3 > 0 ? 5 : 0);
+  const coop_total_y = coop_total_x;
+
+  const total_x = n1_x + n2_x + n3_x + mov_x + coop_total_x;
+  const total_y = n1_y + n2_y + n3_y + mov_y + coop_total_y;
+
+  document.getElementById("total_x").textContent = total_x;
+  document.getElementById("total_y").textContent = total_y;
+}
+
+  document
+    .getElementById("myCustomForm")
+    .addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const numJogo = parseInt(document.getElementById("proxjogo").value)
+      const nomeTimeX = document.getElementById("equipe1").value
+      const pontosN1X = parseInt(document.getElementById("span_result_n1_x").textContent)
+      const pontosN2X = parseInt(document.getElementById("span_result_n2_x").textContent)
+      const pontosN3X = parseInt(document.getElementById("span_result_n3_x").textContent)
+      const pontosMovX = parseInt(document.getElementById("span_result_mov_x").textContent)
+      const coopN1 = parseInt(document.getElementById("coop_n1").textContent)
+      const coopN2 = parseInt(document.getElementById("coop_n2").textContent)
+      const coopN3 = parseInt(document.getElementById("coop_n3").textContent)
+      const pontosCoop = coopN1 + coopN2 + coopN3
+
+      console.log(`
+      n1x - ${pontosN1X}
+      n2x - ${pontosN2X}
+      n3x - ${pontosN3X}
+      movx - ${pontosMovX}
+      coop - ${pontosCoop}
+      `)
+
+      const pontosIndividuaisX = pontosN1X + pontosN2X + pontosN3X + pontosMovX
+
+      const googleFormData = {
+        "entry.1589049360": numJogo, //numero jogo
+        "entry.716767655": nomeTimeX, //nome time
+        "entry.1061580246": pontosIndividuaisX, // pontos individuais
+        "entry.1383902084": pontosCoop, // pontos coop
+      };
+
+      const loadingEnvioDados = document.getElementById("loadingEnvioDados")
+      loadingEnvioDados.innerText = "Enviando dados..."
+
+      try {
+        await submitToGoogleForms({
+          url: "https://docs.google.com/forms/u/0/d/e/1FAIpQLSdnXoIhHymASG9yfasIBmk6bYtF4g3cT3tgg6_tIuGIvVvJEA/formResponse",
+          data: googleFormData,
+        });
+
+        console.log("Form 1 submitted successfully:", googleFormData);
+
+        await submitToGoogleForms({
+          url: "https://docs.google.com/forms/u/0/d/e/1FAIpQLSdnXoIhHymASG9yfasIBmk6bYtF4g3cT3tgg6_tIuGIvVvJEA/formResponse",
+          data: googleFormData,
+        });
+
+        console.log("Form 2 submitted successfully:", googleFormData);
+
+        loadingEnvioDados.innerText = "Dados enviados com sucesso"
+
+        alert("Enviado com sucesso");
+
+        window.location.replace(window.location.href);
+        
+      } catch (err) {
+        console.error("Submission error:", err);
+        alert("Failed to submit the form.");
+      }
+    });
+
+</script>
+</body>
+</html>
