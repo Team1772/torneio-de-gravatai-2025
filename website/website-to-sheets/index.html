@@ -129,10 +129,18 @@
     <button type="button" onclick="add_materias_mov_y()"> +1</button>
     <span id="span_result_mov_y">0</span><span>pts</span><br>
 
+    <h3>Fundação</h3>
+    <select id=pontosCoopFundacao name="pontosCoopFundacao" onchange="atualizarPontosFundacaoCoop()">
+      <option value="0">Fundações não estão na mesma zona de construção - 0 pts</option>
+      <option value="5">Fundações na mesma zona de construção - 5 pts</option>
+      <option value="15">Fundações empilhadas - 15 pts</option>
+    </select>
+
     <h2>Cooperação</h2>
     <p>Cooperação N1: <span id="coop_n1">0</span> pts</p>
     <p>Cooperação N2: <span id="coop_n2">0</span> pts</p>
     <p>Cooperação N3: <span id="coop_n3">0</span> pts</p>
+    <p>Cooperação fundação: <span id="coop_fundacao">0</span> pts</p>
     <p><strong>Total cooperação:</strong> <span id="coop_total">0</span> pts</p><br>
 
     <h2>Pontuação Total</h2>
@@ -265,6 +273,13 @@
     atualizarTotais();
   }
 
+  function atualizarPontosFundacaoCoop() {
+    const fundacao_coop = parseInt(document.getElementById("pontosCoopFundacao").value);
+    document.getElementById("coop_fundacao").textContent = fundacao_coop;
+    atualizarCooperacao()
+    atualizarTotais();
+  }
+
   window.add_materias_n1_y = function () {
     const span_count = document.getElementById("span_count_n1_y");
     span_count.textContent = parseInt(span_count.textContent) + 1;
@@ -329,6 +344,10 @@
     atualizarTotais();
   }
 
+  window.atualizarPontosFundacaoCoop = function () {
+    atualizarPontosFundacaoCoop()
+  }
+
   function atualizarCooperacao() {
   let coop_n1 = 0;
   let coop_n2 = 0;
@@ -350,8 +369,9 @@
   document.getElementById("coop_n1").textContent = coop_n1;
   document.getElementById("coop_n2").textContent = coop_n2;
   document.getElementById("coop_n3").textContent = coop_n3;
+  const coop_fundacao = parseInt(document.getElementById("pontosCoopFundacao").value);
 
-  const total_coop = coop_n1 + coop_n2 + coop_n3;
+  const total_coop = coop_n1 + coop_n2 + coop_n3 + coop_fundacao;
   document.getElementById("coop_total").textContent = total_coop;
   atualizarTotais();
 }
@@ -373,8 +393,9 @@ function atualizarTotais() {
   const coop_n1 = parseInt(document.getElementById("coop_n1").textContent);
   const coop_n2 = parseInt(document.getElementById("coop_n2").textContent);
   const coop_n3 = parseInt(document.getElementById("coop_n3").textContent);
+  const coop_fundacao = parseInt(document.getElementById("pontosCoopFundacao").value);
 
-  const coop_total_x = (coop_n1 > 0 ? 5 : 0) + (coop_n2 > 0 ? 5 : 0) + (coop_n3 > 0 ? 5 : 0);
+  const coop_total_x = (coop_n1 > 0 ? 5 : 0) + (coop_n2 > 0 ? 5 : 0) + (coop_n3 > 0 ? 5 : 0) + coop_fundacao;
   const coop_total_y = coop_total_x;
 
   const total_x = n1_x + n2_x + n3_x + mov_x + coop_total_x;
@@ -408,7 +429,9 @@ function atualizarTotais() {
       const coopN1 = parseInt(document.getElementById("coop_n1").textContent)
       const coopN2 = parseInt(document.getElementById("coop_n2").textContent)
       const coopN3 = parseInt(document.getElementById("coop_n3").textContent)
-      const pontosCoop = coopN1 + coopN2 + coopN3
+      const coop_fundacao = parseInt(document.getElementById("pontosCoopFundacao").value);
+
+      const pontosCoop = coopN1 + coopN2 + coopN3 + coop_fundacao
 
       const googleFormDataX = {
         "entry.1589049360": numJogo, //numero jogo
