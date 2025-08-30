@@ -396,6 +396,33 @@ function atualizarTotais() {
       const pontosN2X = parseInt(document.getElementById("span_result_n2_x").textContent)
       const pontosN3X = parseInt(document.getElementById("span_result_n3_x").textContent)
       const pontosMovX = parseInt(document.getElementById("span_result_mov_x").textContent)
+      const pontosIndividuaisX = pontosN1X + pontosN2X + pontosN3X + pontosMovX
+
+      const nomeTimeY = document.getElementById("equipe2").value
+      const pontosN1Y = parseInt(document.getElementById("span_result_n1_y").textContent)
+      const pontosN2Y = parseInt(document.getElementById("span_result_n2_y").textContent)
+      const pontosN3Y = parseInt(document.getElementById("span_result_n3_y").textContent)
+      const pontosMovY = parseInt(document.getElementById("span_result_mov_y").textContent)
+      const pontosIndividuaisY = pontosN1Y + pontosN2Y + pontosN3Y + pontosMovY
+
+      const coopN1 = parseInt(document.getElementById("coop_n1").textContent)
+      const coopN2 = parseInt(document.getElementById("coop_n2").textContent)
+      const coopN3 = parseInt(document.getElementById("coop_n3").textContent)
+      const pontosCoop = coopN1 + coopN2 + coopN3
+
+      const googleFormDataX = {
+        "entry.1589049360": numJogo, //numero jogo
+        "entry.716767655": nomeTimeX, //nome time
+        "entry.1061580246": pontosIndividuaisX, // pontos individuais
+        "entry.1383902084": pontosCoop, // pontos coop
+      };
+
+      const googleFormDataY = {
+        "entry.1589049360": numJogo, //numero jogo
+        "entry.716767655": nomeTimeY, //nome time
+        "entry.1061580246": pontosIndividuaisY, // pontos individuais
+        "entry.1383902084"  : pontosCoop, // pontos coop
+      };
 
       console.log(`
       n1x - ${pontosN1X}
@@ -405,21 +432,6 @@ function atualizarTotais() {
       coop - ${pontosCoop}
       `)
 
-      const pontosIndividuaisX = pontosN1X + pontosN2X + pontosN3X + pontosMovX
-
-      const googleFormData = {
-        "entry.1589049360": numJogo, //numero jogo
-        "entry.716767655": nomeTimeX, //nome time
-        "entry.1061580246": pontosIndividuaisX, // pontos individuais
-        "entry.1383902084": pontosCoop, // pontos coop
-      };
-
-      const nomeTimeY = document.getElementById("equipe2").value
-      const pontosN1Y = parseInt(document.getElementById("span_result_n1_y").textContent)
-      const pontosN2Y = parseInt(document.getElementById("span_result_n2_y").textContent)
-      const pontosN3Y = parseInt(document.getElementById("span_result_n3_y").textContent)
-      const pontosMovY = parseInt(document.getElementById("span_result_mov_y").textContent)
-
       console.log(`
       n1x - ${pontosN1Y}
       n2x - ${pontosN2Y}
@@ -428,32 +440,23 @@ function atualizarTotais() {
       coop - ${pontosCoop}
       `)
 
-      const pontosIndividuaisY = pontosN1Y + pontosN2Y + pontosN3Y + pontosMovY
-
-      const googleFormData2 = {
-        "entry.1589049360": numJogo, //numero jogo
-        "entry.716767655": nomeTimeY, //nome time
-        "entry.1061580246": pontosIndividuaisY, // pontos individuais
-        "entry.1383902084"  : pontosCoop, // pontos coop
-      };
-
       const loadingEnvioDados = document.getElementById("loadingEnvioDados")
       loadingEnvioDados.innerText = "Enviando dados..."
 
       try {
         await submitToGoogleForms({
           url: "https://docs.google.com/forms/u/0/d/e/1FAIpQLSdnXoIhHymASG9yfasIBmk6bYtF4g3cT3tgg6_tIuGIvVvJEA/formResponse",
-          data: googleFormData,
+          data: googleFormDataX,
         });
 
-        console.log("Form 1 submitted successfully:", googleFormData);
+        console.log("Form 1 submitted successfully:", googleFormDataX);
 
         await submitToGoogleForms({
           url: "https://docs.google.com/forms/u/0/d/e/1FAIpQLSdnXoIhHymASG9yfasIBmk6bYtF4g3cT3tgg6_tIuGIvVvJEA/formResponse",
-          data: googleFormData2,
+          data: googleFormDataY,
         });
 
-        console.log("Form 2 submitted successfully:", googleFormData2);
+        console.log("Form 2 submitted successfully:", googleFormDataY);
 
         loadingEnvioDados.innerText = "Dados enviados com sucesso"
 
