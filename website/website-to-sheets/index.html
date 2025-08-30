@@ -133,6 +133,7 @@
     <p>Cooperação N1: <span id="coop_n1">0</span> pts</p>
     <p>Cooperação N2: <span id="coop_n2">0</span> pts</p>
     <p>Cooperação N3: <span id="coop_n3">0</span> pts</p>
+    <p>Cooperação todas peças coletadas: <span id="coop_pecas">0</span> pts</p>
     <p><strong>Total cooperação:</strong> <span id="coop_total">0</span> pts</p><br>
 
     <h2>Pontuação Total</h2>
@@ -333,6 +334,10 @@
   let coop_n1 = 0;
   let coop_n2 = 0;
   let coop_n3 = 0;
+  let coop_pecas =0;
+  let collected_piecesX = count_n1_x + count_n2_x + count_n3_x;
+  let collected_piecesY = count_n1_y + count_n2_y + count_n3_y;
+  let total_collected = collected_piecesX + collected_piecesY;
 
   const n1_x = parseInt(document.getElementById("span_result_n1_x").textContent);
   const n1_y = parseInt(document.getElementById("span_result_n1_y").textContent);
@@ -342,16 +347,20 @@
 
   const n3_x = parseInt(document.getElementById("span_result_n3_x").textContent);
   const n3_y = parseInt(document.getElementById("span_result_n3_y").textContent);
+  
+  
 
   if (n1_x > 0 && n1_y > 0) coop_n1 = 5;
   if (n2_x > 0 && n2_y > 0) coop_n2 = 5;
   if (n3_x > 0 && n3_y > 0) coop_n3 = 5;
+  if (total_collected >= 16) coop_pecas =5;
 
   document.getElementById("coop_n1").textContent = coop_n1;
   document.getElementById("coop_n2").textContent = coop_n2;
   document.getElementById("coop_n3").textContent = coop_n3;
+  document.getElementById("coop_pecas").textContent = coop_pecas;
 
-  const total_coop = coop_n1 + coop_n2 + coop_n3;
+  const total_coop = coop_n1 + coop_n2 + coop_n3 + coop_pecas;
   document.getElementById("coop_total").textContent = total_coop;
   atualizarTotais();
 }
@@ -373,8 +382,9 @@ function atualizarTotais() {
   const coop_n1 = parseInt(document.getElementById("coop_n1").textContent);
   const coop_n2 = parseInt(document.getElementById("coop_n2").textContent);
   const coop_n3 = parseInt(document.getElementById("coop_n3").textContent);
+  const coop_pecas = parseInt(document.getElementById("coop_pecas").textContent);
 
-  const coop_total_x = (coop_n1 > 0 ? 5 : 0) + (coop_n2 > 0 ? 5 : 0) + (coop_n3 > 0 ? 5 : 0);
+  const coop_total_x = (coop_n1 > 0 ? 5 : 0) + (coop_n2 > 0 ? 5 : 0) + (coop_n3 > 0 ? 5 : 0) + (coop_pecas > 0 ? 5 : 0);
   const coop_total_y = coop_total_x;
 
   const total_x = n1_x + n2_x + n3_x + mov_x + coop_total_x;
@@ -398,7 +408,8 @@ function atualizarTotais() {
       const coopN1 = parseInt(document.getElementById("coop_n1").textContent)
       const coopN2 = parseInt(document.getElementById("coop_n2").textContent)
       const coopN3 = parseInt(document.getElementById("coop_n3").textContent)
-      const pontosCoop = coopN1 + coopN2 + coopN3
+      const coopPECAS = parseInt(document.getElementById("coop_pecas").textContent)
+      const pontosCoop = coopN1 + coopN2 + coopN3 + coopPECAS;
 
       console.log(`
       n1x - ${pontosN1X}
@@ -417,6 +428,30 @@ function atualizarTotais() {
         "entry.1383902084": pontosCoop, // pontos coop
       };
 
+      const nomeTimeY = document.getElementById("equipe2").value
+      const pontosN1Y = parseInt(document.getElementById("span_result_n1_y").textContent)
+      const pontosN2Y = parseInt(document.getElementById("span_result_n2_y").textContent)
+      const pontosN3Y = parseInt(document.getElementById("span_result_n3_y").textContent)
+      const pontosMovY = parseInt(document.getElementById("span_result_mov_y").textContent)
+      
+      console.log(`
+      n1x - ${pontosN1Y}
+      n2x - ${pontosN2Y}
+      n3x - ${pontosN3Y}
+      movx - ${pontosMovY}
+      coop - ${pontosCoop}
+      `)
+
+      const pontosIndividuaisY = pontosN1Y + pontosN2Y + pontosN3Y + pontosMovY
+
+      const googleFormData2 = {
+        "entry.1589049360": numJogo, //numero jogo
+        "entry.716767655": nomeTimeY, //nome time
+        "entry.1061580246": pontosIndividuaisY, // pontos individuais
+        "entry.1383902084": pontosCoop, // pontos coop
+      };
+
+
       const loadingEnvioDados = document.getElementById("loadingEnvioDados")
       loadingEnvioDados.innerText = "Enviando dados..."
 
@@ -430,10 +465,10 @@ function atualizarTotais() {
 
         await submitToGoogleForms({
           url: "https://docs.google.com/forms/u/0/d/e/1FAIpQLSdnXoIhHymASG9yfasIBmk6bYtF4g3cT3tgg6_tIuGIvVvJEA/formResponse",
-          data: googleFormData,
+          data: googleFormData2,
         });
 
-        console.log("Form 2 submitted successfully:", googleFormData);
+        console.log("Form 2 submitted successfully:", googleFormData2);
 
         loadingEnvioDados.innerText = "Dados enviados com sucesso"
 
