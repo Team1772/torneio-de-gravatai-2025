@@ -274,7 +274,6 @@
   }
 
   function atualizarPontosFundacaoCoop() {
-    console.log("testeeeeeeeeeeee")
     const fundacao_coop = parseInt(document.getElementById("pontosCoopFundacao").value);
     document.getElementById("coop_fundacao").textContent = fundacao_coop;
     atualizarCooperacao()
@@ -431,7 +430,7 @@ function atualizarTotais() {
       const coopN2 = parseInt(document.getElementById("coop_n2").textContent)
       const coopN3 = parseInt(document.getElementById("coop_n3").textContent)
       const coop_fundacao = parseInt(document.getElementById("pontosCoopFundacao").value);
-      
+
       const pontosCoop = coopN1 + coopN2 + coopN3 + coop_fundacao
 
       const googleFormDataX = {
