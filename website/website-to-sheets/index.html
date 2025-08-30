@@ -444,8 +444,9 @@ function atualizarTotais() {
       const coopN2 = parseInt(document.getElementById("coop_n2").textContent)
       const coopN3 = parseInt(document.getElementById("coop_n3").textContent)
       const coop_fundacao = parseInt(document.getElementById("pontosCoopFundacao").value);
+      const coop_todos_materiais = parseInt(document.getElementById("coop_todos_materiais").textContent);
 
-      const pontosCoop = coopN1 + coopN2 + coopN3 + coop_fundacao
+      const pontosCoop = coopN1 + coopN2 + coopN3 + coop_fundacao + coop_todos_materiais;
 
       const googleFormDataX = {
         "entry.1589049360": numJogo, //numero jogo
