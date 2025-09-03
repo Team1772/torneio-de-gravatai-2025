@@ -35,6 +35,11 @@ import { submitToGoogleForms } from "./googleFormsSubmit.js";
   }
 
   window.add_materias_n1_x = function () {
+    if ( getCountTotalMateriaisX() > 8) {
+      alert("Cada equipe possui somente 8 materiais, não é possivel adicionar mais materiais")
+      return;
+    }
+
     const span_count = document.getElementById("span_count_n1_x");
     span_count.textContent = parseInt(span_count.textContent) + 1;
     atualizarPontos();
@@ -51,6 +56,11 @@ import { submitToGoogleForms } from "./googleFormsSubmit.js";
   }
 
   window.add_materias_n2_x = function () {
+    if ( getCountTotalMateriaisX() > 8) {
+      alert("Cada equipe possui somente 8 materiais, não é possivel adicionar mais materiais")
+      return;
+    }
+
     const span_count = document.getElementById("span_count_n2_x");
     span_count.textContent = parseInt(span_count.textContent) + 1;
     atualizarPontosN2();
@@ -67,6 +77,11 @@ import { submitToGoogleForms } from "./googleFormsSubmit.js";
   }
 
   window.add_materias_n3_x = function () {
+    if ( getCountTotalMateriaisX() > 8) {
+      alert("Cada equipe possui somente 8 materiais, não é possivel adicionar mais materiais")
+      return;
+    }
+
     const span_count = document.getElementById("span_count_n3_x");
     span_count.textContent = parseInt(span_count.textContent) + 1;
     atualizarPontosN3();
@@ -83,6 +98,11 @@ import { submitToGoogleForms } from "./googleFormsSubmit.js";
   }
 
   window.add_materias_mov_x = function () {
+    if ( getCountTotalMateriaisX() > 8) {
+      alert("Cada equipe possui somente 8 materiais, não é possivel adicionar mais materiais")
+      return;
+    }
+    
     const span_count = document.getElementById("span_count_mov_x");
     span_count.textContent = parseInt(span_count.textContent) + 1;
     atualizarPontosMov();
@@ -141,7 +161,34 @@ import { submitToGoogleForms } from "./googleFormsSubmit.js";
     document.getElementsByClassName("equipe2texto")[1].textContent = equipe2;
   }
 
+  function getCountTotalMateriaisY() {
+    const count_n1_y = parseInt(document.getElementById("span_count_n1_y").textContent);
+    const count_n2_y = parseInt(document.getElementById("span_count_n2_y").textContent);
+    const count_n3_y = parseInt(document.getElementById("span_count_n3_y").textContent);
+    const count_mov_y = parseInt(document.getElementById("span_count_mov_y").textContent);
+
+    const totalCountY = 1 + count_n1_y + count_n2_y + count_n3_y + count_mov_y;
+
+    return totalCountY
+  }
+
+  function getCountTotalMateriaisX() {
+    const count_n1_x = parseInt(document.getElementById("span_count_n1_x").textContent);
+    const count_n2_x = parseInt(document.getElementById("span_count_n2_x").textContent);
+    const count_n3_x = parseInt(document.getElementById("span_count_n3_x").textContent);
+    const count_mov_x = parseInt(document.getElementById("span_count_mov_x").textContent);
+
+    const totalCountX = 1 + count_n1_x + count_n2_x + count_n3_x + count_mov_x;
+
+    return totalCountX
+  }
+
   window.add_materias_n1_y = function () {
+    if ( getCountTotalMateriaisY() > 8) {
+      alert("Cada equipe possui somente 8 materiais, não é possivel adicionar mais materiais")
+      return;
+    }
+
     const span_count = document.getElementById("span_count_n1_y");
     span_count.textContent = parseInt(span_count.textContent) + 1;
     atualizarPontosY();
@@ -158,6 +205,11 @@ import { submitToGoogleForms } from "./googleFormsSubmit.js";
   }
 
   window.add_materias_n2_y = function () {
+    if ( getCountTotalMateriaisY() > 8) {
+      alert("Cada equipe possui somente 8 materiais, não é possivel adicionar mais materiais")
+      return;
+    }
+
     const span_count = document.getElementById("span_count_n2_y");
     span_count.textContent = parseInt(span_count.textContent) + 1;
     atualizarPontosN2Y();
@@ -174,6 +226,11 @@ import { submitToGoogleForms } from "./googleFormsSubmit.js";
   }
 
   window.add_materias_n3_y = function () {
+    if ( getCountTotalMateriaisY() > 8) {
+      alert("Cada equipe possui somente 8 materiais, não é possivel adicionar mais materiais")
+      return;
+    }
+
     const span_count = document.getElementById("span_count_n3_y");
     span_count.textContent = parseInt(span_count.textContent) + 1;
     atualizarPontosN3Y();
@@ -190,6 +247,11 @@ import { submitToGoogleForms } from "./googleFormsSubmit.js";
   }
 
   window.add_materias_mov_y = function () {
+    if ( getCountTotalMateriaisY() > 8) {
+      alert("Cada equipe possui somente 8 materiais, não é possivel adicionar mais materiais")
+      return;
+    }
+
     const span_count = document.getElementById("span_count_mov_y");
     span_count.textContent = parseInt(span_count.textContent) + 1;
     atualizarPontosMovY();
