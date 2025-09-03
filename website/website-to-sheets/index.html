@@ -17,15 +17,15 @@
   <div class="container">
 
     <label for="nomejuiz">Juiz:</label><br>
-    <select id="nomejuiz" name="nomejuiz">
-      <option value="fulano">Fulano</option>
-      <option value="ciclano">Ciclano</option>
-      <option value="beltrano">Beltrano</option>
+    <select id="nomejuiz" name="nomejuiz" onchange="carregarPartidasJuiz()">
+      <option selected="selected" value="Selecione o juiz">Selecione o juiz</option>
+      <option value="Alpha">Alpha</option>
+      <option value="Beta">Beta</option>
     </select>
 
     <br> <br> <label for="proxjogo">Seu próximo jogo:</label><br>
     <select id="proxjogo" name="proxjogo">
-      <option value="1"> N° 1: Equipe X - Equipe Y </option>
+      <option selected="selected" value="1">Selecione um jogo</option>
     </select>
 
     <br> <br> <label for="equipe1">Equipe 1: <span class="vermelho">Texto</span> </label><br>
@@ -115,7 +115,7 @@
     <h2 id="titulo2">Pontuação da partida</h2>
     <div class="topo-container-2">
       <span class="texto-vermelho equipe1texto"></span>
-      <span class="texto-azul equipe2texto" onchange="atualizarNomeEquipe2Pontos()"></span>
+      <span class="texto-azul equipe2texto""></span>
     </div>
     <hr>
 
