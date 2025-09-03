@@ -5,46 +5,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PartidaQualificatoria</title>
-  <style>
-    body {
-      text-align: center;
-      background-color: rgb(202, 202, 202);
-      font-family: arial;
-    }
-
-    #titulo {
-      color: blue;
-      text-shadow: 2px 2px 2px gray;
-    }
-
-    .vermelho {
-      background-color: red;
-      color: red;
-      border-radius: 6px;
-    }
-
-    .azul {
-      background-color: blue;
-      color: blue;
-      border-radius: 6px;
-    }
-
-    label {
-      font-weight: bold;
-    }
-
-    select {
-      border-radius: 4px;
-      width: 200px;
-      padding: 2px;
-    }
-  </style>
+  <link rel="stylesheet" href="../CSS.css" >
 </head>
 
 <body>
   <h1 id="titulo">Nova partida qualificatória</h1>
 
   <form id="myCustomForm">
+
+  <div class="container">
 
     <label for="nomejuiz">Juiz:</label><br>
     <select id="nomejuiz" name="nomejuiz">
@@ -73,61 +42,66 @@
       <option value="equipey">Equipe Y</option>
       <option value="equipez">Equipe Z</option>
     </select>
+  
+  </div>
 
-    <h2>Equipe X</h2>
-    <h3>Equipe X: qtd materias número 1</h3>
-    <button type="button" onclick="sub_materias_n1_x()"> -1</button>
-    <span id="span_count_n1_x">0</span>
-    <button type="button" onclick="add_materias_n1_x()"> +1</button>
-    <span id="span_result_n1_x">0</span><span>pts</span>
+  <div class="container2">
 
-    <h3>Equipe X: qtd materias no N2</h3>
-    <button type="button" onclick="sub_materias_n2_x()"> -1</button>
-    <span id="span_count_n2_x">0</span>
-    <button type="button" onclick="add_materias_n2_x()"> +1</button>
-    <span id="span_result_n2_x">0</span><span>pts</span>
+    <h2 id="titulo2">Equipe X</h2>
+    <h3>Materiais N1</h3>
+    <button id="bmenos" type="button" onclick="sub_materias_n1_x()"> -1</button>
+    <span class="zero" id="span_count_n1_x">0</span>
+    <button id="bmais" type="button" onclick="add_materias_n1_x()"> +1</button>
+    <span class="pts" id="span_result_n1_x">0</span><span class="pts">pts</span>
+
+    <h3>Materiais N2</h3>
+    <button id="bmenos" type="button" onclick="sub_materias_n2_x()"> -1</button>
+    <span class="zero" id="span_count_n2_x">0</span>
+    <button id="bmais" type="button" onclick="add_materias_n2_x()"> +1</button>
+    <span class="pts" id="span_result_n2_x">0</span><span class="pts">pts</span>
     <br>
 
-    <h3>Equipe X: qtd materias no N3</h3>
-    <button type="button" onclick="sub_materias_n3_x()"> -1</button>
-    <span id="span_count_n3_x">0</span>
-    <button type="button" onclick="add_materias_n3_x()"> +1</button>
-    <span id="span_result_n3_x">0</span><span>pts</span>
+    <h3>Materiais N3</h3>
+    <button id="bmenos" type="button" onclick="sub_materias_n3_x()"> -1</button>
+    <span class="zero" id="span_count_n3_x">0</span>
+    <button id="bmais" type="button" onclick="add_materias_n3_x()"> +1</button>
+    <span class="pts" id="span_result_n3_x">0</span><span class="pts">pts</span>
     <br>
 
-    <h3>Equipe X: qtd materias movimentados</h3>
-    <button type="button" onclick="sub_materias_mov_x()"> -1</button>
-    <span id="span_count_mov_x">0</span>
-    <button type="button" onclick="add_materias_mov_x()"> +1</button>
-    <span id="span_result_mov_x">0</span><span>pts</span>
-
-
-    <h2>Equipe Y</h2>
-    <h3>Equipe Y: qtd materias número 1</h3>
-    <button type="button" onclick="sub_materias_n1_y()"> -1</button>
-    <span id="span_count_n1_y">0</span>
-    <button type="button" onclick="add_materias_n1_y()"> +1</button>
-    <span id="span_result_n1_y">0</span><span>pts</span>
-
-    <h3>Equipe Y: qtd materias no N2</h3>
-    <button type="button" onclick="sub_materias_n2_y()"> -1</button>
-    <span id="span_count_n2_y">0</span>
-    <button type="button" onclick="add_materias_n2_y()"> +1</button>
-    <span id="span_result_n2_y">0</span><span>pts</span>
+    <h3>Materiais movimentados</h3>
+    <button id="bmenos" type="button" onclick="sub_materias_mov_x()"> -1</button>
+    <span class="zero" id="span_count_mov_x">0</span>
+    <button id="bmais" type="button" onclick="add_materias_mov_x()"> +1</button>
+    <span class="pts" id="span_result_mov_x">0</span><span class="pts">pts</span>
+    <br>
     <br>
 
-    <h3>Equipe Y: qtd materias no N3</h3>
-    <button type="button" onclick="sub_materias_n3_y()"> -1</button>
-    <span id="span_count_n3_y">0</span>
-    <button type="button" onclick="add_materias_n3_y()"> +1</button>
-    <span id="span_result_n3_y">0</span><span>pts</span>
+    <h2 id="titulo3">Equipe Y</h2>
+    <h3>Materiais N1</h3>
+    <button id="bmenos" type="button" onclick="sub_materias_n1_y()"> -1</button>
+    <span class="zero" id="span_count_n1_y">0</span>
+    <button id="bmais" type="button" onclick="add_materias_n1_y()"> +1</button>
+    <span class="pts" id="span_result_n1_y">0</span><span class="pts">pts</span>
+
+    <h3>Materiais N2</h3>
+    <button id="bmenos" type="button" onclick="sub_materias_n2_y()"> -1</button>
+    <span class="zero" id="span_count_n2_y">0</span>
+    <button id="bmais" type="button" onclick="add_materias_n2_y()"> +1</button>
+    <span class="pts" id="span_result_n2_y">0</span><span class="pts">pts</span>
     <br>
 
-    <h3>Equipe Y: qtd materias movimentados</h3>
-    <button type="button" onclick="sub_materias_mov_y()"> -1</button>
-    <span id="span_count_mov_y">0</span>
-    <button type="button" onclick="add_materias_mov_y()"> +1</button>
-    <span id="span_result_mov_y">0</span><span>pts</span><br>
+    <h3>Materiais N3</h3>
+    <button id="bmenos" type="button" onclick="sub_materias_n3_y()"> -1</button>
+    <span class="zero" id="span_count_n3_y">0</span>
+    <button id="bmais" type="button" onclick="add_materias_n3_y()"> +1</button>
+    <span class="pts" id="span_result_n3_y">0</span><span class="pts">pts</span>
+    <br>
+
+    <h3>Materiais movimentados</h3>
+    <button id="bmenos" type="button" onclick="sub_materias_mov_y()"> -1</button>
+    <span class="zero" id="span_count_mov_y">0</span>
+    <button id="bmais" type="button" onclick="add_materias_mov_y()"> +1</button>
+    <span class="pts" id="span_result_mov_y">0</span><span class="pts">pts</span><br>
 
     <h3>Fundação</h3>
     <select id=pontosCoopFundacao name="pontosCoopFundacao" onchange="atualizarPontosFundacaoCoop()">
@@ -136,22 +110,32 @@
       <option value="15">Fundações empilhadas - 15 pts</option>
     </select>
 
-    <h2>Cooperação</h2>
+  </div>
+
+  <div class="container3">
+    <h2 id="titulo4">Cooperação</h2>
     <p>Cooperação N1: <span id="coop_n1">0</span> pts</p>
     <p>Cooperação N2: <span id="coop_n2">0</span> pts</p>
     <p>Cooperação N3: <span id="coop_n3">0</span> pts</p>
     <p>Cooperação fundação: <span id="coop_fundacao">0</span> pts</p>
-    <p>Cooperação todos materiais armazenados: <span id="coop_todos_materiais">0</span> pts</p>
+    <p>Cooperação materiais armazenados: <span id="coop_todos_materiais">0</span> pts</p>
     <p><strong>Total cooperação:</strong> <span id="coop_total">0</span> pts</p><br>
 
-    <h2>Pontuação Total</h2>
+  </div>
+
+  <div class="container4">
+
+    <h2 id="titulo5">Pontuação Total</h2>
     <p>Total Equipe X: <span id="total_x">0</span> pts</p>
     <p>Total Equipe Y: <span id="total_y">0</span> pts</p>
 
     <br>
-    <button type="submit">Finalizar partida</button>
+    <button id="sub" type="submit">Finalizar partida</button>
     <br>
     <span id="loadingEnvioDados"></span>
+
+  </div>
+  
   </form>
 
 <script type="module">
