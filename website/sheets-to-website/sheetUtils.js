@@ -10,7 +10,7 @@ function extractGidFromUrl(sheetUrl) {
   return match ? match[1] : null;
 }
 
-function carregarSheetData(sheetUrl) {
+export async function carregarSheetData(sheetUrl) {
   return new Promise((resolve, reject) => {
     const sheetId = extractSheetIdFromUrl(sheetUrl);
     const gid = extractGidFromUrl(sheetUrl);

@@ -1,14 +1,72 @@
 import { submitToGoogleForms } from "./googleFormsSubmit.js";
-
+import {carregarSheetData} from "../sheets-to-website/sheetUtils.js"
   const valor_n1 = 2;
   const valor_n2 = 3;
   const valor_n3 = 4;
   const valor_mov = 1;
 
-  window.onload = function() {
+  window.onload = async function() {
+    await carregarDadosPartidasQualificatórias()
+
     atualizarNomeEquipe1()
     atualizarNomeEquipe2()
   }
+
+  async function carregarDadosPartidasQualificatórias(nomeJuiz) {
+    const data = await carregarSheetData("https://docs.google.com/spreadsheets/d/1Dj8gcfgJWh5a1rL2cCuoEopNH9XobLSv5wWIKrNVeo8/edit?gid=70923099#gid=70923099")
+    
+    const selectJogo = document.getElementById("proxjogo")
+    selectJogo.innerHTML = "" // limpa opções antigas
+  
+    // Agrupar por numeroJogo
+    let jogosAgrupados = []
+    data.forEach(jogo => {
+      const num = jogo.numeroJogo
+      const juiz = jogo.juiz
+      if (!jogosAgrupados[num]) {
+        jogosAgrupados[num] = { juiz: juiz, numeroJogo: num, equipes: [] }
+      }
+      jogosAgrupados[num].equipes.push(jogo.equipe)
+    })
+  
+    if (nomeJuiz != undefined) {
+      jogosAgrupados = jogosAgrupados.filter(jogo => jogo.juiz == nomeJuiz);
+    }
+
+    Object.values(jogosAgrupados).forEach(jogo => {
+      const option = document.createElement("option")
+      option.value = jogo.numeroJogo
+      option.textContent = `N° ${jogo.numeroJogo}: ${jogo.equipes.join(" x ")}`
+  
+      option.dataset.equipe1 = jogo.equipes[0] || ""
+      option.dataset.equipe2 = jogo.equipes[1] || ""
+      selectJogo.appendChild(option)
+    })
+  
+    selectJogo.addEventListener("change", function () {
+      const opt = selectJogo.options[selectJogo.selectedIndex]
+      if (opt) {
+        const eq1 = opt.dataset.equipe1
+        const eq2 = opt.dataset.equipe2
+  
+        const selectEquipe1 = document.getElementById("equipe1")
+        const selectEquipe2 = document.getElementById("equipe2")
+  
+        const opt1 = Array.from(selectEquipe1.options).find(o => o.value == eq1)
+        if (opt1) {
+          selectEquipe1.value = eq1
+        }
+  
+        const opt2 = Array.from(selectEquipe2.options).find(o => o.value == eq2)
+        if (opt2) {
+          selectEquipe2.value = eq2
+        }
+      }
+
+      atualizarNomeEquipe1()
+      atualizarNomeEquipe2()
+    })
+  }  
 
   function atualizarPontos() {
     const count_n1_x = parseInt(document.getElementById("span_count_n1_x").textContent);
@@ -102,7 +160,7 @@ import { submitToGoogleForms } from "./googleFormsSubmit.js";
       alert("Cada equipe possui somente 8 materiais, não é possivel adicionar mais materiais")
       return;
     }
-    
+
     const span_count = document.getElementById("span_count_mov_x");
     span_count.textContent = parseInt(span_count.textContent) + 1;
     atualizarPontosMov();
@@ -157,6 +215,7 @@ import { submitToGoogleForms } from "./googleFormsSubmit.js";
 
   function atualizarNomeEquipe2() {
     const equipe2 = document.getElementById("equipe2").value;
+    console.log(equipe2)
     document.getElementsByClassName("equipe2texto")[0].textContent = equipe2;
     document.getElementsByClassName("equipe2texto")[1].textContent = equipe2;
   }
@@ -181,6 +240,11 @@ import { submitToGoogleForms } from "./googleFormsSubmit.js";
     const totalCountX = 1 + count_n1_x + count_n2_x + count_n3_x + count_mov_x;
 
     return totalCountX
+  }
+
+  async function carregarPartidasJuiz() {
+    const nome = document.getElementById("nomejuiz").value;
+    await carregarDadosPartidasQualificatórias(nome)
   }
 
   window.add_materias_n1_y = function () {
@@ -277,6 +341,10 @@ import { submitToGoogleForms } from "./googleFormsSubmit.js";
 
   window.atualizarNomeEquipe2 = function () {
     atualizarNomeEquipe2()
+  }
+
+  window.carregarPartidasJuiz = function () {
+    carregarPartidasJuiz()
   }
 
   function atualizarCooperacao() {
