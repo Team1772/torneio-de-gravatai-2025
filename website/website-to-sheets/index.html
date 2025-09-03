@@ -26,89 +26,93 @@
     <br> <br> <label for="proxjogo">Seu próximo jogo:</label><br>
     <select id="proxjogo" name="proxjogo">
       <option value="1"> N° 1: Equipe X - Equipe Y </option>
-      <option value="2"> N° 2: Equipe X - Equipe Y </option>
-      <option value="3"> N° 3: Equipe X - Equipe Y </option>
     </select>
 
-    <br> <br> <label for="equipe1">Equipe 1: <span class="vermelho">coOr</span> </label><br>
-    <select id="equipe1" name="equipe1">
-      <option value="equipex">Equipe X</option>
-      <option value="equipey">Equipe Y</option>
-      <option value="equipez">Equipe Z</option>
+    <br> <br> <label for="equipe1">Equipe 1: <span class="vermelho">Texto</span> </label><br>
+    <select id="equipe1" name="equipe1" onchange="atualizarNomeEquipe1()">
+      <option selected="selected" value="Selecione a equipe">Selecione a equipe</option>
+      <option value="Eletrobots">Eletrobots</option>
+      <option value="Damatrônic Robotics Team">Damatrônic Robotics Team</option>
     </select>
 
-    <br> <br> <label for="equipe2">Equipe 2: <span class="azul">coOr</span> </label><br>
-    <select id="equipe2" name="equipe2">
-      <option value="equipex">Equipe X</option>
-      <option value="equipey">Equipe Y</option>
-      <option value="equipez">Equipe Z</option>
+    <br> <br> <label for="equipe2">Equipe 2: <span class="azul">Texto</span> </label><br>
+    <select id="equipe2" name="equipe2" onchange="atualizarNomeEquipe2()">
+      <option selected="selected" value="Selecione a equipe">Selecione a equipe</option>
+      <option value="Eletrobots">Eletrobots</option>
+      <option value="Damatrônic Robotics Team">Damatrônic Robotics Team</option>
     </select>
   
   </div>
 
   <div class="container2">
 
-    <h2 id="titulo2">Equipe X</h2>
-    <h3>Materiais N1</h3>
-    <button id="bmenos" type="button" onclick="sub_materias_n1_x()"> -1</button>
-    <span class="zero" id="span_count_n1_x">0</span>
-    <button id="bmais" type="button" onclick="add_materias_n1_x()"> +1</button>
-    <span class="pts" id="span_result_n1_x">0</span><span class="pts">pts</span>
+    <h2 id="titulo2">Pontuação da partida</h2>
+    <div class="topo-container-2">
+      <span class="texto-vermelho equipe1texto"></span>
+      <span class="texto-azul equipe2texto" onchange="atualizarNomeEquipe2Pontos()"></span>
+    </div>
+    <hr>
 
-    <h3>Materiais N2</h3>
-    <button id="bmenos" type="button" onclick="sub_materias_n2_x()"> -1</button>
-    <span class="zero" id="span_count_n2_x">0</span>
-    <button id="bmais" type="button" onclick="add_materias_n2_x()"> +1</button>
-    <span class="pts" id="span_result_n2_x">0</span><span class="pts">pts</span>
-    <br>
+    <article class="container-pontuacao-nivel-galpao">
+      <button class="menos-material" type="button" onclick="sub_materias_n3_x()"> -1</button>
+      <span class="count-material texto-vermelho" id="span_count_n3_x">0</span>
+      <button class="mais-material-vermelho" type="button" onclick="add_materias_n3_x()"> +1</button>
+      <span class="tipo-nivel">N3</span>
+      <button class="mais-material-azul" type="button" onclick="add_materias_n3_y()">+1</button>
+      <span class="count-material texto-azul" id="span_count_n3_y">0</span>
+      <button class="menos-material" type="button" onclick="sub_materias_n3_y()">-1</button>
+    </article>
 
-    <h3>Materiais N3</h3>
-    <button id="bmenos" type="button" onclick="sub_materias_n3_x()"> -1</button>
-    <span class="zero" id="span_count_n3_x">0</span>
-    <button id="bmais" type="button" onclick="add_materias_n3_x()"> +1</button>
-    <span class="pts" id="span_result_n3_x">0</span><span class="pts">pts</span>
-    <br>
+    <article class="container-pontuacao-nivel-galpao">
+      <button class="menos-material" type="button" onclick="sub_materias_n2_x()"> -1</button>
+      <span class="count-material texto-vermelho" id="span_count_n2_x">0</span>
+      <button class="mais-material-vermelho" type="button" onclick="add_materias_n2_x()"> +1</button>
+      <span class="tipo-nivel">N2</span>
+      <button class="mais-material-azul" type="button" onclick="add_materias_n2_y()">+1</button>
+      <span class="count-material texto-azul" id="span_count_n2_y">0</span>
+      <button class="menos-material" type="button" onclick="sub_materias_n2_y()">-1</button>
+    </article>
 
-    <h3>Materiais movimentados</h3>
-    <button id="bmenos" type="button" onclick="sub_materias_mov_x()"> -1</button>
-    <span class="zero" id="span_count_mov_x">0</span>
-    <button id="bmais" type="button" onclick="add_materias_mov_x()"> +1</button>
-    <span class="pts" id="span_result_mov_x">0</span><span class="pts">pts</span>
-    <br>
-    <br>
+    <article class="container-pontuacao-nivel-galpao">
+      <button class="menos-material" type="button" onclick="sub_materias_n1_x()"> -1</button>
+      <span class="count-material texto-vermelho" id="span_count_n1_x">0</span>
+      <button class="mais-material-vermelho" type="button" onclick="add_materias_n1_x()"> +1</button>
+      <span class="tipo-nivel">N1</span>
+      <button class="mais-material-azul" type="button" onclick="add_materias_n1_y()">+1</button>
+      <span class="count-material texto-azul" id="span_count_n1_y">0</span>
+      <button class="menos-material" type="button" onclick="sub_materias_n1_y()">-1</button>
+    </article>
 
-    <h2 id="titulo3">Equipe Y</h2>
-    <h3>Materiais N1</h3>
-    <button id="bmenos" type="button" onclick="sub_materias_n1_y()"> -1</button>
-    <span class="zero" id="span_count_n1_y">0</span>
-    <button id="bmais" type="button" onclick="add_materias_n1_y()"> +1</button>
-    <span class="pts" id="span_result_n1_y">0</span><span class="pts">pts</span>
+    <article class="container-pontuacao-nivel-galpao">
+      <button class="menos-material" type="button" onclick="sub_materias_mov_x()"> -1</button>
+      <span class="count-material texto-vermelho" id="span_count_mov_x">0</span>
+      <button class="mais-material-vermelho" type="button" onclick="add_materias_mov_x()"> +1</button>
+      <span class="tipo-nivel">MV</span>
+      <button class="mais-material-azul" type="button" onclick="add_materias_mov_y()">+1</button>
+      <span class="count-material texto-azul" id="span_count_mov_y">0</span>
+      <button class="menos-material" type="button" onclick="sub_materias_mov_y()">-1</button>
+    </article>
 
-    <h3>Materiais N2</h3>
-    <button id="bmenos" type="button" onclick="sub_materias_n2_y()"> -1</button>
-    <span class="zero" id="span_count_n2_y">0</span>
-    <button id="bmais" type="button" onclick="add_materias_n2_y()"> +1</button>
-    <span class="pts" id="span_result_n2_y">0</span><span class="pts">pts</span>
-    <br>
-
-    <h3>Materiais N3</h3>
-    <button id="bmenos" type="button" onclick="sub_materias_n3_y()"> -1</button>
-    <span class="zero" id="span_count_n3_y">0</span>
-    <button id="bmais" type="button" onclick="add_materias_n3_y()"> +1</button>
-    <span class="pts" id="span_result_n3_y">0</span><span class="pts">pts</span>
-    <br>
-
-    <h3>Materiais movimentados</h3>
-    <button id="bmenos" type="button" onclick="sub_materias_mov_y()"> -1</button>
-    <span class="zero" id="span_count_mov_y">0</span>
-    <button id="bmais" type="button" onclick="add_materias_mov_y()"> +1</button>
-    <span class="pts" id="span_result_mov_y">0</span><span class="pts">pts</span><br>
+    <article class="resultados-individual">
+      <div class="texto-vermelho">
+        <span class="pts" id="span_result_n3_x">0</span> <span class="pts">+</span>
+        <span class="pts" id="span_result_n2_x">0</span> <span class="pts">+</span>
+        <span class="pts" id="span_result_n1_x">0</span> <span class="pts">+</span>
+        <span class="pts" id="span_result_mov_x">0</span>
+      </div>
+      <div class="texto-azul">
+        <span class="pts" id="span_result_n3_y">0</span> <span class="pts">+</span>
+        <span class="pts" id="span_result_n2_y">0</span> <span class="pts">+</span>
+        <span class="pts" id="span_result_n1_y">0</span> <span class="pts">+</span>
+        <span class="pts" id="span_result_mov_y">0</span>
+      </div>
+    </article>
 
     <h3>Fundação</h3>
     <select id=pontosCoopFundacao name="pontosCoopFundacao" onchange="atualizarPontosFundacaoCoop()">
-      <option value="0">Fundações não estão na mesma zona de construção - 0 pts</option>
-      <option value="5">Fundações na mesma zona de construção - 5 pts</option>
-      <option value="15">Fundações empilhadas - 15 pts</option>
+      <option value="0">0pts - Fundações não estão na mesma zona de construção</option>
+      <option value="5">5pts - Fundações na mesma zona de construção</option>
+      <option value="15">15pts - Fundações empilhadas</option>
     </select>
 
   </div>
@@ -121,22 +125,23 @@
     <p>Cooperação fundação: <span id="coop_fundacao">0</span> pts</p>
     <p>Cooperação materiais armazenados: <span id="coop_todos_materiais">0</span> pts</p>
     <p><strong>Total cooperação:</strong> <span id="coop_total">0</span> pts</p><br>
-
   </div>
 
   <div class="container4">
 
-    <h2 id="titulo5">Pontuação Total</h2>
-    <p>Total Equipe X: <span id="total_x">0</span> pts</p>
-    <p>Total Equipe Y: <span id="total_y">0</span> pts</p>
-
-    <br>
-    <button id="sub" type="submit">Finalizar partida</button>
-    <br>
+    <div class="column">
+      <span id="total-vermelho" class="total-vermelho">0</span>
+      <span class="texto-vermelho-sem-quebra equipe1texto"">sdkjfsdl sdlkfjsdlkfj sfklsjd</span>
+    </div>
     <span id="loadingEnvioDados"></span>
-
+    <div class="column">
+      <span id="total-azul" class="total-azul" onchange>0</span>
+      <span class="texto-azul-sem-quebra equipe2texto"> sdkfjsdlk fkljsdf</span>
+    </div>
   </div>
-  
+  <br>
+  <button id="sub" type="submit">Finalizar partida</button>
+  <br> 
   </form>
 </body>
 </html>

@@ -8,32 +8,27 @@ body {
     #titulo {
       font-size: 300%;
       color: #c0c8d3;
-      text-shadow: 3px 3px 3px rgb(23, 30, 41);
     }
     #titulo2 {
       font-size: 220%;
-      color: red;
-      text-shadow: 3px 2px 3px rgb(87, 88, 92);
+      color: rgb(0, 0, 0);
       text-align: center;
       
     }
     #titulo3 {
       font-size: 220%;
-      color: blue;
-      text-shadow: 3px 2px 3px rgb(87, 88, 92);
+      color: rgb(0, 0, 0);
       text-align: center;
     }
     #titulo4 {
       font-size: 200%;
-      color: rgb(70, 0, 140);
-      text-shadow: 3px 2px 3px rgb(87, 88, 92);
+      color: rgb(0, 0, 0);
       text-align: center;
 
     }
     #titulo5{
       font-size: 200%;
-      text-shadow: 3px 2px 3px rgb(87, 88, 92);
-      color: rgb(70, 0, 140);
+      color: rgb(0, 0, 0);
       text-align: center;
 
     }
@@ -98,54 +93,182 @@ body {
       font-size: 150%;
     }
     .container {
-      max-width: 80%;
-      margin: 20px auto;
+      max-width: 800px;
+      margin: 5px auto;
       border: 5px solid #cacfd6;
       border-radius: 10px;
-      padding: 20px;
+      padding: 10px;
       background: #cacfd6;
     }
     .container2 {
-      max-width: 80%;
-      margin: 20px auto;
+      max-width: 800px;
+      margin: 5px auto;
       border: 5px solid #cacfd6;
       border-radius: 10px;
-      padding: 20px;
+      padding: 10px;
       background: #cacfd6;
       text-align: left;
     }
     .container3 {
-      max-width: 80%;
-      margin: 20px auto;
+      max-width: 800px;
+      margin: 5px auto;
       border: 5px solid #cacfd6;
       border-radius: 10px;
-      padding: 20px;
+      padding: 10px;
       background: #cacfd6;
       text-align: left;
       font-size: 140%;
     }
     
     .container4 {
-      max-width: 80%;
-      margin: 20px auto;
+      max-width: 800px;
+      margin: 5px auto;
       border: 5px solid #cacfd6;
       border-radius: 10px;
-      padding: 20px;
+      padding: 10px;
       background: #cacfd6;
-      text-align: left;
       font-size: 140%;
       font-weight: bold;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      gap: 10px;
     }
     
     #sub {
-      padding: 10%;
+      padding: 20px;
       font-size: 150%;
       cursor: pointer;
       transition: background-color 0.3s ease, transform 0.2s ease;
-      background-color: rgb(64, 250, 47);
+      background-color: rgb(81, 149, 75);
       border-color: rgb(4, 112, 4) ;
       border-radius: 5px;
       text-align: center;
     }
+
+    .topo-container-2{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      gap: 10px;
+    
+    }
+
+    .texto-vermelho {
+      color: rgb(225, 35, 35);
+      font-weight: bolder;
+      font-size: 1.2rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .texto-vermelho-sem-quebra {
+      color: rgb(225, 35, 35);
+      font-weight: bolder;
+      font-size: 1.2rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100% !important;
+    }
+
+    .equipe1texto {
+      width: 50%;
+      text-align: center;
+    }
+    .equipe2texto {
+      width: 50%;
+      text-align: center;
+    }
+
+    .texto-azul {
+      color: rgb(64, 35, 225);
+      font-weight: bolder;
+      font-size: 1.2rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .texto-azul-sem-quebra {
+      color: rgb(64, 35, 225);
+      font-weight: bolder;
+      font-size: 1.2rem;
+      width: 100% !important;
+    }
+
+    .container-pontuacao-nivel-galpao {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .tipo-nivel {
+      font-size: 1.5rem;
+      font-weight: bolder;
+    }
+
+    .menos-material{
+      color: rgb(0, 0, 0);
+      background-color: transparent;
+      border: 2px solid black;
+      border-radius: 2px;
+      padding: 7px 10px 7px 10px;
+      border-radius: 10px;
+      font-size: 1.2rem;
+    }
+
+    .mais-material-vermelho{
+      color: rgb(225, 35, 35);
+      background-color: white;
+      border: 2px solid black;
+      border-radius: 2px;
+      padding: 10px 14px 10px 14px;
+      border-radius: 10px;
+      font-size: 1.5rem;
+    }
+
+    .mais-material-azul{
+      color: rgb(64, 35, 225);
+      background-color: white;
+      border: 2px solid black;
+      border-radius: 2px;
+      padding: 10px 14px 10px 14px;
+      border-radius: 10px;
+      font-size: 1.5rem;
+    }
+    .count-material {
+      font-size: 1.6rem
+    }
+
+    .resultados-individual {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    .column {
+      display: flex;
+      flex-direction: column;
+      width: 50%;
+    }
+
+    .total-vermelho{
+      color: rgb(225, 35, 35);;
+      font-size: 5rem;
+      font-weight: bolder;
+    }
+
+    .total-azul{
+      color: rgb(64, 35, 225);
+      font-size: 5rem;
+      font-weight: bolder;
+    }
+
+
+    
     
     

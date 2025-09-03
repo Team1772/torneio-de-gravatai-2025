@@ -5,6 +5,11 @@ import { submitToGoogleForms } from "./googleFormsSubmit.js";
   const valor_n3 = 4;
   const valor_mov = 1;
 
+  window.onload = function() {
+    atualizarNomeEquipe1()
+    atualizarNomeEquipe2()
+  }
+
   function atualizarPontos() {
     const count_n1_x = parseInt(document.getElementById("span_count_n1_x").textContent);
     document.getElementById("span_result_n1_x").textContent = count_n1_x * valor_n1;
@@ -124,6 +129,18 @@ import { submitToGoogleForms } from "./googleFormsSubmit.js";
     atualizarTotais();
   }
 
+  function atualizarNomeEquipe1() {
+    const equipe1 = document.getElementById("equipe1").value;
+    document.getElementsByClassName("equipe1texto")[0].textContent = equipe1;
+    document.getElementsByClassName("equipe1texto")[1].textContent = equipe1;
+  }
+
+  function atualizarNomeEquipe2() {
+    const equipe2 = document.getElementById("equipe2").value;
+    document.getElementsByClassName("equipe2texto")[0].textContent = equipe2;
+    document.getElementsByClassName("equipe2texto")[1].textContent = equipe2;
+  }
+
   window.add_materias_n1_y = function () {
     const span_count = document.getElementById("span_count_n1_y");
     span_count.textContent = parseInt(span_count.textContent) + 1;
@@ -192,6 +209,14 @@ import { submitToGoogleForms } from "./googleFormsSubmit.js";
     atualizarPontosFundacaoCoop()
   }
 
+  window.atualizarNomeEquipe1 = function () {
+    atualizarNomeEquipe1()
+  }
+
+  window.atualizarNomeEquipe2 = function () {
+    atualizarNomeEquipe2()
+  }
+
   function atualizarCooperacao() {
   let coop_n1 = 0;
   let coop_n2 = 0;
@@ -258,8 +283,8 @@ function atualizarTotais() {
   const total_x = n1_x + n2_x + n3_x + mov_x + coop_total_x;
   const total_y = n1_y + n2_y + n3_y + mov_y + coop_total_y;
 
-  document.getElementById("total_x").textContent = total_x;
-  document.getElementById("total_y").textContent = total_y;
+  document.getElementById("total-vermelho").textContent = total_x;
+  document.getElementById("total-azul").textContent = total_y;
 }
 
   document
