@@ -5,10 +5,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PartidaQualificatoria</title>
-  <link rel="stylesheet" href="../CSS.css" >
+  <link rel="stylesheet" href="./CSS.css" >
 </head>
 
 <body>
+  <script type="module" src="scriptPartida.js"></script>
   <h1 id="titulo">Nova partida qualificatória</h1>
 
   <form id="myCustomForm">
@@ -25,89 +26,93 @@
     <br> <br> <label for="proxjogo">Seu próximo jogo:</label><br>
     <select id="proxjogo" name="proxjogo">
       <option value="1"> N° 1: Equipe X - Equipe Y </option>
-      <option value="2"> N° 2: Equipe X - Equipe Y </option>
-      <option value="3"> N° 3: Equipe X - Equipe Y </option>
     </select>
 
-    <br> <br> <label for="equipe1">Equipe 1: <span class="vermelho">coOr</span> </label><br>
-    <select id="equipe1" name="equipe1">
-      <option value="equipex">Equipe X</option>
-      <option value="equipey">Equipe Y</option>
-      <option value="equipez">Equipe Z</option>
+    <br> <br> <label for="equipe1">Equipe 1: <span class="vermelho">Texto</span> </label><br>
+    <select id="equipe1" name="equipe1" onchange="atualizarNomeEquipe1()">
+      <option selected="selected" value="Selecione a equipe">Selecione a equipe</option>
+      <option value="Eletrobots">Eletrobots</option>
+      <option value="Damatrônic Robotics Team">Damatrônic Robotics Team</option>
     </select>
 
-    <br> <br> <label for="equipe2">Equipe 2: <span class="azul">coOr</span> </label><br>
-    <select id="equipe2" name="equipe2">
-      <option value="equipex">Equipe X</option>
-      <option value="equipey">Equipe Y</option>
-      <option value="equipez">Equipe Z</option>
+    <br> <br> <label for="equipe2">Equipe 2: <span class="azul">Texto</span> </label><br>
+    <select id="equipe2" name="equipe2" onchange="atualizarNomeEquipe2()">
+      <option selected="selected" value="Selecione a equipe">Selecione a equipe</option>
+      <option value="Eletrobots">Eletrobots</option>
+      <option value="Damatrônic Robotics Team">Damatrônic Robotics Team</option>
     </select>
   
   </div>
 
   <div class="container2">
 
-    <h2 id="titulo2">Equipe X</h2>
-    <h3>Materiais N1</h3>
-    <button id="bmenos" type="button" onclick="sub_materias_n1_x()"> -1</button>
-    <span class="zero" id="span_count_n1_x">0</span>
-    <button id="bmais" type="button" onclick="add_materias_n1_x()"> +1</button>
-    <span class="pts" id="span_result_n1_x">0</span><span class="pts">pts</span>
+    <h2 id="titulo2">Pontuação da partida</h2>
+    <div class="topo-container-2">
+      <span class="texto-vermelho equipe1texto"></span>
+      <span class="texto-azul equipe2texto" onchange="atualizarNomeEquipe2Pontos()"></span>
+    </div>
+    <hr>
 
-    <h3>Materiais N2</h3>
-    <button id="bmenos" type="button" onclick="sub_materias_n2_x()"> -1</button>
-    <span class="zero" id="span_count_n2_x">0</span>
-    <button id="bmais" type="button" onclick="add_materias_n2_x()"> +1</button>
-    <span class="pts" id="span_result_n2_x">0</span><span class="pts">pts</span>
-    <br>
+    <article class="container-pontuacao-nivel-galpao">
+      <button class="menos-material" type="button" onclick="sub_materias_n3_x()"> -1</button>
+      <span class="count-material texto-vermelho" id="span_count_n3_x">0</span>
+      <button class="mais-material-vermelho" type="button" onclick="add_materias_n3_x()"> +1</button>
+      <span class="tipo-nivel">N3</span>
+      <button class="mais-material-azul" type="button" onclick="add_materias_n3_y()">+1</button>
+      <span class="count-material texto-azul" id="span_count_n3_y">0</span>
+      <button class="menos-material" type="button" onclick="sub_materias_n3_y()">-1</button>
+    </article>
 
-    <h3>Materiais N3</h3>
-    <button id="bmenos" type="button" onclick="sub_materias_n3_x()"> -1</button>
-    <span class="zero" id="span_count_n3_x">0</span>
-    <button id="bmais" type="button" onclick="add_materias_n3_x()"> +1</button>
-    <span class="pts" id="span_result_n3_x">0</span><span class="pts">pts</span>
-    <br>
+    <article class="container-pontuacao-nivel-galpao">
+      <button class="menos-material" type="button" onclick="sub_materias_n2_x()"> -1</button>
+      <span class="count-material texto-vermelho" id="span_count_n2_x">0</span>
+      <button class="mais-material-vermelho" type="button" onclick="add_materias_n2_x()"> +1</button>
+      <span class="tipo-nivel">N2</span>
+      <button class="mais-material-azul" type="button" onclick="add_materias_n2_y()">+1</button>
+      <span class="count-material texto-azul" id="span_count_n2_y">0</span>
+      <button class="menos-material" type="button" onclick="sub_materias_n2_y()">-1</button>
+    </article>
 
-    <h3>Materiais movimentados</h3>
-    <button id="bmenos" type="button" onclick="sub_materias_mov_x()"> -1</button>
-    <span class="zero" id="span_count_mov_x">0</span>
-    <button id="bmais" type="button" onclick="add_materias_mov_x()"> +1</button>
-    <span class="pts" id="span_result_mov_x">0</span><span class="pts">pts</span>
-    <br>
-    <br>
+    <article class="container-pontuacao-nivel-galpao">
+      <button class="menos-material" type="button" onclick="sub_materias_n1_x()"> -1</button>
+      <span class="count-material texto-vermelho" id="span_count_n1_x">0</span>
+      <button class="mais-material-vermelho" type="button" onclick="add_materias_n1_x()"> +1</button>
+      <span class="tipo-nivel">N1</span>
+      <button class="mais-material-azul" type="button" onclick="add_materias_n1_y()">+1</button>
+      <span class="count-material texto-azul" id="span_count_n1_y">0</span>
+      <button class="menos-material" type="button" onclick="sub_materias_n1_y()">-1</button>
+    </article>
 
-    <h2 id="titulo3">Equipe Y</h2>
-    <h3>Materiais N1</h3>
-    <button id="bmenos" type="button" onclick="sub_materias_n1_y()"> -1</button>
-    <span class="zero" id="span_count_n1_y">0</span>
-    <button id="bmais" type="button" onclick="add_materias_n1_y()"> +1</button>
-    <span class="pts" id="span_result_n1_y">0</span><span class="pts">pts</span>
+    <article class="container-pontuacao-nivel-galpao">
+      <button class="menos-material" type="button" onclick="sub_materias_mov_x()"> -1</button>
+      <span class="count-material texto-vermelho" id="span_count_mov_x">0</span>
+      <button class="mais-material-vermelho" type="button" onclick="add_materias_mov_x()"> +1</button>
+      <span class="tipo-nivel">MV</span>
+      <button class="mais-material-azul" type="button" onclick="add_materias_mov_y()">+1</button>
+      <span class="count-material texto-azul" id="span_count_mov_y">0</span>
+      <button class="menos-material" type="button" onclick="sub_materias_mov_y()">-1</button>
+    </article>
 
-    <h3>Materiais N2</h3>
-    <button id="bmenos" type="button" onclick="sub_materias_n2_y()"> -1</button>
-    <span class="zero" id="span_count_n2_y">0</span>
-    <button id="bmais" type="button" onclick="add_materias_n2_y()"> +1</button>
-    <span class="pts" id="span_result_n2_y">0</span><span class="pts">pts</span>
-    <br>
-
-    <h3>Materiais N3</h3>
-    <button id="bmenos" type="button" onclick="sub_materias_n3_y()"> -1</button>
-    <span class="zero" id="span_count_n3_y">0</span>
-    <button id="bmais" type="button" onclick="add_materias_n3_y()"> +1</button>
-    <span class="pts" id="span_result_n3_y">0</span><span class="pts">pts</span>
-    <br>
-
-    <h3>Materiais movimentados</h3>
-    <button id="bmenos" type="button" onclick="sub_materias_mov_y()"> -1</button>
-    <span class="zero" id="span_count_mov_y">0</span>
-    <button id="bmais" type="button" onclick="add_materias_mov_y()"> +1</button>
-    <span class="pts" id="span_result_mov_y">0</span><span class="pts">pts</span><br>
+    <article class="resultados-individual">
+      <div class="texto-vermelho">
+        <span class="pts" id="span_result_n3_x">0</span> <span class="pts">+</span>
+        <span class="pts" id="span_result_n2_x">0</span> <span class="pts">+</span>
+        <span class="pts" id="span_result_n1_x">0</span> <span class="pts">+</span>
+        <span class="pts" id="span_result_mov_x">0</span>
+      </div>
+      <div class="texto-azul">
+        <span class="pts" id="span_result_n3_y">0</span> <span class="pts">+</span>
+        <span class="pts" id="span_result_n2_y">0</span> <span class="pts">+</span>
+        <span class="pts" id="span_result_n1_y">0</span> <span class="pts">+</span>
+        <span class="pts" id="span_result_mov_y">0</span>
+      </div>
+    </article>
 
     <h3>Fundação</h3>
     <select id=pontosCoopFundacao name="pontosCoopFundacao" onchange="atualizarPontosFundacaoCoop()">
-      <option value="0">Fundações não estão na mesma zona de construção - 0 pts</option>
-      <option value="5">Fundações na mesma zona de construção - 5 pts</option>
-      <option value="15">Fundações empilhadas - 15 pts</option>
+      <option value="0">0pts - Fundações não estão na mesma zona de construção</option>
+      <option value="5">5pts - Fundações na mesma zona de construção</option>
+      <option value="15">15pts - Fundações empilhadas</option>
     </select>
 
   </div>
@@ -120,378 +125,23 @@
     <p>Cooperação fundação: <span id="coop_fundacao">0</span> pts</p>
     <p>Cooperação materiais armazenados: <span id="coop_todos_materiais">0</span> pts</p>
     <p><strong>Total cooperação:</strong> <span id="coop_total">0</span> pts</p><br>
-
   </div>
 
   <div class="container4">
 
-    <h2 id="titulo5">Pontuação Total</h2>
-    <p>Total Equipe X: <span id="total_x">0</span> pts</p>
-    <p>Total Equipe Y: <span id="total_y">0</span> pts</p>
-
-    <br>
-    <button id="sub" type="submit">Finalizar partida</button>
-    <br>
+    <div class="column">
+      <span id="total-vermelho" class="total-vermelho">0</span>
+      <span class="texto-vermelho-sem-quebra equipe1texto"">sdkjfsdl sdlkfjsdlkfj sfklsjd</span>
+    </div>
     <span id="loadingEnvioDados"></span>
-
+    <div class="column">
+      <span id="total-azul" class="total-azul" onchange>0</span>
+      <span class="texto-azul-sem-quebra equipe2texto"> sdkfjsdlk fkljsdf</span>
+    </div>
   </div>
-  
+  <br>
+  <button id="sub" type="submit">Finalizar partida</button>
+  <br> 
   </form>
-
-<script type="module">
-  import { submitToGoogleForms } from "./googleFormsSubmit.js";
-
-  const valor_n1 = 2;
-  const valor_n2 = 3;
-  const valor_n3 = 4;
-  const valor_mov = 1;
-
-  function atualizarPontos() {
-    const count_n1_x = parseInt(document.getElementById("span_count_n1_x").textContent);
-    document.getElementById("span_result_n1_x").textContent = count_n1_x * valor_n1;
-    atualizarCooperacao();
-    atualizarTotais();
-  }
-  function atualizarPontosN2() {
-    const count_n2_x = parseInt(document.getElementById("span_count_n2_x").textContent);
-    document.getElementById("span_result_n2_x").textContent = count_n2_x * valor_n2;
-    atualizarCooperacao();
-    atualizarTotais();
-  }
-  function atualizarPontosN3() {
-    const count_n3_x = parseInt(document.getElementById("span_count_n3_x").textContent);
-    document.getElementById("span_result_n3_x").textContent = count_n3_x * valor_n3;
-    atualizarCooperacao();
-    atualizarTotais();
-  }
-  function atualizarPontosMov() {
-    const count_mov_x = parseInt(document.getElementById("span_count_mov_x").textContent);
-    document.getElementById("span_result_mov_x").textContent = count_mov_x * valor_mov;
-    atualizarTotais();
-  }
-
-  window.add_materias_n1_x = function () {
-    const span_count = document.getElementById("span_count_n1_x");
-    span_count.textContent = parseInt(span_count.textContent) + 1;
-    atualizarPontos();
-    atualizarTotais();
-  }
-  window.sub_materias_n1_x = function () {
-    const span_count = document.getElementById("span_count_n1_x");
-    span_count.textContent = parseInt(span_count.textContent) - 1;
-    if (parseInt(span_count.textContent) < 0) {
-      span_count.textContent = 0;
-    }
-    atualizarPontos();
-    atualizarTotais();
-  }
-
-  window.add_materias_n2_x = function () {
-    const span_count = document.getElementById("span_count_n2_x");
-    span_count.textContent = parseInt(span_count.textContent) + 1;
-    atualizarPontosN2();
-    atualizarTotais();
-  }
-  window.sub_materias_n2_x = function () {
-    const span_count = document.getElementById("span_count_n2_x");
-    span_count.textContent = parseInt(span_count.textContent) - 1;
-    if (parseInt(span_count.textContent) < 0) {
-      span_count.textContent = 0;
-    }
-    atualizarPontosN2();
-    atualizarTotais();
-  }
-
-  window.add_materias_n3_x = function () {
-    const span_count = document.getElementById("span_count_n3_x");
-    span_count.textContent = parseInt(span_count.textContent) + 1;
-    atualizarPontosN3();
-    atualizarTotais();
-  }
-  window.sub_materias_n3_x = function () {
-    const span_count = document.getElementById("span_count_n3_x");
-    span_count.textContent = parseInt(span_count.textContent) - 1;
-    if (parseInt(span_count.textContent) < 0) {
-      span_count.textContent = 0;
-    }
-    atualizarPontosN3();
-    atualizarTotais();
-  }
-
-  window.add_materias_mov_x = function () {
-    const span_count = document.getElementById("span_count_mov_x");
-    span_count.textContent = parseInt(span_count.textContent) + 1;
-    atualizarPontosMov();
-    atualizarTotais();
-  }
-  window.sub_materias_mov_x = function () {
-    const span_count = document.getElementById("span_count_mov_x");
-    span_count.textContent = parseInt(span_count.textContent) - 1;
-    if (parseInt(span_count.textContent) < 0) {
-      span_count.textContent = 0;
-    }
-    atualizarPontosMov();
-    atualizarTotais();
-  }
-
-  function atualizarPontosY() {
-    const count_n1_y = parseInt(document.getElementById("span_count_n1_y").textContent);
-    document.getElementById("span_result_n1_y").textContent = count_n1_y * valor_n1;
-    atualizarCooperacao();
-    atualizarTotais();
-  }
-  function atualizarPontosN2Y() {
-    const count_n2_y = parseInt(document.getElementById("span_count_n2_y").textContent);
-    document.getElementById("span_result_n2_y").textContent = count_n2_y * valor_n2;
-    atualizarCooperacao();
-    atualizarTotais();
-  }
-  function atualizarPontosN3Y() {
-    const count_n3_y = parseInt(document.getElementById("span_count_n3_y").textContent);
-    document.getElementById("span_result_n3_y").textContent = count_n3_y * valor_n3;
-    atualizarCooperacao();
-    atualizarTotais();
-  }
-  function atualizarPontosMovY() {
-    const count_mov_y = parseInt(document.getElementById("span_count_mov_y").textContent);
-    document.getElementById("span_result_mov_y").textContent = count_mov_y * valor_mov;
-    atualizarTotais();
-  }
-
-  function atualizarPontosFundacaoCoop() {
-    const fundacao_coop = parseInt(document.getElementById("pontosCoopFundacao").value);
-    document.getElementById("coop_fundacao").textContent = fundacao_coop;
-    atualizarCooperacao()
-    atualizarTotais();
-  }
-
-  window.add_materias_n1_y = function () {
-    const span_count = document.getElementById("span_count_n1_y");
-    span_count.textContent = parseInt(span_count.textContent) + 1;
-    atualizarPontosY();
-    atualizarTotais();
-  }
-  window.sub_materias_n1_y = function () {
-    const span_count = document.getElementById("span_count_n1_y");
-    span_count.textContent = parseInt(span_count.textContent) - 1;
-    if (parseInt(span_count.textContent) < 0) {
-      span_count.textContent = 0;
-    }
-    atualizarPontosY();
-    atualizarTotais();
-  }
-
-  window.add_materias_n2_y = function () {
-    const span_count = document.getElementById("span_count_n2_y");
-    span_count.textContent = parseInt(span_count.textContent) + 1;
-    atualizarPontosN2Y();
-    atualizarTotais();
-  }
-  window.sub_materias_n2_y = function () {
-    const span_count = document.getElementById("span_count_n2_y");
-    span_count.textContent = parseInt(span_count.textContent) - 1;
-    if (parseInt(span_count.textContent) < 0) {
-      span_count.textContent = 0;
-    }
-    atualizarPontosN2Y();
-    atualizarTotais();
-  }
-
-  window.add_materias_n3_y = function () {
-    const span_count = document.getElementById("span_count_n3_y");
-    span_count.textContent = parseInt(span_count.textContent) + 1;
-    atualizarPontosN3Y();
-    atualizarTotais();
-  }
-  window.sub_materias_n3_y = function () {
-    const span_count = document.getElementById("span_count_n3_y");
-    span_count.textContent = parseInt(span_count.textContent) - 1;
-    if (parseInt(span_count.textContent) < 0) {
-      span_count.textContent = 0;
-    }
-    atualizarPontosN3Y();
-    atualizarTotais();
-  }
-
-  window.add_materias_mov_y = function () {
-    const span_count = document.getElementById("span_count_mov_y");
-    span_count.textContent = parseInt(span_count.textContent) + 1;
-    atualizarPontosMovY();
-    atualizarTotais();
-  }
-  window.sub_materias_mov_y = function () {
-    const span_count = document.getElementById("span_count_mov_y");
-    span_count.textContent = parseInt(span_count.textContent) - 1;
-    if (parseInt(span_count.textContent) < 0) {
-      span_count.textContent = 0;
-    }
-    atualizarPontosMovY();
-    atualizarTotais();
-  }
-
-  window.atualizarPontosFundacaoCoop = function () {
-    atualizarPontosFundacaoCoop()
-  }
-
-  function atualizarCooperacao() {
-  let coop_n1 = 0;
-  let coop_n2 = 0;
-  let coop_n3 = 0;
-  let coop_todos_materiais = 0;
-
-  const n1_x = parseInt(document.getElementById("span_result_n1_x").textContent);
-  const n1_y = parseInt(document.getElementById("span_result_n1_y").textContent);
-
-  const n2_x = parseInt(document.getElementById("span_result_n2_x").textContent);
-  const n2_y = parseInt(document.getElementById("span_result_n2_y").textContent);
-
-  const n3_x = parseInt(document.getElementById("span_result_n3_x").textContent);
-  const n3_y = parseInt(document.getElementById("span_result_n3_y").textContent);
-
-  if (n1_x > 0 && n1_y > 0) coop_n1 = 5;
-  if (n2_x > 0 && n2_y > 0) coop_n2 = 5;
-  if (n3_x > 0 && n3_y > 0) coop_n3 = 5;
-
-  const count_n1_x = parseInt(document.getElementById("span_count_n1_x").textContent);
-  const count_n2_x = parseInt(document.getElementById("span_count_n2_x").textContent);
-  const count_n3_x = parseInt(document.getElementById("span_count_n3_x").textContent);
-  const count_n1_y = parseInt(document.getElementById("span_count_n1_y").textContent);
-  const count_n2_y = parseInt(document.getElementById("span_count_n2_y").textContent);
-  const count_n3_y = parseInt(document.getElementById("span_count_n3_y").textContent);
-
-  if (count_n1_x + count_n1_y + count_n2_x + count_n2_y + count_n3_x + count_n3_y >= 16) coop_todos_materiais = 5;
-  
-  document.getElementById("coop_n1").textContent = coop_n1;
-  document.getElementById("coop_n2").textContent = coop_n2;
-  document.getElementById("coop_n3").textContent = coop_n3;
-  document.getElementById("coop_todos_materiais").textContent = coop_todos_materiais;
-
-  const coop_fundacao = parseInt(document.getElementById("pontosCoopFundacao").value);
-
-  const total_coop = coop_n1 + coop_n2 + coop_n3 + coop_todos_materiais + coop_fundacao;
-  document.getElementById("coop_total").textContent = total_coop;
-  atualizarTotais();
-}
-
-function atualizarTotais() {
-  // Pontos por nível para Equipe X
-  const n1_x = parseInt(document.getElementById("span_result_n1_x").textContent);
-  const n2_x = parseInt(document.getElementById("span_result_n2_x").textContent);
-  const n3_x = parseInt(document.getElementById("span_result_n3_x").textContent);
-  const mov_x = parseInt(document.getElementById("span_result_mov_x").textContent);
-
-  // Pontos por nível para Equipe Y
-  const n1_y = parseInt(document.getElementById("span_result_n1_y").textContent);
-  const n2_y = parseInt(document.getElementById("span_result_n2_y").textContent);
-  const n3_y = parseInt(document.getElementById("span_result_n3_y").textContent);
-  const mov_y = parseInt(document.getElementById("span_result_mov_y").textContent);
-
-  // Cooperação
-  const coop_n1 = parseInt(document.getElementById("coop_n1").textContent);
-  const coop_n2 = parseInt(document.getElementById("coop_n2").textContent);
-  const coop_n3 = parseInt(document.getElementById("coop_n3").textContent);
-  const coop_fundacao = parseInt(document.getElementById("pontosCoopFundacao").value);
-  const coop_todos_materiais = parseInt(document.getElementById("coop_todos_materiais").textContent);
-
-  const coop_total_x = (coop_n1 > 0 ? 5 : 0) + (coop_n2 > 0 ? 5 : 0) + (coop_n3 > 0 ? 5 : 0) + coop_fundacao + coop_todos_materiais;
-  const coop_total_y = coop_total_x;
-
-  const total_x = n1_x + n2_x + n3_x + mov_x + coop_total_x;
-  const total_y = n1_y + n2_y + n3_y + mov_y + coop_total_y;
-
-  document.getElementById("total_x").textContent = total_x;
-  document.getElementById("total_y").textContent = total_y;
-}
-
-  document
-    .getElementById("myCustomForm")
-    .addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const numJogo = parseInt(document.getElementById("proxjogo").value)
-      
-      const nomeTimeX = document.getElementById("equipe1").value
-      const pontosN1X = parseInt(document.getElementById("span_result_n1_x").textContent)
-      const pontosN2X = parseInt(document.getElementById("span_result_n2_x").textContent)
-      const pontosN3X = parseInt(document.getElementById("span_result_n3_x").textContent)
-      const pontosMovX = parseInt(document.getElementById("span_result_mov_x").textContent)
-      const pontosIndividuaisX = pontosN1X + pontosN2X + pontosN3X + pontosMovX
-
-      const nomeTimeY = document.getElementById("equipe2").value
-      const pontosN1Y = parseInt(document.getElementById("span_result_n1_y").textContent)
-      const pontosN2Y = parseInt(document.getElementById("span_result_n2_y").textContent)
-      const pontosN3Y = parseInt(document.getElementById("span_result_n3_y").textContent)
-      const pontosMovY = parseInt(document.getElementById("span_result_mov_y").textContent)
-      const pontosIndividuaisY = pontosN1Y + pontosN2Y + pontosN3Y + pontosMovY
-
-      const coopN1 = parseInt(document.getElementById("coop_n1").textContent)
-      const coopN2 = parseInt(document.getElementById("coop_n2").textContent)
-      const coopN3 = parseInt(document.getElementById("coop_n3").textContent)
-      const coop_fundacao = parseInt(document.getElementById("pontosCoopFundacao").value);
-      const coop_todos_materiais = parseInt(document.getElementById("coop_todos_materiais").textContent);
-
-      const pontosCoop = coopN1 + coopN2 + coopN3 + coop_fundacao + coop_todos_materiais;
-
-      const googleFormDataX = {
-        "entry.1589049360": numJogo, //numero jogo
-        "entry.716767655": nomeTimeX, //nome time
-        "entry.1061580246": pontosIndividuaisX, // pontos individuais
-        "entry.1383902084": pontosCoop, // pontos coop
-      };
-
-      const googleFormDataY = {
-        "entry.1589049360": numJogo, //numero jogo
-        "entry.716767655": nomeTimeY, //nome time
-        "entry.1061580246": pontosIndividuaisY, // pontos individuais
-        "entry.1383902084"  : pontosCoop, // pontos coop
-      };
-
-      console.log(`
-      n1x - ${pontosN1X}
-      n2x - ${pontosN2X}
-      n3x - ${pontosN3X}
-      movx - ${pontosMovX}
-      coop - ${pontosCoop}
-      `)
-
-      console.log(`
-      n1x - ${pontosN1Y}
-      n2x - ${pontosN2Y}
-      n3x - ${pontosN3Y}
-      movx - ${pontosMovY}
-      coop - ${pontosCoop}
-      `)
-
-      const loadingEnvioDados = document.getElementById("loadingEnvioDados")
-      loadingEnvioDados.innerText = "Enviando dados..."
-
-      try {
-        await submitToGoogleForms({
-          url: "https://docs.google.com/forms/u/0/d/e/1FAIpQLSdnXoIhHymASG9yfasIBmk6bYtF4g3cT3tgg6_tIuGIvVvJEA/formResponse",
-          data: googleFormDataX,
-        });
-
-        console.log("Form 1 submitted successfully:", googleFormDataX);
-
-        await submitToGoogleForms({
-          url: "https://docs.google.com/forms/u/0/d/e/1FAIpQLSdnXoIhHymASG9yfasIBmk6bYtF4g3cT3tgg6_tIuGIvVvJEA/formResponse",
-          data: googleFormDataY,
-        });
-
-        console.log("Form 2 submitted successfully:", googleFormDataY);
-
-        loadingEnvioDados.innerText = "Dados enviados com sucesso"
-
-        alert("Enviado com sucesso");
-
-        window.location.replace(window.location.href);
-        
-      } catch (err) {
-        console.error("Submission error:", err);
-        alert("Failed to submit the form.");
-      }
-    });
-
-</script>
 </body>
 </html>
