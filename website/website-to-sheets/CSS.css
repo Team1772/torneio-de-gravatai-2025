@@ -222,10 +222,12 @@ body {
       padding: 7px 10px 7px 10px;
       border-radius: 10px;
       font-size: 1.2rem;
+      transition: .1s ease-in-out;
     }
 
     .menos-material:active {
       transform: scale(1.3);
+      transition: .1s ease-in-out;
     }
 
     .mais-material-vermelho{
@@ -236,6 +238,7 @@ body {
       padding: 10px 14px 10px 14px;
       border-radius: 10px;
       font-size: 1.5rem;
+      transition: .1s ease-in-out;
     }
 
     .mais-material-vermelho:active {
@@ -253,6 +256,7 @@ body {
       padding: 10px 14px 10px 14px;
       border-radius: 10px;
       font-size: 1.5rem;
+      transition: .1s ease-in-out;
     }
 
     .mais-material-azul:active {
