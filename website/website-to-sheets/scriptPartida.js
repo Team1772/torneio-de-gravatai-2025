@@ -29,7 +29,7 @@ import {carregarSheetData} from "../sheets-to-website/sheetUtils.js"
       jogosAgrupados[num].equipes.push(jogo.equipe)
     })
   
-    if (nomeJuiz != undefined) {
+    if (nomeJuiz != undefined && nomeJuiz != "Selecione o juiz") {
       jogosAgrupados = jogosAgrupados.filter(jogo => jogo.juiz == nomeJuiz);
     }
 
