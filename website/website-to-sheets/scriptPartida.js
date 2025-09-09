@@ -451,6 +451,10 @@ function atualizarTotais() {
         "entry.716767655": nomeTimeX, //nome time
         "entry.1061580246": pontosIndividuaisX, // pontos individuais
         "entry.1383902084": pontosCoop, // pontos coop
+        "entry.419185435" : pontosN1X, //n1
+        "entry.1906481613" : pontosN2X, //n2
+        "entry.1224200259" : pontosN3X, //n3
+        "entry.2036116284" : pontosMovX //mov
       };
 
       const googleFormDataY = {
@@ -458,6 +462,10 @@ function atualizarTotais() {
         "entry.716767655": nomeTimeY, //nome time
         "entry.1061580246": pontosIndividuaisY, // pontos individuais
         "entry.1383902084"  : pontosCoop, // pontos coop
+        "entry.419185435" : pontosN1Y, //n1
+        "entry.1906481613" : pontosN2Y, //n2
+        "entry.1224200259" : pontosN3Y, //n3
+        "entry.2036116284" : pontosMovY //mov
       };
 
       console.log(`
