@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Games Schedule</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 20px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    #titulo {
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+
+    #ultima-atualizacao {
+      font-weight: bold;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background: #f2f2f2;
+    }
+
+    .completo {
+      background-color: #c8e6c9; /* verde claro */
+    }
+
+    .ok {
+      background-color: #eeeeee; /* cinza claro */
+    }
+
+    .proximo-jogo {
+      background-color: #fff59d; /* amarelo chamativo */
+      font-weight: bold;
+    }
+
+    .entrar-fila {
+      background-color: #fffde7; /* amarelo claro/fraco */
+    }
+
+    .time-destacado {
+      border: 2px solid #ff5722; /* borda laranja */
+    }
+
+    #pesquisa-time {
+      width: 33%;
+      padding: 5px;
+      font-size: 1rem;
+    }
+
+        /* Media queries para celular */
+    @media (max-width: 600px) {
+      #titulo {
+        font-size: 1em;
+      }
+      th, td {
+        font-size: 0.8em;
+        padding: 2px;
+      }
+      .header {
+        gap: 2px;
+      }
+
+      body {
+        font-family: sans-serif;
+        margin: 10px;
+      }
+
+      #pesquisa-time {
+        width: 80%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div style="margin-bottom:10px;">
+    Pesquisar time: <input type="text" id="pesquisa-time" placeholder="Digite o nome do time">
+  </div>
+
+  <div class="header">
+    <div id="titulo">Qualificatórias - Torneio de Robótica de Gravataí 2025</div>
+    <div id="ultima-atualizacao"></div>
+  </div>
+  <div>Atenção: Horário das partidas é uma estimativa, por isso os jogos podem estar atrasados</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Nº Jogo</th>
+        <th>Dia</th>
+        <th>Horário</th>
+        <th>Equipes</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody id="tabela-jogos"></tbody>
+  </table>
+
+  <script type="module">
+    import { carregarSheetData } from "../sheets-to-website/sheetUtils.js"
+
+    async function atualizarTabela() {
+      const agora = new Date()
+      const hh = String(agora.getHours()).padStart(2, '0')
+      const mm = String(agora.getMinutes()).padStart(2, '0')
+      const ss = String(agora.getSeconds()).padStart(2, '0')
+      document.getElementById('ultima-atualizacao').textContent = `Última atualização: ${hh}:${mm}:${ss}`
+
+      const data = await carregarSheetData("https://docs.google.com/spreadsheets/d/1Dj8gcfgJWh5a1rL2cCuoEopNH9XobLSv5wWIKrNVeo8/edit?gid=70923099#gid=70923099")
+      let jogosAgrupados = []
+      data.forEach(jogo => {
+        const num = jogo.numeroJogo
+        if (!jogosAgrupados[num]) {
+          jogosAgrupados[num] = { 
+            numeroJogo: num, 
+            dia: jogo.dia, 
+            horario: jogo.horario, 
+            equipes: [],
+            completo: false
+          }
+        }
+        jogosAgrupados[num].equipes.push(jogo.equipe)
+      })
+
+      const dataJogosJogados = await carregarSheetData("https://docs.google.com/spreadsheets/d/1Dj8gcfgJWh5a1rL2cCuoEopNH9XobLSv5wWIKrNVeo8/edit?gid=573412109#gid=573412109")
+      const jogosJogadosMap = {}
+      dataJogosJogados.forEach(item => {
+        const num = item["Número de jogo "];
+        if (!jogosJogadosMap[num]) jogosJogadosMap[num] = [];
+        jogosJogadosMap[num].push(item);
+      })
+
+      Object.values(jogosAgrupados).forEach(jogo => {
+        if (!jogo) return;
+        const num = jogo.numeroJogo;
+        if (jogosJogadosMap[num] && jogosJogadosMap[num].length >= 2) {
+          jogo.completo = true;
+          jogo.equipes = [
+            jogosJogadosMap[num][0]["Equipe "],
+            jogosJogadosMap[num][1]["Equipe "]
+          ];
+          jogo.pontosEquipe1 = jogosJogadosMap[num][0]["Pontos Individuais Equipe "];
+          jogo.pontosEquipe2 = jogosJogadosMap[num][1]["Pontos Individuais Equipe "];
+        }
+      })
+
+      const maiorJogoCompleto = Math.max(
+        ...jogosAgrupados.filter(j => j && j.completo).map(j => j.numeroJogo)
+      )
+
+      let proximosJogosIds = []
+      let entrarFilaIds = []
+
+      console.log(maiorJogoCompleto < 0)
+      if (maiorJogoCompleto < 0) {
+        proximosJogosIds.push(String(1))
+        entrarFilaIds.push(String(2))
+      } else if (maiorJogoCompleto < 3) {
+        proximosJogosIds.push(String(maiorJogoCompleto + 1))
+        entrarFilaIds.push(String(maiorJogoCompleto + 2))
+      } else {
+        proximosJogosIds.push(String(maiorJogoCompleto + 1))
+        proximosJogosIds.push(String(maiorJogoCompleto + 2))
+        entrarFilaIds.push(String(maiorJogoCompleto + 3))
+        entrarFilaIds.push(String(maiorJogoCompleto + 4))
+        entrarFilaIds.push(String(maiorJogoCompleto + 5))
+        entrarFilaIds.push(String(maiorJogoCompleto + 6))
+      }
+
+      const tbody = document.getElementById("tabela-jogos")
+      tbody.innerHTML = ""
+      jogosAgrupados.forEach(jogo => {
+        if (!jogo) return
+        let classe = "ok"
+        let status = "Pendente"
+
+        if (jogo.completo) {
+          classe = "completo"
+          status = `Completo (Resultado)`
+        } else if (proximosJogosIds.includes(jogo.numeroJogo)) {
+          classe = "proximo-jogo";
+          status = "Próximo jogo"
+        } else if (entrarFilaIds.includes(jogo.numeroJogo)) {
+          classe = "entrar-fila";
+          status = "Entrar na fila"
+        }  else {
+          classe = "ok";
+          status = "Pendente";
+        }
+
+
+        const tr = document.createElement("tr")
+        tr.className = classe
+        tr.innerHTML = `
+          <td>${jogo.numeroJogo}</td>
+          <td>${jogo.dia}</td>
+          <td>${jogo.horario}</td>
+          <td>${jogo.equipes.join(" x ")}</td>
+          <td>${status}</td>
+        `
+        tbody.appendChild(tr)
+      })
+
+      const inputPesquisa = document.getElementById("pesquisa-time")
+      if (inputPesquisa) {
+        const valor = inputPesquisa.value.toLowerCase();
+        document.querySelectorAll("#tabela-jogos tr").forEach(tr => {
+          tr.classList.remove("time-destacado");
+          const equipes = tr.children[3]?.textContent.toLowerCase() || "";
+          if (equipes.includes(valor) && valor !== "") {
+            tr.classList.add("time-destacado");
+          }
+        });
+      }
+    }
+
+    // Atualiza a tabela imediatamente e depois a cada 30s
+    atualizarTabela()
+    setInterval(atualizarTabela, 30000)
+
+    const inputPesquisa = document.getElementById("pesquisa-time")
+    if (inputPesquisa) {
+      inputPesquisa.addEventListener("input", () => atualizarTabela())
+    }
+  </script>
+</body>
+</html>
