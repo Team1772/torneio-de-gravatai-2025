@@ -57,15 +57,51 @@
     .entrar-fila {
       background-color: #fffde7; /* amarelo claro/fraco */
     }
+
+    .time-destacado {
+      border: 2px solid #ff5722; /* borda laranja */
+    }
+
+    #pesquisa-time {
+      width: 33%;
+      padding: 5px;
+      font-size: 1rem;
+    }
+
+        /* Media queries para celular */
+    @media (max-width: 600px) {
+      #titulo {
+        font-size: 1em;
+      }
+      th, td {
+        font-size: 0.8em;
+        padding: 2px;
+      }
+      .header {
+        gap: 2px;
+      }
+
+      body {
+        font-family: sans-serif;
+        margin: 10px;
+      }
+
+      #pesquisa-time {
+        width: 80%;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <div class="header">
-    <div id="titulo">Partidas jogadas Torneio de Robótica de Gravataí 2025</div>
-    <div id="ultima-atualizacao"></div>
+  <div style="margin-bottom:10px;">
+    Pesquisar time: <input type="text" id="pesquisa-time" placeholder="Digite o nome do time">
   </div>
 
+  <div class="header">
+    <div id="titulo">Qualificatórias - Torneio de Robótica de Gravataí 2025</div>
+    <div id="ultima-atualizacao"></div>
+  </div>
   <table>
     <thead>
       <tr>
@@ -183,11 +219,28 @@
         `
         tbody.appendChild(tr)
       })
+
+      const inputPesquisa = document.getElementById("pesquisa-time")
+      if (inputPesquisa) {
+        const valor = inputPesquisa.value.toLowerCase();
+        document.querySelectorAll("#tabela-jogos tr").forEach(tr => {
+          tr.classList.remove("time-destacado");
+          const equipes = tr.children[3]?.textContent.toLowerCase() || "";
+          if (equipes.includes(valor) && valor !== "") {
+            tr.classList.add("time-destacado");
+          }
+        });
+      }
     }
 
     // Atualiza a tabela imediatamente e depois a cada 30s
     atualizarTabela()
     setInterval(atualizarTabela, 30000)
+
+    const inputPesquisa = document.getElementById("pesquisa-time")
+    if (inputPesquisa) {
+      inputPesquisa.addEventListener("input", () => atualizarTabela())
+    }
   </script>
 </body>
 </html>
