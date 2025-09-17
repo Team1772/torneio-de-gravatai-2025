@@ -48,6 +48,15 @@
     .ok {
       background-color: #eeeeee; /* cinza claro */
     }
+
+    .proximo-jogo {
+      background-color: #fff59d; /* amarelo chamativo */
+      font-weight: bold;
+    }
+
+    .entrar-fila {
+      background-color: #fffde7; /* amarelo claro/fraco */
+    }
   </style>
 </head>
 <body>
@@ -72,17 +81,13 @@
 
   <script type="module">
     import { carregarSheetData } from "../sheets-to-website/sheetUtils.js"
-  
-    function atualizarHorario() {
+
+    async function atualizarTabela() {
       const agora = new Date()
       const hh = String(agora.getHours()).padStart(2, '0')
       const mm = String(agora.getMinutes()).padStart(2, '0')
       const ss = String(agora.getSeconds()).padStart(2, '0')
       document.getElementById('ultima-atualizacao').textContent = `Última atualização: ${hh}:${mm}:${ss}`
-    }
-  
-    async function atualizarTabela() {
-      atualizarHorario()
 
       const data = await carregarSheetData("https://docs.google.com/spreadsheets/d/1Dj8gcfgJWh5a1rL2cCuoEopNH9XobLSv5wWIKrNVeo8/edit?gid=70923099#gid=70923099")
       let jogosAgrupados = []
@@ -99,16 +104,15 @@
         }
         jogosAgrupados[num].equipes.push(jogo.equipe)
       })
-  
-      const dataJogosJogados = await carregarSheetData("https://docs.google.com/spreadsheets/d/1Dj8gcfgJWh5a1rL2cCuoEopNH9XobLSv5wWIKrNVeo8/edit?gid=573412109#gid=573412109");
-  
-      const jogosJogadosMap = {};
+
+      const dataJogosJogados = await carregarSheetData("https://docs.google.com/spreadsheets/d/1Dj8gcfgJWh5a1rL2cCuoEopNH9XobLSv5wWIKrNVeo8/edit?gid=573412109#gid=573412109")
+      const jogosJogadosMap = {}
       dataJogosJogados.forEach(item => {
         const num = item["Número de jogo "];
         if (!jogosJogadosMap[num]) jogosJogadosMap[num] = [];
         jogosJogadosMap[num].push(item);
-      });
-  
+      })
+
       Object.values(jogosAgrupados).forEach(jogo => {
         if (!jogo) return;
         const num = jogo.numeroJogo;
@@ -121,13 +125,53 @@
           jogo.pontosEquipe1 = jogosJogadosMap[num][0]["Pontos Individuais Equipe "];
           jogo.pontosEquipe2 = jogosJogadosMap[num][1]["Pontos Individuais Equipe "];
         }
-      });
-  
+      })
+
+      const maiorJogoCompleto = Math.max(
+        ...jogosAgrupados.filter(j => j && j.completo).map(j => j.numeroJogo)
+      )
+
+      let proximosJogosIds = []
+      let entrarFilaIds = []
+
+      console.log(maiorJogoCompleto < 0)
+      if (maiorJogoCompleto < 0) {
+        proximosJogosIds.push(String(1))
+        entrarFilaIds.push(String(2))
+      } else if (maiorJogoCompleto < 3) {
+        proximosJogosIds.push(String(maiorJogoCompleto + 1))
+        entrarFilaIds.push(String(maiorJogoCompleto + 2))
+      } else {
+        proximosJogosIds.push(String(maiorJogoCompleto + 1))
+        proximosJogosIds.push(String(maiorJogoCompleto + 2))
+        entrarFilaIds.push(String(maiorJogoCompleto + 3))
+        entrarFilaIds.push(String(maiorJogoCompleto + 4))
+        entrarFilaIds.push(String(maiorJogoCompleto + 5))
+        entrarFilaIds.push(String(maiorJogoCompleto + 6))
+      }
+
       const tbody = document.getElementById("tabela-jogos")
-      tbody.innerHTML = "";
+      tbody.innerHTML = ""
       jogosAgrupados.forEach(jogo => {
         if (!jogo) return
-        const classe = jogo.completo ? "completo" : "ok"
+        let classe = "ok"
+        let status = "Pendente"
+
+        if (jogo.completo) {
+          classe = "completo"
+          status = `Completo (Resultado)`
+        } else if (proximosJogosIds.includes(jogo.numeroJogo)) {
+          classe = "proximo-jogo";
+          status = "Próximo jogo"
+        } else if (entrarFilaIds.includes(jogo.numeroJogo)) {
+          classe = "entrar-fila";
+          status = "Entrar na fila"
+        }  else {
+          classe = "ok";
+          status = "Pendente";
+        }
+
+
         const tr = document.createElement("tr")
         tr.className = classe
         tr.innerHTML = `
@@ -135,14 +179,15 @@
           <td>${jogo.dia}</td>
           <td>${jogo.horario}</td>
           <td>${jogo.equipes.join(" x ")}</td>
-          <td>${jogo.completo ? `Completo (Resultado)` : "Pendente"}</td>
+          <td>${status}</td>
         `
         tbody.appendChild(tr)
       })
     }
-  
+
+    // Atualiza a tabela imediatamente e depois a cada 30s
     atualizarTabela()
     setInterval(atualizarTabela, 30000)
-  </script>  
+  </script>
 </body>
 </html>
