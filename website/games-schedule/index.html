@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Games Schedule</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 20px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    #titulo {
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+
+    #ultima-atualizacao {
+      font-weight: bold;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background: #f2f2f2;
+    }
+
+    .completo {
+      background-color: #c8e6c9; /* verde claro */
+    }
+
+    .ok {
+      background-color: #eeeeee; /* cinza claro */
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div id="titulo">Partidas jogadas Torneio de Robótica de Gravataí 2025</div>
+    <div id="ultima-atualizacao"></div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nº Jogo</th>
+        <th>Dia</th>
+        <th>Horário</th>
+        <th>Equipes</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody id="tabela-jogos"></tbody>
+  </table>
+
+  <script type="module">
+    import { carregarSheetData } from "../sheets-to-website/sheetUtils.js"
+  
+    function atualizarHorario() {
+      const agora = new Date()
+      const hh = String(agora.getHours()).padStart(2, '0')
+      const mm = String(agora.getMinutes()).padStart(2, '0')
+      const ss = String(agora.getSeconds()).padStart(2, '0')
+      document.getElementById('ultima-atualizacao').textContent = `Última atualização: ${hh}:${mm}:${ss}`
+    }
+  
+    async function atualizarTabela() {
+      atualizarHorario()
+
+      const data = await carregarSheetData("https://docs.google.com/spreadsheets/d/1Dj8gcfgJWh5a1rL2cCuoEopNH9XobLSv5wWIKrNVeo8/edit?gid=70923099#gid=70923099")
+      let jogosAgrupados = []
+      data.forEach(jogo => {
+        const num = jogo.numeroJogo
+        if (!jogosAgrupados[num]) {
+          jogosAgrupados[num] = { 
+            numeroJogo: num, 
+            dia: jogo.dia, 
+            horario: jogo.horario, 
+            equipes: [],
+            completo: false
+          }
+        }
+        jogosAgrupados[num].equipes.push(jogo.equipe)
+      })
+  
+      const dataJogosJogados = await carregarSheetData("https://docs.google.com/spreadsheets/d/1Dj8gcfgJWh5a1rL2cCuoEopNH9XobLSv5wWIKrNVeo8/edit?gid=573412109#gid=573412109");
+  
+      const jogosJogadosMap = {};
+      dataJogosJogados.forEach(item => {
+        const num = item["Número de jogo "];
+        if (!jogosJogadosMap[num]) jogosJogadosMap[num] = [];
+        jogosJogadosMap[num].push(item);
+      });
+  
+      Object.values(jogosAgrupados).forEach(jogo => {
+        if (!jogo) return;
+        const num = jogo.numeroJogo;
+        if (jogosJogadosMap[num] && jogosJogadosMap[num].length >= 2) {
+          jogo.completo = true;
+          jogo.equipes = [
+            jogosJogadosMap[num][0]["Equipe "],
+            jogosJogadosMap[num][1]["Equipe "]
+          ];
+          jogo.pontosEquipe1 = jogosJogadosMap[num][0]["Pontos Individuais Equipe "];
+          jogo.pontosEquipe2 = jogosJogadosMap[num][1]["Pontos Individuais Equipe "];
+        }
+      });
+  
+      const tbody = document.getElementById("tabela-jogos")
+      tbody.innerHTML = "";
+      jogosAgrupados.forEach(jogo => {
+        if (!jogo) return
+        const classe = jogo.completo ? "completo" : "ok"
+        const tr = document.createElement("tr")
+        tr.className = classe
+        tr.innerHTML = `
+          <td>${jogo.numeroJogo}</td>
+          <td>${jogo.dia}</td>
+          <td>${jogo.horario}</td>
+          <td>${jogo.equipes.join(" x ")}</td>
+          <td>${jogo.completo ? `Completo (Resultado)` : "Pendente"}</td>
+        `
+        tbody.appendChild(tr)
+      })
+    }
+  
+    atualizarTabela()
+    setInterval(atualizarTabela, 30000)
+  </script>  
+</body>
+</html>
