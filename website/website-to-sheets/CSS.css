@@ -201,6 +201,13 @@ body {
       width: 100% !important;
     }
 
+    .texto-roxo-sem-quebra {
+      color: rgb(99, 10, 201);
+      font-weight: bolder;
+      font-size: 1.2rem;
+      width: 100% !important;
+    }
+
     .container-pontuacao-nivel-galpao {
       display: flex;
       flex-direction: row;
@@ -279,7 +286,7 @@ body {
     .column {
       display: flex;
       flex-direction: column;
-      width: 50%;
+      width: 100%;
     }
 
     .total-vermelho{
@@ -290,6 +297,12 @@ body {
 
     .total-azul{
       color: rgb(64, 35, 225);
+      font-size: 5rem;
+      font-weight: bolder;
+    }
+
+    .total-roxo{
+      color: rgb(99, 10, 201);
       font-size: 5rem;
       font-weight: bolder;
     }
