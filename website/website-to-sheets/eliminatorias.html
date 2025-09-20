@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PartidaEliminatoria</title>
+    <link rel="stylesheet" href="./CSS.css" >
+</head>
+<body>
+    <h1 id="titulo">Nova partida Eliminatória</h1>
+
+    <form id="myCustomForm">
+
+    <div class="container">
+
+    <label for="nomejuiz">Juiz:</label><br>
+    <select id="nomejuiz" name="nomejuiz" onchange="carregarPartidasJuiz()">
+      <option selected="selected" value="Selecione o juiz">Selecione o juiz</option>
+      <option value="Alpha">Alpha</option>
+      <option value="Beta">Beta</option>
+    </select>
+
+    <br> <br> <label for="proxjogo">Seu próximo jogo:</label><br>
+    <select id="proxjogo" name="proxjogo">
+      <option selected="selected" value="1">Selecione um jogo</option>
+    </select>
+
+    <br> <br> <label for="equipe1">Equipe 1: <span class="vermelho">Texto</span> </label><br>
+    <select id="equipe1" name="equipe1" onchange="atualizarNomeEquipe1()">
+      <option selected="selected" value="Selecione a equipe">Selecione a equipe</option>
+      <option value="Blaze Fox">Blaze Fox</option>
+      <option value="Brentani">Brentani</option>
+      <option value="Curiosity">Curiosity</option>
+      <option value="Damatrônic Robotics Team">Damatrônic Robotics Team</option>
+      <option value="Duque Maker">Duque Maker</option>
+      <option value="Electric Star Tech">Electric Star Tech</option>
+      <option value="Eletro Bots">Eletro Bots</option>
+      <option value="Eletrosceno SESI/SENAI Robotics">Eletrosceno SESI/SENAI Robotics</option>
+      <option value="Equipe EMEF Santa Ana">Equipe EMEF Santa Ana</option>
+      <option value="Error404">Error404</option>
+      <option value="Humanóides">Humanóides</option>
+      <option value="IFTronics">IFTronics</option>
+      <option value="Jovens Titãs">Jovens Titãs</option>
+      <option value="Lady Bots">Lady Bots</option>
+      <option value="Lego Monsters">Lego Monsters</option>
+      <option value="Masterminds">Masterminds</option>
+      <option value="Meca Taygers">Meca Taygers</option>
+      <option value="MegaRobert">MegaRobert</option>
+      <option value="Mesquitech">Mesquitech</option>
+      <option value="Os Tubarões Robóticos">Os Tubarões Robóticos</option>
+      <option value="Pasqual Maker I">Pasqual Maker I</option>
+      <option value="Pasqual Maker II">Pasqual Maker II</option>
+      <option value="Robotic Rooster">Robotic Rooster</option>
+      <option value="Robotics Makers">Robotics Makers</option>
+      <option value="Robotclub">Robotclub</option>
+      <option value="Rust">Rust</option>
+      <option value="Samurais de Lego">Samurais de Lego</option>
+      <option value="Só Gambriarras">Só Gambriarras</option>
+      <option value="SPARK">SPARK</option>
+      <option value="Tech Hunters">Tech Hunters</option>
+      <option value="Tech Panteras">Tech Panteras</option>
+      <option value="Technoibots">Technoibots</option>
+      <option value="The Phoenix">The Phoenix</option>
+      <option value="Titãs">Titãs</option>
+      <option value="Triplo A">Triplo A</option>
+      <option value="Vórtex">Vórtex</option>
+    </select>
+
+    <br> <br> <label for="equipe2">Equipe 2: <span class="azul">Texto</span> </label><br>
+    <select id="equipe2" name="equipe2" onchange="atualizarNomeEquipe2()">
+      <option selected="selected" value="Selecione a equipe">Selecione a equipe</option>
+      <option value="Blaze Fox">Blaze Fox</option>
+      <option value="Brentani">Brentani</option>
+      <option value="Curiosity">Curiosity</option>
+      <option value="Damatrônic Robotics Team">Damatrônic Robotics Team</option>
+      <option value="Duque Maker">Duque Maker</option>
+      <option value="Electric Star Tech">Electric Star Tech</option>
+      <option value="Eletro Bots">Eletro Bots</option>
+      <option value="Eletrosceno SESI/SENAI Robotics">Eletrosceno SESI/SENAI Robotics</option>
+      <option value="Equipe EMEF Santa Ana">Equipe EMEF Santa Ana</option>
+      <option value="Error404">Error404</option>
+      <option value="Humanóides">Humanóides</option>
+      <option value="IFTronics">IFTronics</option>
+      <option value="Jovens Titãs">Jovens Titãs</option>
+      <option value="Lady Bots">Lady Bots</option>
+      <option value="Lego Monsters">Lego Monsters</option>
+      <option value="Masterminds">Masterminds</option>
+      <option value="Meca Taygers">Meca Taygers</option>
+      <option value="MegaRobert">MegaRobert</option>
+      <option value="Mesquitech">Mesquitech</option>
+      <option value="Os Tubarões Robóticos">Os Tubarões Robóticos</option>
+      <option value="Pasqual Maker I">Pasqual Maker I</option>
+      <option value="Pasqual Maker II">Pasqual Maker II</option>
+      <option value="Robotic Rooster">Robotic Rooster</option>
+      <option value="Robotics Makers">Robotics Makers</option>
+      <option value="Robotclub">Robotclub</option>
+      <option value="Rust">Rust</option>
+      <option value="Samurais de Lego">Samurais de Lego</option>
+      <option value="Só Gambriarras">Só Gambriarras</option>
+      <option value="SPARK">SPARK</option>
+      <option value="Tech Hunters">Tech Hunters</option>
+      <option value="Tech Panteras">Tech Panteras</option>
+      <option value="Technoibots">Technoibots</option>
+      <option value="The Phoenix">The Phoenix</option>
+      <option value="Titãs">Titãs</option>
+      <option value="Triplo A">Triplo A</option>
+      <option value="Vórtex">Vórtex</option>
+    </select>
+  
+  </div>
+
+  <div class="container2">
+
+    <h2 id="titulo2">Pontuação da partida</h2>
+    <div class="topo-container-2">
+      <span class="texto-vermelho equipe1texto"></span>
+      <span class="texto-azul equipe2texto""></span>
+    </div>
+    <hr>
+
+    <article class="container-pontuacao-nivel-galpao">
+      <button class="menos-material" type="button" onclick="sub_materias_n3_x()"> -1</button>
+      <span class="count-material texto-vermelho" id="span_count_n3_x">0</span>
+      <button class="mais-material-vermelho" type="button" onclick="add_materias_n3_x()"> +1</button>
+      <span class="tipo-nivel">N3</span>
+      <button class="mais-material-azul" type="button" onclick="add_materias_n3_y()">+1</button>
+      <span class="count-material texto-azul" id="span_count_n3_y">0</span>
+      <button class="menos-material" type="button" onclick="sub_materias_n3_y()">-1</button>
+    </article>
+
+    <article class="container-pontuacao-nivel-galpao">
+      <button class="menos-material" type="button" onclick="sub_materias_n2_x()"> -1</button>
+      <span class="count-material texto-vermelho" id="span_count_n2_x">0</span>
+      <button class="mais-material-vermelho" type="button" onclick="add_materias_n2_x()"> +1</button>
+      <span class="tipo-nivel">N2</span>
+      <button class="mais-material-azul" type="button" onclick="add_materias_n2_y()">+1</button>
+      <span class="count-material texto-azul" id="span_count_n2_y">0</span>
+      <button class="menos-material" type="button" onclick="sub_materias_n2_y()">-1</button>
+    </article>
+
+    <article class="container-pontuacao-nivel-galpao">
+      <button class="menos-material" type="button" onclick="sub_materias_n1_x()"> -1</button>
+      <span class="count-material texto-vermelho" id="span_count_n1_x">0</span>
+      <button class="mais-material-vermelho" type="button" onclick="add_materias_n1_x()"> +1</button>
+      <span class="tipo-nivel">N1</span>
+      <button class="mais-material-azul" type="button" onclick="add_materias_n1_y()">+1</button>
+      <span class="count-material texto-azul" id="span_count_n1_y">0</span>
+      <button class="menos-material" type="button" onclick="sub_materias_n1_y()">-1</button>
+    </article>
+
+    <article class="container-pontuacao-nivel-galpao">
+      <button class="menos-material" type="button" onclick="sub_materias_mov_x()"> -1</button>
+      <span class="count-material texto-vermelho" id="span_count_mov_x">0</span>
+      <button class="mais-material-vermelho" type="button" onclick="add_materias_mov_x()"> +1</button>
+      <span class="tipo-nivel">MV</span>
+      <button class="mais-material-azul" type="button" onclick="add_materias_mov_y()">+1</button>
+      <span class="count-material texto-azul" id="span_count_mov_y">0</span>
+      <button class="menos-material" type="button" onclick="sub_materias_mov_y()">-1</button>
+    </article>
+
+    <article class="resultados-individual">
+      <div class="texto-vermelho">
+        <span class="pts" id="span_result_n3_x">0</span> <span class="pts">+</span>
+        <span class="pts" id="span_result_n2_x">0</span> <span class="pts">+</span>
+        <span class="pts" id="span_result_n1_x">0</span> <span class="pts">+</span>
+        <span class="pts" id="span_result_mov_x">0</span>
+      </div>
+      <div class="texto-azul">
+        <span class="pts" id="span_result_n3_y">0</span> <span class="pts">+</span>
+        <span class="pts" id="span_result_n2_y">0</span> <span class="pts">+</span>
+        <span class="pts" id="span_result_n1_y">0</span> <span class="pts">+</span>
+        <span class="pts" id="span_result_mov_y">0</span>
+      </div>
+    </article>
+
+    <h3>Fundação</h3>
+    <select id=pontosCoopFundacao name="pontosCoopFundacao" onchange="atualizarPontosFundacaoCoop()">
+      <option value="0">0pts - Fundações não estão na mesma zona de construção</option>
+      <option value="5">5pts - Fundações na mesma zona de construção</option>
+      <option value="15">15pts - Fundações empilhadas</option>
+    </select>
+
+  </div>
+
+  <div class="container3">
+    <h2 id="titulo4">Cooperação</h2>
+    <p>Cooperação N1: <span id="coop_n1">0</span> pts</p>
+    <p>Cooperação N2: <span id="coop_n2">0</span> pts</p>
+    <p>Cooperação N3: <span id="coop_n3">0</span> pts</p>
+    <p>Cooperação fundação: <span id="coop_fundacao">0</span> pts</p>
+    <p>Cooperação materiais armazenados: <span id="coop_todos_materiais">0</span> pts</p>
+    <p><strong>Total cooperação:</strong> <span id="coop_total">0</span> pts</p><br>
+  </div>
+  
+    <div class="container4">
+
+    <span id="loadingEnvioDados"></span>
+    <div class="column">
+      <span id="total-roxo" class="total-roxo" onchange>0</span>
+      <span class="texto-roxo-sem-quebra equipetexto"> equipe</span>
+    </div>
+  </div>
+  <br>
+  <button id="sub" type="submit">Finalizar partida</button>
+  <br> 
+  </form>
+
+</body>
+</html>
