@@ -25,6 +25,11 @@
       <option selected="selected" value="1">Selecione um jogo</option>
     </select>
 
+    <br> <br> <label for="escolhaalianca">Escolha a aliança:</label><br>
+    <select id="escolhaalianca" name="escolhaalianca">
+      <option selected="selected" value="selectalianca">Selecione a aliança</option>
+    </select>
+
     <br> <br> <label for="equipe1">Equipe 1: <span class="vermelho">Texto</span> </label><br>
     <select id="equipe1" name="equipe1" onchange="atualizarNomeEquipe1()">
       <option selected="selected" value="Selecione a equipe">Selecione a equipe</option>
@@ -114,7 +119,7 @@
     <h2 id="titulo2">Pontuação da partida</h2>
     <div class="topo-container-2">
       <span class="texto-vermelho equipe1texto"></span>
-      <span class="texto-azul equipe2texto""></span>
+      <span class="texto-azul equipe2texto"></span>
     </div>
     <hr>
 
@@ -196,8 +201,8 @@
 
     <span id="loadingEnvioDados"></span>
     <div class="column">
-      <span id="total-roxo" class="total-roxo" onchange>0</span>
-      <span class="texto-roxo-sem-quebra equipetexto"> equipe </span>
+      <span id="total-roxo" class="total-roxo">0</span>
+      <span id="equipetexto" class="texto-roxo-sem-quebra equipetexto"> equipe</span>
     </div>
   </div>
   <br>
