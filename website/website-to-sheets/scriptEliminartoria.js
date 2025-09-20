@@ -408,14 +408,14 @@ function atualizarTotais() {
   const coop_fundacao = parseInt(document.getElementById("pontosCoopFundacao").value);
   const coop_todos_materiais = parseInt(document.getElementById("coop_todos_materiais").textContent);
 
-  const coop_total_x = (coop_n1 > 0 ? 5 : 0) + (coop_n2 > 0 ? 5 : 0) + (coop_n3 > 0 ? 5 : 0) + coop_fundacao + coop_todos_materiais;
-  const coop_total_y = coop_total_x;
+  const coop_total = (coop_n1 > 0 ? 5 : 0) + (coop_n2 > 0 ? 5 : 0) + (coop_n3 > 0 ? 5 : 0) + coop_fundacao + coop_todos_materiais;
 
-  const total_x = n1_x + n2_x + n3_x + mov_x + coop_total_x;
-  const total_y = n1_y + n2_y + n3_y + mov_y + coop_total_y;
+  const total_x = n1_x + n2_x + n3_x + mov_x ;
+  const total_y = n1_y + n2_y + n3_y + mov_y ;
 
-  document.getElementById("total-vermelho").textContent = total_x;
-  document.getElementById("total-azul").textContent = total_y;
+  const total_alianca = total_x + total_y + coop_total ;
+
+  document.getElementById("total-roxo").textContent = total_alianca ;
 }
 
   document
@@ -446,6 +446,9 @@ function atualizarTotais() {
       const coop_todos_materiais = parseInt(document.getElementById("coop_todos_materiais").textContent);
 
       const pontosCoop = coopN1 + coopN2 + coopN3 + coop_fundacao + coop_todos_materiais;
+
+      const pontosAlianca = pontosIndividuaisX + pontosIndividuaisY + pontosCoop ;
+
 
       const googleFormDataX = {
         "entry.1589049360": numJogo, //numero jogo
