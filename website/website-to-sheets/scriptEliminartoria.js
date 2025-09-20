@@ -408,14 +408,14 @@ function atualizarTotais() {
   const coop_fundacao = parseInt(document.getElementById("pontosCoopFundacao").value);
   const coop_todos_materiais = parseInt(document.getElementById("coop_todos_materiais").textContent);
 
-  const coop_total_x = (coop_n1 > 0 ? 5 : 0) + (coop_n2 > 0 ? 5 : 0) + (coop_n3 > 0 ? 5 : 0) + coop_fundacao + coop_todos_materiais;
-  const coop_total_y = coop_total_x;
+  const coop_total = (coop_n1 > 0 ? 5 : 0) + (coop_n2 > 0 ? 5 : 0) + (coop_n3 > 0 ? 5 : 0) + coop_fundacao + coop_todos_materiais;
 
-  const total_x = n1_x + n2_x + n3_x + mov_x + coop_total_x;
-  const total_y = n1_y + n2_y + n3_y + mov_y + coop_total_y;
+  const total_x = n1_x + n2_x + n3_x + mov_x ;
+  const total_y = n1_y + n2_y + n3_y + mov_y ;
 
-  document.getElementById("total-vermelho").textContent = total_x;
-  document.getElementById("total-azul").textContent = total_y;
+  const total_alianca = total_x + total_y + coop_total ;
+
+  document.getElementById("total-roxo").textContent = total_alianca ;
 }
 
   document
@@ -447,61 +447,38 @@ function atualizarTotais() {
 
       const pontosCoop = coopN1 + coopN2 + coopN3 + coop_fundacao + coop_todos_materiais;
 
-      const googleFormDataX = {
-        "entry.1589049360": numJogo, //numero jogo
-        "entry.716767655": nomeTimeX, //nome time
-        "entry.1061580246": pontosIndividuaisX, // pontos individuais
-        "entry.1383902084": pontosCoop, // pontos coop
-        "entry.419185435" : pontosN1X, //n1
-        "entry.1906481613" : pontosN2X, //n2
-        "entry.1224200259" : pontosN3X, //n3
-        "entry.2036116284" : pontosMovX //mov
+      const pontosAlianca = pontosIndividuaisX + pontosIndividuaisY + pontosCoop ;
+      
+      const numAlianca = "kkakkiiejej"
+      const equipe_1 = "ksjdu"
+      const equipe_2 = "kfdjjej"
+
+      const googleFormDataAlianca = {
+        "entry.1589049360": numJogo,
+        "entry.716767655": numAlianca, 
+        "entry.86012266": equipe_1,
+        "entry.866820261": equipe_2,
+        "entry.1061580246": pontosAlianca, //pontos da aliança
+        "entry.1218931186": pontosN1X, //n1 eq 1
+        "entry.262617962": pontosN1Y, // n1 eq 2
+        "entry.1369711065": pontosN2X, // n2 eq 1
+        "entry.2082449627" : pontosN2Y, //n2 eq 2
+        "entry.1968677865" : pontosN3X, //n3 eq 1
+        "entry.573368645" : pontosN3Y, //n3 eq 2
+        "entry.78480603" : pontosMovX, //mov eq 1
+        "entry.462795434" : pontosMovY, //mov eq 2
       };
-
-      const googleFormDataY = {
-        "entry.1589049360": numJogo, //numero jogo
-        "entry.716767655": nomeTimeY, //nome time
-        "entry.1061580246": pontosIndividuaisY, // pontos individuais
-        "entry.1383902084"  : pontosCoop, // pontos coop
-        "entry.419185435" : pontosN1Y, //n1
-        "entry.1906481613" : pontosN2Y, //n2
-        "entry.1224200259" : pontosN3Y, //n3
-        "entry.2036116284" : pontosMovY //mov
-      };
-
-      console.log(`
-      n1x - ${pontosN1X}
-      n2x - ${pontosN2X}
-      n3x - ${pontosN3X}
-      movx - ${pontosMovX}
-      coop - ${pontosCoop}
-      `)
-
-      console.log(`
-      n1x - ${pontosN1Y}
-      n2x - ${pontosN2Y}
-      n3x - ${pontosN3Y}
-      movx - ${pontosMovY}
-      coop - ${pontosCoop}
-      `)
-
+      
       const loadingEnvioDados = document.getElementById("loadingEnvioDados")
       loadingEnvioDados.innerText = "Enviando dados..."
 
       try {
         await submitToGoogleForms({
-          url: "https://docs.google.com/forms/u/0/d/e/1FAIpQLSdnXoIhHymASG9yfasIBmk6bYtF4g3cT3tgg6_tIuGIvVvJEA/formResponse",
-          data: googleFormDataX,
+          url: "https://docs.google.com/forms/u/0/d/e/1FAIpQLSei5WyhMRGNGq7hHhMgZaM6LNTF24VDYT_wVRMZ1M6HmPa2rQ/formResponse",
+          data: googleFormDataAlianca,
         });
 
-        console.log("Form 1 submitted successfully:", googleFormDataX);
-
-        await submitToGoogleForms({
-          url: "https://docs.google.com/forms/u/0/d/e/1FAIpQLSdnXoIhHymASG9yfasIBmk6bYtF4g3cT3tgg6_tIuGIvVvJEA/formResponse",
-          data: googleFormDataY,
-        });
-
-        console.log("Form 2 submitted successfully:", googleFormDataY);
+        console.log("Form 1 submitted successfully:", googleFormDataAlianca);
 
         loadingEnvioDados.innerText = "Dados enviados com sucesso"
 
