@@ -1,17 +1,21 @@
   import { submitToGoogleForms } from "./googleFormsSubmit.js";
   import {carregarSheetData} from "../sheets-to-website/sheetUtils.js"
+  import { autenticar } from "../utils/autenticacao.js"
+
     const valor_n1 = 2;
     const valor_n2 = 3;
     const valor_n3 = 4;
     const valor_mov = 1;
   
+    const correctHash = "82f9da246586a6360777328042cd05f674e5da8943c5aabf42f643352fc8a39a"
+
     window.onload = async function() {
-      await carregarDadosPartidasEliminatorias()
-  
-      atualizarNomeEquipe1()
-      atualizarNomeEquipe2()
+      await autenticar(correctHash, async () => {
+        await carregarDadosPartidasQualificatórias()
+        atualizarNomeEquipe1()
+        atualizarNomeEquipe2()
+      })
     }
-  
   
     async function carregarDadosPartidasEliminatorias(nomeJuiz) {
       const data = await carregarSheetData("https://docs.google.com/spreadsheets/d/1Dj8gcfgJWh5a1rL2cCuoEopNH9XobLSv5wWIKrNVeo8/edit?gid=915910798#gid=915910798")    
