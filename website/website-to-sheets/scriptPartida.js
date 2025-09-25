@@ -5,13 +5,28 @@ import {carregarSheetData} from "../sheets-to-website/sheetUtils.js"
   const valor_n3 = 4;
   const valor_mov = 1;
 
-  window.onload = async function() {
-    await carregarDadosPartidasQualificatórias()
-
-    atualizarNomeEquipe1()
-    atualizarNomeEquipe2()
+  async function sha256(text) {
+    const encoder = new TextEncoder()
+    const data = encoder.encode(text)
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data)
+    const hashArray = Array.from(new Uint8Array(hashBuffer))
+    return hashArray.map(b => b.toString(16).padStart(2, "0")).join("")
   }
 
+  window.onload = async function() {
+    const passkey = prompt("Digite a senha de acesso:")
+    const hashedPasskey = await sha256(passkey)
+
+    const correctHash = "82f9da246586a6360777328042cd05f674e5da8943c5aabf42f643352fc8a39a"
+
+    if (hashedPasskey === correctHash) {
+      await carregarDadosPartidasQualificatórias()
+      atualizarNomeEquipe1()
+      atualizarNomeEquipe2()
+    } else {
+      document.body.innerHTML = "<h1>Acesso negado</h1>"
+    }
+  }
 
   async function carregarDadosPartidasQualificatórias(nomeJuiz) {
     const data = await carregarSheetData("https://docs.google.com/spreadsheets/d/1Dj8gcfgJWh5a1rL2cCuoEopNH9XobLSv5wWIKrNVeo8/edit?gid=70923099#gid=70923099")
