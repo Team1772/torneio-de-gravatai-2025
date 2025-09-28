@@ -17,19 +17,180 @@
         }
 
         .score-card {
-            border-radius: 1.2rem;
-            padding: 2.5rem 1.25rem 2rem;
+            --grad-angle: 135deg;
+            border-radius: 1.4rem;
+            padding: 1.75rem 1.5rem 1.4rem;
             color: #fff;
             position: relative;
             overflow: hidden;
+            background: #222;
+            display: flex;
+            flex-direction: column;
+            min-height: 420px;
+            box-shadow: 0 12px 22px -10px rgba(0, 0, 0, .35), 0 4px 8px -2px rgba(0, 0, 0, .25);
+            transition: transform .25s ease, box-shadow .25s ease;
+        }
+
+        .score-card:before,
+        .score-card:after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .score-card:before {
+            background: radial-gradient(circle at 75% 20%, rgba(255, 255, 255, .3), transparent 60%);
+            mix-blend-mode: overlay;
+            opacity: .35;
         }
 
         .score-card.red {
-            background: #cf2e40;
+            background: linear-gradient(var(--grad-angle), #e83b4e, #b91228 65%);
         }
 
         .score-card.blue {
-            background: #0066f3;
+            background: linear-gradient(var(--grad-angle), #1d74ff, #0043a8 65%);
+        }
+
+        .score-card.winner {
+            box-shadow: 0 0 0 3px #ffd54f, 0 0 0 6px rgba(255, 213, 79, .4), 0 18px 28px -8px rgba(0, 0, 0, .45);
+            transform: translateY(-4px);
+        }
+
+        .score-card .card-header-line {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: .75rem;
+            margin-bottom: .75rem;
+        }
+
+        /* Removido badge oficial */
+        .score-card .alliance-name {
+            font-size: 1.55rem;
+            font-weight: 700;
+            letter-spacing: .5px;
+            line-height: 1.15;
+        }
+
+        .score-value-wrapper {
+            display: flex;
+            align-items: flex-end;
+            gap: .75rem;
+            margin-bottom: .75rem;
+        }
+        .teams-inline { display:flex; flex-wrap:wrap; gap:.5rem .75rem; margin-top:.25rem; font-size:.7rem; letter-spacing:.5px; text-transform:uppercase; opacity:.85; }
+        .teams-inline .ti { background:rgba(255,255,255,.14); padding:.3rem .55rem .25rem; border-radius:.65rem; font-weight:600; }
+        @media (max-width: 576px){ .teams-inline{font-size:.6rem;} }
+
+        .score-value-shadow {
+            font-size: 5.6rem;
+            font-weight: 800;
+            line-height: .82;
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, .55));
+            position: relative;
+            text-align: center;
+            width: 100%;
+        }
+
+        .score-value-shadow small {
+            position: absolute;
+            bottom: 6px;
+            right: -14px;
+            font-size: .75rem;
+            opacity: .75;
+        }
+
+        .teams-wrapper {
+            margin-top: .5rem;
+            display: grid;
+            gap: .9rem;
+        }
+
+        .team-block {
+            background: rgba(255, 255, 255, .12);
+            padding: .65rem .75rem .55rem;
+            border-radius: .75rem;
+        }
+
+        .team-block h6 {
+            font-size: .85rem;
+            letter-spacing: .65px;
+            opacity: .9;
+            margin: 0 0 .35rem;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .metrics-mini {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+            gap: .35rem;
+        }
+
+        .metrics-mini .m {
+            background: rgba(255, 255, 255, .14);
+            border-radius: .55rem;
+            padding: .35rem .25rem;
+            text-align: center;
+        }
+
+        .metrics-mini .m span {
+            display: block;
+            font-size: .55rem;
+            letter-spacing: .5px;
+            opacity: .75;
+            text-transform: uppercase;
+        }
+
+        .metrics-mini .m strong {
+            font-size: .95rem;
+            font-weight: 600;
+        }
+
+        .coop-strip {
+            margin-top: .35rem;
+            font-size: .7rem;
+            letter-spacing: .5px;
+            text-transform: uppercase;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, .12);
+            padding: .45rem .6rem .4rem;
+            border-radius: .6rem;
+            gap: .75rem;
+        }
+
+        .coop-strip span.val {
+            font-size: .95rem;
+            font-weight: 700;
+            letter-spacing: .5px;
+        }
+
+        .coop-strip.has-coop {
+            background: linear-gradient(90deg, #ffb347, #ffcc33);
+            color: #3a2500;
+        }
+
+        /* bloco total aliança removido */
+        .pulse-highlight {
+            animation: pulseHL 1.2s ease;
+        }
+
+        @keyframes pulseHL {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, .0);
+            }
+
+            50% {
+                box-shadow: 0 0 0 6px rgba(255, 255, 255, .25);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+            }
         }
 
         .score-value {
@@ -105,16 +266,51 @@
         }
 
         @media (max-width: 992px) {
-            .score-value {
-                font-size: 3.75rem;
-            }
-
-            .team-name {
-                font-size: 1.6rem;
-            }
-
             .score-card {
-                padding: 2rem 1rem 1.5rem;
+                min-height: unset;
+                padding: 1.25rem 1rem 1.1rem;
+            }
+
+            .score-value-shadow {
+                font-size: 4.4rem;
+            }
+
+            .score-card .alliance-name {
+                font-size: 1.3rem;
+            }
+
+            .team-block h6 {
+                font-size: .75rem;
+            }
+
+            .metrics-mini .m strong {
+                font-size: .8rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .score-card {
+                padding: 1.1rem .75rem .85rem;
+            }
+
+            .score-value-shadow {
+                font-size: 3.6rem;
+            }
+
+            .score-card .alliance-name {
+                font-size: 1.15rem;
+            }
+
+            .teams-wrapper {
+                gap: .65rem;
+            }
+
+            .team-block h6 {
+                font-size: .7rem;
+            }
+
+            .metrics-mini {
+                grid-template-columns: repeat(auto-fit, minmax(44px, 1fr));
             }
         }
     </style>
@@ -137,16 +333,24 @@
         <div id="painelResultados" class="row g-4 align-items-stretch">
             <div class="col-12 col-lg-6">
                 <div class="score-card red h-100" id="cardVermelho">
-                    <div class="team-name mb-2" id="nomeEquipeVermelha">Equipe Vermelha</div>
-                    <div class="score-value mb-3" id="pontosVermelho">0</div>
-                    <div id="metricsVermelho"></div>
+                    <div class="card-header-line">
+                        <div class="alliance-name" id="nomeEquipeVermelha">Aliança Vermelha</div>
+                    </div>
+                    <div class="score-value-wrapper">
+                        <div class="score-value-shadow" id="pontosVermelho">0</div>
+                    </div>
+                    <div id="metricsVermelho" class="flex-grow-1 d-flex flex-column"></div>
                 </div>
             </div>
             <div class="col-12 col-lg-6">
                 <div class="score-card blue h-100" id="cardAzul">
-                    <div class="team-name mb-2" id="nomeEquipeAzul">Equipe Azul</div>
-                    <div class="score-value mb-3" id="pontosAzul">0</div>
-                    <div id="metricsAzul"></div>
+                    <div class="card-header-line">
+                        <div class="alliance-name" id="nomeEquipeAzul">Aliança Azul</div>
+                    </div>
+                    <div class="score-value-wrapper">
+                        <div class="score-value-shadow" id="pontosAzul">0</div>
+                    </div>
+                    <div id="metricsAzul" class="flex-grow-1 d-flex flex-column"></div>
                 </div>
             </div>
         </div>
@@ -155,25 +359,13 @@
     <script type="module">
         import { carregarSheetData } from "../sheets-to-website/sheetUtils.js";
 
-        // URL da aba de eliminatórias (envios / estrutura operacional)
-        const URL_PLANILHA_ELIM = "https://docs.google.com/spreadsheets/d/1Dj8gcfgJWh5a1rL2cCuoEopNH9XobLSv5wWIKrNVeo8/edit?gid=915910798#gid=915910798";
-        // URL da aba de resultados oficiais (consolidados) fornecida
+        // URL única agora: resultados oficiais consolidados
         const URL_PLANILHA_RESULTADOS = "https://docs.google.com/spreadsheets/d/1Dj8gcfgJWh5a1rL2cCuoEopNH9XobLSv5wWIKrNVeo8/edit?gid=314140830#gid=314140830";
 
-        // Mapeamento de colunas (eliminatórias)
-        const COLUMN_MAPPING_ELIM = {
-            numeroJogo: 'Numero do jogo',
+        // Cabeçalhos canônicos usados para lookup flexível
+        const HEADERS = {
+            numero: 'Numero do jogo',
             alianca: 'Alianca',
-            equipe1: 'Equipe 1',
-            equipe2: 'Equipe 2',
-            pontosN1Equipe1: 'pontosN1equipe1',
-            pontosN2Equipe1: 'pontosN2equipe1',
-            pontosN3Equipe1: 'pontosN3equipe1',
-            pontosMovEquipe1: 'pontosMovEquipe1',
-            pontosN1Equipe2: 'pontosN1equipe2',
-            pontosN2Equipe2: 'pontosN2equipe2',
-            pontosN3Equipe2: 'pontosN3equipe2',
-            pontosMovEquipe2: 'pontosMovEquipe2',
             pontosAlianca: 'Pontos Alianca'
         };
 
@@ -195,9 +387,9 @@
         const btnBuscar = document.getElementById('btnBuscar');
         const statusMsg = document.getElementById('statusMsg');
 
-        let dadosElim = [];
         let dadosOficiais = [];
-        let matchesElim = []; // [{idMatch:'..', aliancaA:{}, aliancaB:{}, numeroJogo:'..', oficial:boolean}]
+        // Mapa: numero -> { numeroJogo, aliancaA, aliancaB, oficial:true }
+        let matchesPorNumero = {};
 
         // Renderização das métricas de uma aliança (duas equipes)
         function renderAllianceMetrics(containerId, aliancaObj) {
@@ -207,90 +399,166 @@
                 container.innerHTML = '<div class="text-light opacity-75">Aguardando adversário...</div>';
                 return;
             }
-            const { nomeAlianca, equipe1, equipe2 } = aliancaObj;
-            const header = document.createElement('div');
-            header.className = 'mb-2 fw-semibold';
-            header.textContent = nomeAlianca;
-            container.appendChild(header);
-            const lines = [
-                { grupo: 'Equipe 1', dados: equipe1 },
-                { grupo: 'Equipe 2', dados: equipe2 }
-            ];
-            lines.forEach(l => {
-                const title = document.createElement('div');
-                title.className = 'mt-2 small text-uppercase fw-semibold';
-                title.textContent = l.grupo + ': ' + (l.dados.nome || '');
-                container.appendChild(title);
-                const tbl = document.createElement('div');
-                tbl.className = 'mb-1';
-                ['N1', 'N2', 'N3', 'Mov', 'Total'].forEach(k => {
-                    const row = document.createElement('div');
-                    row.className = 'metric-row';
-                    const keyMap = { N1: 'pN1', N2: 'pN2', N3: 'pN3', Mov: 'pMov', Total: 'total' };
-                    row.innerHTML = `<span class="label">${k}:</span><span class="value">${(l.dados[keyMap[k]] ?? 0).toString().padStart(2, '0')}</span>`;
-                    tbl.appendChild(row);
+            const { equipe1, equipe2, pontosAlianca } = aliancaObj;
+            // Preenche nomes das equipes na faixa inline (fora das métricas)
+            const inlineId = containerId === 'metricsVermelho' ? 'equipesVermelho' : 'equipesAzul';
+            const inlineWrap = document.getElementById(inlineId);
+            if(inlineWrap){
+                inlineWrap.innerHTML = '';
+                [equipe1, equipe2].forEach((eq, idx) => {
+                    if(!eq) return; let nome = (eq.nome||'').trim();
+                    if(!nome){
+                        const formatoLinhaUnica = (equipe2.total===0 && equipe2.pN1===0 && equipe2.pN2===0 && equipe2.pN3===0 && equipe2.pMov===0);
+                        if(idx===0 && formatoLinhaUnica){
+                            nome = (aliancaObj.nomeAlianca||'Aliança');
+                        } else return;
+                    }
+                    const span = document.createElement('span');
+                    span.className = 'ti';
+                    span.textContent = nome;
+                    inlineWrap.appendChild(span);
                 });
-                container.appendChild(tbl);
+            }
+            const teamsWrapper = document.createElement('div');
+            teamsWrapper.className = 'teams-wrapper';
+            ;[
+                { dados: equipe1 },
+                { dados: equipe2 }
+            ].forEach(t => {
+                const block = document.createElement('div');
+                block.className = 'team-block';
+                const onlyName = (t.dados.nome || '').trim();
+                block.innerHTML = `<h6>${onlyName || ''}</h6>`;
+                const metrics = document.createElement('div');
+                metrics.className = 'metrics-mini';
+                const map = [
+                    { k: 'pN1', label: 'N1' },
+                    { k: 'pN2', label: 'N2' },
+                    { k: 'pN3', label: 'N3' },
+                    { k: 'pMov', label: 'Mov' },
+                    { k: 'total', label: 'Tot' }
+                ];
+                map.forEach(m => {
+                    const val = (t.dados[m.k] ?? 0);
+                    const div = document.createElement('div');
+                    div.className = 'm';
+                    div.innerHTML = `<span>${m.label}</span><strong>${val}</strong>`;
+                    metrics.appendChild(div);
+                });
+                block.appendChild(metrics);
+                teamsWrapper.appendChild(block);
             });
-            const totalAlianca = document.createElement('div');
-            totalAlianca.className = 'metric-row mt-2';
-            totalAlianca.innerHTML = '<span class="label">Pontos Aliança:</span><span class="value fw-semibold">' + (aliancaObj.pontosAlianca || 0) + '</span>';
-            container.appendChild(totalAlianca);
+            container.appendChild(teamsWrapper);
+            // Pontos de cooperação: diferença entre pontosAliança e soma dos totais das equipes
+            const somaEquipes = (equipe1?.total || 0) + (equipe2?.total || 0);
+            const coop = (pontosAlianca ?? 0) - somaEquipes;
+            const coopDiv = document.createElement('div');
+            coopDiv.className = 'coop-strip' + (coop !== 0 ? ' has-coop' : '');
+            coopDiv.innerHTML = `<span>Cooperação</span><span class="val">${coop}</span>`;
+            container.appendChild(coopDiv);
         }
 
-        async function carregarJogosElim() {
-            statusMsg.textContent = 'Carregando eliminatórias...';
-            try {
-                dadosElim = await carregarSheetData(URL_PLANILHA_ELIM);
-                try { dadosOficiais = await carregarSheetData(URL_PLANILHA_RESULTADOS); } catch { dadosOficiais = []; }
-                const linhasProcessadas = dadosElim.map((row, idx) => {
-                    const numero = getValorFlex(row, COLUMN_MAPPING_ELIM.numeroJogo) || row['numeroJogo'] || row['Número do jogo'];
-                    const aliancaNome = getValorFlex(row, COLUMN_MAPPING_ELIM.alianca);
-                    return { ...row, __idx: idx, _numeroJogoNorm: numero, _aliancaNomeNorm: aliancaNome };
-                });
-                const linhasValidas = linhasProcessadas.filter(l => {
-                    const nome = (l._aliancaNomeNorm || '').toLowerCase();
-                    return nome && !nome.includes('desempate') && !nome.includes(' ou ');
-                });
-                const agrupadoPorNumero = {};
-                linhasValidas.forEach(l => { const n = l._numeroJogoNorm; if (!n) return; (agrupadoPorNumero[n] || (agrupadoPorNumero[n] = [])).push(l); });
-                const confrontosDiretos = [];
-                Object.keys(agrupadoPorNumero).forEach(num => {
-                    const map = {}; agrupadoPorNumero[num].forEach(r => { map[r._aliancaNomeNorm] = r; });
-                    const lista = Object.values(map); if (lista.length === 2) confrontosDiretos.push({ numeroJogo: num, a: lista[0], b: lista[1] });
-                });
-                if (confrontosDiretos.length) {
-                    matchesElim = confrontosDiretos.sort((x, y) => Number(x.numeroJogo) - Number(y.numeroJogo)).map(c => ({
-                        idMatch: 'J' + c.numeroJogo, numeroJogo: c.numeroJogo, aliancaA: buildAllianceFromRegistro(c.a), aliancaB: buildAllianceFromRegistro(c.b)
-                    }));
-                } else {
-                    const ultima = {}; linhasValidas.forEach(l => { ultima[l._aliancaNomeNorm] = l; });
-                    const seeds = Object.values(ultima).map(r => { const m = (r._aliancaNomeNorm || '').match(/(\d+)/); return { seed: m ? Number(m[1]) : 99, registro: r }; }).sort((a, b) => a.seed - b.seed);
-                    const pares = []; for (let i = 0, j = seeds.length - 1; i < j; i++, j--) pares.push([seeds[i], seeds[j]]);
-                    matchesElim = pares.map(p => ({ idMatch: p[0].seed + 'x' + p[1].seed, numeroJogo: '', aliancaA: buildAllianceFromRegistro(p[0].registro), aliancaB: buildAllianceFromRegistro(p[1].registro) }));
-                }
-                aplicarResultadosOficiais();
-                selectJogo.innerHTML = '<option value="">Selecione o confronto</option>';
-                matchesElim.forEach(m => {
-                    const opt = document.createElement('option');
-                    const prefix = m.oficial ? '⭐ ' : '';
-                    opt.value = m.idMatch;
-                    opt.textContent = m.numeroJogo ? `${prefix}${m.idMatch} (Jogo ${m.numeroJogo}): ${m.aliancaA.nomeAlianca} x ${m.aliancaB.nomeAlianca}` : `${prefix}${m.idMatch}: ${m.aliancaA.nomeAlianca} x ${m.aliancaB.nomeAlianca}`;
-                    selectJogo.appendChild(opt);
-                });
-                selectJogo.disabled = false; btnBuscar.disabled = false;
-                statusMsg.textContent = matchesElim.length ? '' : 'Nenhum confronto encontrado.';
-            } catch (err) { statusMsg.textContent = 'Erro ao carregar eliminatórias: ' + err; }
+        function animateScore(el, novoValor) {
+            const atual = Number(el.dataset.val || el.textContent) || 0;
+            const alvo = Number(novoValor) || 0;
+            if (atual === alvo) { el.textContent = alvo; return; }
+            const dur = 600;
+            const start = performance.now();
+            function step(t) {
+                const p = Math.min(1, (t - start) / dur);
+                const eased = 1 - Math.pow(1 - p, 3);
+                const val = Math.round(atual + (alvo - atual) * eased);
+                el.textContent = val;
+                if (p < 1) requestAnimationFrame(step); else el.dataset.val = alvo;
+            }
+            requestAnimationFrame(step);
         }
+
+        // Carrega dados, agrupa por número e monta confrontos (exatamente 2 alianças distintas)
+        async function carregarResultadosOficiais() {
+            statusMsg.textContent = 'Carregando resultados oficiais...';
+            try {
+                dadosOficiais = await carregarSheetData(URL_PLANILHA_RESULTADOS);
+                console.log('Dados oficiais carregados:', dadosOficiais);
+                // Detectar se existe cabeçalho de Alianca; se não, usar modo 'por equipe'
+                const headersRaw = dadosOficiais[0] ? Object.keys(dadosOficiais[0]) : [];
+                const temAlianca = headersRaw.some(h => normalizarChave(h) === normalizarChave('Alianca') || normalizarChave(h).includes('alianca'));
+                const norm = s => normalizarChave(s || '');
+                matchesPorNumero = {};
+
+                if (temAlianca) {
+                    // Modo antigo (cada linha = aliança)
+                    const porNumero = {}; // num -> aliancaNorm -> linha mais recente
+                    dadosOficiais.forEach(r => {
+                        const num = (getValorFlex(r, 'Numero do jogo') || r['numeroJogo'] || r['Número do jogo'] || '').toString().trim();
+                        const ali = getValorFlex(r, 'Alianca') || getValorFlex(r, 'Aliança') || r['Alianca'] || r['Aliança'];
+                        if (!num || !ali) return;
+                        const aliN = norm(ali);
+                        const tsStr = getValorFlex(r, 'Carimbo de data/hora') || r['Carimbo de data/hora'] || '';
+                        let ts = 0; const m = tsStr.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?/);
+                        if (m) { const [_, d, mo, y, h, mi, s] = m; ts = new Date(Number(y), Number(mo) - 1, Number(d), Number(h), Number(mi), Number(s || 0)).getTime(); }
+                        const bucket = (porNumero[num] || (porNumero[num] = {}));
+                        const atual = bucket[aliN];
+                        if (!atual || ts >= atual.__ts) bucket[aliN] = { ...r, __ts: ts };
+                    });
+                    Object.keys(porNumero).forEach(num => {
+                        const alianCas = Object.values(porNumero[num]);
+                        if (alianCas.length === 2) {
+                            const a = buildAllianceFromRegistro(alianCas[0]);
+                            const b = buildAllianceFromRegistro(alianCas[1]);
+                            a.pontosAlianca = Number(getValorFlex(alianCas[0], 'Pontos Alianca') || alianCas[0]['Pontos Alianca'] || a.pontosAlianca || 0);
+                            b.pontosAlianca = Number(getValorFlex(alianCas[1], 'Pontos Alianca') || alianCas[1]['Pontos Alianca'] || b.pontosAlianca || 0);
+                            matchesPorNumero[num] = { numeroJogo: num, aliancaA: a, aliancaB: b };
+                        }
+                    });
+                } else {
+                    // Novo modo: cada linha = uma equipe (similar qualificatórias). Agrupar por jogo e pares de equipes.
+                    const porNumeroEquipes = {}; // num -> equipeNameNorm -> linha mais recente
+                    dadosOficiais.forEach(r => {
+                        const num = (getValorFlex(r, 'Número de jogo') || getValorFlex(r, 'Numero de jogo') || r['Número de jogo'] || r['Numero de jogo'] || '').toString().trim();
+                        const equipeNome = getValorFlex(r, 'Equipe') || r['Equipe'];
+                        if(!num || !equipeNome) return;
+                        const equipeN = norm(equipeNome);
+                        const tsStr = getValorFlex(r, 'Data e Hora') || r['Data e Hora'] || getValorFlex(r,'Carimbo de data/hora') || '';
+                        let ts = 0; const m = tsStr.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?/);
+                        if (m) { const [_, d, mo, y, h, mi, s] = m; ts = new Date(Number(y), Number(mo)-1, Number(d), Number(h), Number(mi), Number(s||0)).getTime(); }
+                        const bucket = (porNumeroEquipes[num] || (porNumeroEquipes[num] = {}));
+                        const atual = bucket[equipeN];
+                        if(!atual || ts >= atual.__ts) bucket[equipeN] = { ...r, __ts: ts };
+                    });
+                    Object.keys(porNumeroEquipes).forEach(num => {
+                        const equipes = Object.values(porNumeroEquipes[num]);
+                        if(equipes.length === 2){
+                            // Montar duas "alianças" de 1 equipe cada para reutilizar render
+                            function linhaParaAliança(l){
+                                const pN1 = Number(getValorFlex(l,'pontosN1') || l['pontosN1'] || 0);
+                                const pN2 = Number(getValorFlex(l,'pontosN2') || l['pontosN2'] || 0);
+                                const pN3 = Number(getValorFlex(l,'pontosN3') || l['pontosN3'] || 0);
+                                const pMov = Number(getValorFlex(l,'pontosMov') || l['pontosMov'] || 0);
+                                const totalInd = Number(getValorFlex(l,'Pontos Individuais Equipe') || l['Pontos Individuais Equipe'] || (pN1+pN2+pN3+pMov) || 0);
+                                const coop = Number(getValorFlex(l,'Pontos de cooperação (equipe)') || l['Pontos de cooperação (equipe)'] || 0);
+                                const equipeNome = (getValorFlex(l,'Equipe') || l['Equipe'] || '').trim();
+                                const equipeObj = { nome: equipeNome, pN1, pN2, pN3, pMov, total: totalInd };
+                                // Para compat: usamos equipe2 vazia
+                                return { nomeAlianca: equipeNome, pontosAlianca: totalInd + coop, equipe1: equipeObj, equipe2: { nome:'', pN1:0,pN2:0,pN3:0,pMov:0,total:0 } };
+                            }
+                            const a = linhaParaAliança(equipes[0]);
+                            const b = linhaParaAliança(equipes[1]);
+                            matchesPorNumero[num] = { numeroJogo: num, aliancaA: a, aliancaB: b };
+                        }
+                    });
+                }
+                const numeros = Object.keys(matchesPorNumero).sort((a, b) => Number(a) - Number(b));
+                selectJogo.innerHTML = '<option value="">Selecione o número do jogo</option>';
+                numeros.forEach(n => { const opt = document.createElement('option'); opt.value = n; opt.textContent = n; selectJogo.appendChild(opt); });
+                selectJogo.disabled = false; btnBuscar.disabled = false;
+                statusMsg.textContent = numeros.length ? `${numeros.length} confronto(s) disponíveis.` : 'Nenhum confronto encontrado.';
+            } catch (err) { statusMsg.textContent = 'Erro ao carregar resultados oficiais: ' + err; }
+        }
+        // Constrói objeto de aliança (tenta detectar formato 2 equipes ou 1 linha agregada)
         function buildAllianceFromRegistro(linha) {
             if (!linha) return null;
-            // Log de chaves (apenas primeira vez para debug)
-            if (!window.__logChavesOnce) {
-                window.__logChavesOnce = true;
-                console.group('%c[ELIM] Chaves da linha (debug)', 'color:#888');
-                console.log(Object.keys(linha));
-                console.groupEnd();
-            }
+            // (removido log de chaves debug)
 
             const keysNormMap = {}; // normKey -> originalKey
             Object.keys(linha).forEach(k => { keysNormMap[normalizarChave(k)] = k; });
@@ -306,22 +574,22 @@
             }
 
             // Detectar se formato é "duas equipes na mesma linha" (colunas específicas) ou "uma aliança por linha"
-            const temEquipe1 = findValue(['equipe 1', 'eq1', 'time 1']) !== undefined;
-            const temEquipe2 = findValue(['equipe 2', 'eq2', 'time 2']) !== undefined;
+            const temEquipe1 = findValue(['equipe 1', 'eq1', 'time 1', 'equipe 1 nome', 'equipe1 nome']) !== undefined;
+            const temEquipe2 = findValue(['equipe 2', 'eq2', 'time 2', 'equipe 2 nome', 'equipe2 nome']) !== undefined;
 
             let equipe1, equipe2;
 
             if (temEquipe1 || temEquipe2) {
                 // Formato antigo: duas equipes na mesma linha
                 equipe1 = {
-                    nome: findValue(['equipe 1', 'eq1', 'time 1']),
+                    nome: findValue(['equipe 1 nome','equipe1 nome','equipe 1','eq1','time 1']) || '',
                     pN1: Number(findValue(['pontos n1 equipe1', 'n1 equipe1', 'n1 eq1', 'pontosn1equipe1', 'n1 1']) || 0),
                     pN2: Number(findValue(['pontos n2 equipe1', 'n2 equipe1', 'n2 eq1', 'pontosn2equipe1', 'n2 1']) || 0),
                     pN3: Number(findValue(['pontos n3 equipe1', 'n3 equipe1', 'n3 eq1', 'pontosn3equipe1', 'n3 1']) || 0),
                     pMov: Number(findValue(['pontos mov equipe1', 'mov equipe1', 'mov eq1', 'pontosmovequipe1', 'mov 1', 'pontos movimentacao equipe1']) || 0)
                 }; equipe1.total = equipe1.pN1 + equipe1.pN2 + equipe1.pN3 + equipe1.pMov;
                 equipe2 = {
-                    nome: findValue(['equipe 2', 'eq2', 'time 2']),
+                    nome: findValue(['equipe 2 nome','equipe2 nome','equipe 2','eq2','time 2']) || '',
                     pN1: Number(findValue(['pontos n1 equipe2', 'n1 equipe2', 'n1 eq2', 'pontosn1equipe2', 'n1 2']) || 0),
                     pN2: Number(findValue(['pontos n2 equipe2', 'n2 equipe2', 'n2 eq2', 'pontosn2equipe2', 'n2 2']) || 0),
                     pN3: Number(findValue(['pontos n3 equipe2', 'n3 equipe2', 'n3 eq2', 'pontosn3equipe2', 'n3 2']) || 0),
@@ -334,7 +602,8 @@
                 const pN3 = Number(findValue(['pontos n3', 'n3']) || 0);
                 const pMov = Number(findValue(['pontos mov', 'mov', 'movimentacao']) || 0);
                 const total = pN1 + pN2 + pN3 + pMov;
-                equipe1 = { nome: '', pN1, pN2, pN3, pMov, total };
+                const possivelNome = findValue(['nome equipe','nome da equipe','equipe','time']);
+                equipe1 = { nome: possivelNome || '', pN1, pN2, pN3, pMov, total };
                 equipe2 = { nome: '', pN1: 0, pN2: 0, pN3: 0, pMov: 0, total: 0 }; // mantém layout
             }
 
@@ -348,63 +617,93 @@
             return { nomeAlianca, pontosAlianca, equipe1, equipe2 };
         }
 
-        function destacarVencedor() {
-            const pv = Number(document.getElementById('pontosVermelho').textContent) || 0;
-            const pa = Number(document.getElementById('pontosAzul').textContent) || 0;
+        // Destaque visual do vencedor
+        function destacarVencedor(pv, pa) {
             const cardV = document.getElementById('cardVermelho');
             const cardA = document.getElementById('cardAzul');
-            cardV.classList.remove('border', 'border-4', 'border-warning', 'shadow-lg');
-            cardA.classList.remove('border', 'border-4', 'border-warning', 'shadow-lg');
-            if (pv === pa) return; // empate não destaca
-            const winnerCard = pv > pa ? cardV : cardA;
-            winnerCard.classList.add('border', 'border-4', 'border-warning', 'shadow-lg');
+            cardV.classList.toggle('winner', false);
+            cardA.classList.toggle('winner', false);
+            if (pv === pa) return;
+            (pv > pa ? cardV : cardA).classList.add('winner');
         }
 
+        // Overlay de pontuação oficial (substitui pontos das alianças se existir)
         function aplicarResultadosOficiais() {
             if (!dadosOficiais.length) return;
             const norm = s => normalizarChave(s || '');
-            const idx = {};
+            // Passo 1: consolidar mantendo última linha (maior timestamp) por (numero, alianca)
+            const registroFinal = {}; // numero -> aliancaNorm -> { pts, ts }
             dadosOficiais.forEach(r => {
-                const num = getValorFlex(r, 'Numero do jogo') || r['numeroJogo'] || r['Número do jogo'];
-                const alianca = getValorFlex(r, 'Alianca') || getValorFlex(r, 'Aliança') || r['Alianca'] || r['Aliança'];
-                let pontos = getValorFlex(r, 'Pontos Alianca') || getValorFlex(r, 'Pontuacao Alianca') || r['Pontos Alianca'];
-                if (!num || !alianca) return;
-                pontos = Number(pontos || 0);
-                (idx[num] || (idx[num] = {}))[norm(alianca)] = pontos;
+                const num = (getValorFlex(r, 'Numero do jogo') || r['numeroJogo'] || r['Número do jogo'] || '').toString().trim();
+                const aliRaw = getValorFlex(r, 'Alianca') || getValorFlex(r, 'Aliança') || r['Alianca'] || r['Aliança'];
+                if (!num || !aliRaw) return;
+                const ali = norm(aliRaw);
+                const pts = Number(getValorFlex(r, 'Pontos Alianca') || getValorFlex(r, 'Pontuacao Alianca') || r['Pontos Alianca'] || 0);
+                // Tentar extrair timestamp comparável
+                const tsStr = getValorFlex(r, 'Carimbo de data/hora') || r['Carimbo de data/hora'] || '';
+                // Formato dd/mm/yyyy HH:MM:SS (provável). Converter para Date seguro.
+                let ts = 0;
+                const m = tsStr.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?/);
+                if (m) {
+                    const [_, d, mo, y, h, mi, s] = m;
+                    ts = new Date(Number(y), Number(mo) - 1, Number(d), Number(h), Number(mi), Number(s || 0)).getTime();
+                }
+                const bucketNum = (registroFinal[num] || (registroFinal[num] = {}));
+                const atual = bucketNum[ali];
+                if (!atual || ts >= atual.ts) {
+                    bucketNum[ali] = { pts, ts };
+                }
             });
-            matchesElim.forEach(m => {
-                if (!m.numeroJogo) return; const bucket = idx[m.numeroJogo]; if (!bucket) return;
+            // Passo 2: aplicar aos matches existentes
+            let countOficiais = 0;
+            Object.keys(matchesPorNumero).forEach(num => {
+                const m = matchesPorNumero[num]; const bucket = registroFinal[num]; if (!bucket) return;
                 const aKey = norm(m.aliancaA?.nomeAlianca); const bKey = norm(m.aliancaB?.nomeAlianca); let mudou = false;
-                if (bucket[aKey] !== undefined) { m.aliancaA.pontosAlianca = bucket[aKey]; mudou = true; }
-                if (bucket[bKey] !== undefined) { m.aliancaB.pontosAlianca = bucket[bKey]; mudou = true; }
-                if (mudou) m.oficial = true;
+                if (bucket[aKey]) { m.aliancaA.pontosAlianca = bucket[aKey].pts; mudou = true; }
+                if (bucket[bKey]) { m.aliancaB.pontosAlianca = bucket[bKey].pts; mudou = true; }
+                if (mudou) { m.oficial = true; countOficiais++; }
             });
+            // Armazena contagem para exibir depois
+            window.__qtdOficiaisAplicados = countOficiais;
         }
 
-        function mostrarResultado(idMatch) {
-            const match = matchesElim.find(m => m.idMatch === idMatch);
+        // Renderização principal do confronto selecionado
+        function mostrarResultado(numero) {
+            const match = matchesPorNumero[numero];
             if (!match) { statusMsg.textContent = 'Confronto não encontrado.'; return; }
+            // DEBUG: logar chaves disponíveis para identificar nomes
+            console.log('DEBUG match bruto', match);
+            console.log('DEBUG aliancaA keys', Object.keys(match.aliancaA||{}));
+            console.log('DEBUG aliancaB keys', Object.keys(match.aliancaB||{}));
+            console.log('DEBUG equipe1 A', match.aliancaA?.equipe1);
+            console.log('DEBUG equipe2 A', match.aliancaA?.equipe2);
+            console.log('DEBUG equipe1 B', match.aliancaB?.equipe1);
+            console.log('DEBUG equipe2 B', match.aliancaB?.equipe2);
             const nomeA = match.aliancaA?.nomeAlianca || 'Aliança A';
             const nomeB = match.aliancaB?.nomeAlianca || 'Aliança B';
-            document.getElementById('nomeEquipeVermelha').textContent = match.oficial ? nomeA + ' (oficial)' : nomeA;
-            document.getElementById('nomeEquipeAzul').textContent = match.oficial ? nomeB + ' (oficial)' : nomeB;
-            document.getElementById('pontosVermelho').textContent = match.aliancaA?.pontosAlianca ?? 0;
-            document.getElementById('pontosAzul').textContent = match.aliancaB?.pontosAlianca ?? 0;
+            document.getElementById('nomeEquipeVermelha').textContent = nomeA;
+            document.getElementById('nomeEquipeAzul').textContent = nomeB;
+            const pontosV = match.aliancaA?.pontosAlianca ?? 0;
+            const pontosA = match.aliancaB?.pontosAlianca ?? 0;
+            // Atualiza destaque imediatamente:
+            destacarVencedor(pontosV, pontosA);
+            animateScore(document.getElementById('pontosVermelho'), pontosV);
+            animateScore(document.getElementById('pontosAzul'), pontosA);
             renderAllianceMetrics('metricsVermelho', match.aliancaA);
             renderAllianceMetrics('metricsAzul', match.aliancaB);
-            destacarVencedor();
-            statusMsg.textContent = match.oficial ? 'Pontuação oficial aplicada.' : '';
+            // (destaque já aplicado previamente)
+            statusMsg.textContent = '';
         }
 
         btnBuscar.addEventListener('click', () => {
             const num = selectJogo.value;
-            if (!num) { statusMsg.textContent = 'Selecione um confronto.'; return; }
+            if (!num) { statusMsg.textContent = 'Selecione um número de jogo.'; return; }
             statusMsg.textContent = '';
             mostrarResultado(num);
         });
 
         // Carrega eliminatórias ao iniciar
-        carregarJogosElim();
+        carregarResultadosOficiais();
     </script>
 </body>
 
