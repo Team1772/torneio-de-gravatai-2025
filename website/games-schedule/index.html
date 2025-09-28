@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,7 +32,8 @@
       width: 100%;
     }
 
-    th, td {
+    th,
+    td {
       border: 1px solid #ccc;
       padding: 8px;
       text-align: center;
@@ -42,24 +44,29 @@
     }
 
     .completo {
-      background-color: #c8e6c9; /* verde claro */
+      background-color: #c8e6c9;
+      /* verde claro */
     }
 
     .ok {
-      background-color: #eeeeee; /* cinza claro */
+      background-color: #eeeeee;
+      /* cinza claro */
     }
 
     .proximo-jogo {
-      background-color: #fff59d; /* amarelo chamativo */
+      background-color: #fff59d;
+      /* amarelo chamativo */
       font-weight: bold;
     }
 
     .entrar-fila {
-      background-color: #fffde7; /* amarelo claro/fraco */
+      background-color: #fffde7;
+      /* amarelo claro/fraco */
     }
 
     .time-destacado {
-      border: 2px solid #ff5722; /* borda laranja */
+      border: 2px solid #ff5722;
+      /* borda laranja */
     }
 
     #pesquisa-time {
@@ -68,15 +75,18 @@
       font-size: 1rem;
     }
 
-        /* Media queries para celular */
+    /* Media queries para celular */
     @media (max-width: 600px) {
       #titulo {
         font-size: 1em;
       }
-      th, td {
+
+      th,
+      td {
         font-size: 0.8em;
         padding: 2px;
       }
+
       .header {
         gap: 2px;
       }
@@ -92,6 +102,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <div style="margin-bottom:10px;">
@@ -116,8 +127,231 @@
     <tbody id="tabela-jogos"></tbody>
   </table>
 
+  <!-- Modal Resultados -->
+  <div id="resultadoModal" class="resultado-modal" style="display:none;">
+    <div class="resultado-backdrop" data-close-modal></div>
+    <div class="resultado-dialog" role="dialog" aria-modal="true" aria-labelledby="resultadoTitulo">
+      <button class="close-btn" data-close-modal aria-label="Fechar">×</button>
+      <h2 id="resultadoTitulo" class="modal-title">Resultado do Jogo <span id="modalNumeroJogo"></span></h2>
+      <div id="modalConteudo" class="modal-conteudo">
+        <div class="loading">Carregando...</div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .resultado-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      font-family: inherit;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 22px;
+    }
+
+    .resultado-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, .55);
+      backdrop-filter: blur(3px);
+    }
+
+    .resultado-dialog {
+      position: relative;
+      width: 100%;
+      max-width: 1180px;
+      background: #111;
+      color: #fff;
+      padding: 1.5rem 1.75rem 2rem;
+      border-radius: 1.1rem;
+      box-shadow: 0 25px 50px -15px rgba(0, 0, 0, .6);
+      overflow: hidden;
+      transform: translate(-50%, -50%) scale(.96);
+      top: 50%;
+      left: 50%;
+      opacity: 0;
+      transition: .45s cubic-bezier(.16, .8, .24, 1);
+    }
+
+    .resultado-modal.mostrar .resultado-dialog {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+
+    .resultado-backdrop {
+      animation: fadeIn .4s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    .close-btn {
+      position: absolute;
+      top: .6rem;
+      right: .75rem;
+      background: #222;
+      color: #eee;
+      border: 0;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      font-size: 1.25rem;
+      cursor: pointer;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: .25s;
+    }
+
+    .close-btn:hover {
+      background: #333;
+    }
+
+    .modal-title {
+      font-size: 1.05rem;
+      letter-spacing: .5px;
+      margin: 0 0 1rem;
+      font-weight: 600;
+    }
+
+    .modal-conteudo {
+      min-height: 160px;
+    }
+
+    .resultado-cards {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
+
+    /* Reaproveitando estilos dos cards (simplificado) */
+    .res-score-card {
+      background: #222;
+      border-radius: 1.1rem;
+      padding: 1.2rem 1.1rem 1.1rem;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 8px 20px -6px rgba(0, 0, 0, .45);
+    }
+
+    .res-score-card.red {
+      background: linear-gradient(135deg, #e83b4e, #b91228 68%);
+    }
+
+    .res-score-card.blue {
+      background: linear-gradient(135deg, #1d74ff, #0043a8 68%);
+    }
+
+    .res-score-card.winner {
+      box-shadow: 0 0 0 3px #ffd54f, 0 0 0 6px rgba(255, 213, 79, .35), 0 16px 26px -8px rgba(0, 0, 0, .55);
+    }
+
+    .res-alliance-name {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: .5px;
+    }
+
+    .res-score-big {
+      font-size: 3.4rem;
+      font-weight: 800;
+      line-height: .85;
+      text-align: center;
+      margin: .35rem 0 .5rem;
+    }
+
+    .res-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(46px, 1fr));
+      gap: .4rem;
+    }
+
+    .res-metric-box {
+      background: rgba(255, 255, 255, .14);
+      border-radius: .55rem;
+      padding: .35rem .3rem .3rem;
+      text-align: center;
+    }
+
+    .res-metric-box span {
+      display: block;
+      font-size: .5rem;
+      opacity: .75;
+      letter-spacing: .5px;
+    }
+
+    .res-metric-box strong {
+      font-size: .8rem;
+      font-weight: 600;
+    }
+
+    .res-coop-bar {
+      margin-top: .75rem;
+      font-size: .75rem;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(135deg, #444, #222);
+      padding: .5rem .65rem .45rem;
+      border-radius: .65rem;
+    }
+
+    .res-coop-bar.highlight {
+      background: linear-gradient(135deg, #ffb347, #ffcc33);
+      color: #3a2500;
+    }
+
+    .res-meta {
+      font-size: .55rem;
+      letter-spacing: .5px;
+      opacity: .65;
+      margin-top: .25rem;
+      text-align: center;
+    }
+
+    @media (max-width:680px) {
+      .resultado-modal {
+        padding: 0;
+      }
+
+      .resultado-dialog {
+        top: 0;
+        left: 0;
+        transform: translate(0, 0);
+        margin: 0;
+        border-radius: 0;
+        min-height: 100%;
+        max-width: none;
+        width: 100%;
+      }
+
+      .resultado-modal.mostrar .resultado-dialog {
+        transform: translate(0, 0) scale(1);
+      }
+
+      .resultado-dialog {
+        padding: 1.2rem 1.1rem 2rem;
+      }
+    }
+  </style>
+
   <script type="module">
     import { carregarSheetData } from "../sheets-to-website/sheetUtils.js"
+    import { abrirResultadoJogo, inicializarResultadosSchedule } from "./resultsModal.js";
 
     async function atualizarTabela() {
       const agora = new Date()
@@ -131,10 +365,10 @@
       data.forEach(jogo => {
         const num = jogo.numeroJogo
         if (!jogosAgrupados[num]) {
-          jogosAgrupados[num] = { 
-            numeroJogo: num, 
-            dia: jogo.dia, 
-            horario: jogo.horario, 
+          jogosAgrupados[num] = {
+            numeroJogo: num,
+            dia: jogo.dia,
+            horario: jogo.horario,
             equipes: [],
             completo: false
           }
@@ -196,14 +430,14 @@
 
         if (jogo.completo) {
           classe = "completo"
-          status = `Completo (Resultado)`
+          status = `<button class='btn-resultado' data-numero='${jogo.numeroJogo}' style="background:#1976d2;color:#fff;border:0;padding:.35rem .7rem;border-radius:.5rem;cursor:pointer;font-size:.75rem;">Resultado</button>`
         } else if (proximosJogosIds.includes(jogo.numeroJogo)) {
           classe = "proximo-jogo";
           status = "Próximo jogo"
         } else if (entrarFilaIds.includes(jogo.numeroJogo)) {
           classe = "entrar-fila";
           status = "Entrar na fila"
-        }  else {
+        } else {
           classe = "ok";
           status = "Pendente";
         }
@@ -235,13 +469,25 @@
     }
 
     // Atualiza a tabela imediatamente e depois a cada 30s
-    atualizarTabela()
+    atualizarTabela().then(() => inicializarResultadosSchedule({
+      urlPlanilhaQuali: "https://docs.google.com/spreadsheets/d/1Dj8gcfgJWh5a1rL2cCuoEopNH9XobLSv5wWIKrNVeo8/edit?gid=573412109#gid=573412109"
+    }))
     setInterval(atualizarTabela, 30000)
 
     const inputPesquisa = document.getElementById("pesquisa-time")
     if (inputPesquisa) {
       inputPesquisa.addEventListener("input", () => atualizarTabela())
     }
+
+    document.addEventListener('click', e => {
+      const btn = e.target.closest('.btn-resultado');
+      if (btn) { abrirResultadoJogo(btn.dataset.numero); }
+      if (e.target.matches('[data-close-modal]')) {
+        import('./resultsModal.js').then(m => m.fecharResultadoJogo && m.fecharResultadoJogo());
+      }
+    });
   </script>
+  <script type="module" src="./resultsModal.js"></script>
 </body>
+
 </html>
