@@ -464,8 +464,10 @@ table.schedule .numero-col {
     }
 
     .legend {
-        flex-direction: column;
+        flex-direction: row;
         align-items: flex-start;
+        flex-wrap: wrap;
+        gap: .35rem;
     }
 
     .brand-title {
