@@ -80,9 +80,30 @@
             gap: .75rem;
             margin-bottom: .75rem;
         }
-        .teams-inline { display:flex; flex-wrap:wrap; gap:.5rem .75rem; margin-top:.25rem; font-size:.7rem; letter-spacing:.5px; text-transform:uppercase; opacity:.85; }
-        .teams-inline .ti { background:rgba(255,255,255,.14); padding:.3rem .55rem .25rem; border-radius:.65rem; font-weight:600; }
-        @media (max-width: 576px){ .teams-inline{font-size:.6rem;} }
+
+        .teams-inline {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .5rem .75rem;
+            margin-top: .25rem;
+            font-size: .7rem;
+            letter-spacing: .5px;
+            text-transform: uppercase;
+            opacity: .85;
+        }
+
+        .teams-inline .ti {
+            background: rgba(255, 255, 255, .14);
+            padding: .3rem .55rem .25rem;
+            border-radius: .65rem;
+            font-weight: 600;
+        }
+
+        @media (max-width: 576px) {
+            .teams-inline {
+                font-size: .6rem;
+            }
+        }
 
         .score-value-shadow {
             font-size: 5.6rem;
@@ -248,6 +269,97 @@
             }
         }
 
+        /* Efeitos de animação cassino */
+        .slot-spinning {
+            animation: slotGlow 0.1s ease-in-out infinite alternate;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+            filter: brightness(1.2);
+        }
+
+        .final-reveal {
+            animation: finalPop 0.5s ease-out;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+        }
+
+        @keyframes slotGlow {
+            0% {
+                text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+                filter: brightness(1.1);
+            }
+
+            100% {
+                text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+                filter: brightness(1.3);
+            }
+        }
+
+        @keyframes finalPop {
+            0% {
+                transform: scale(1.1);
+                text-shadow: 0 0 25px rgba(255, 255, 255, 1);
+            }
+
+            50% {
+                transform: scale(1.15);
+                text-shadow: 0 0 30px rgba(255, 255, 255, 0.9);
+            }
+
+            100% {
+                transform: scale(1);
+                text-shadow: 0 4px 10px rgba(0, 0, 0, 0.55);
+            }
+        }
+
+        /* Efeitos específicos para métricas menores */
+        .metrics-mini .m strong.slot-spinning {
+            animation: metricGlow 0.08s ease-in-out infinite alternate;
+            text-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
+            filter: brightness(1.15);
+        }
+
+        .metrics-mini .m strong.final-reveal {
+            animation: metricPop 0.3s ease-out;
+        }
+
+        .coop-strip .val.slot-spinning {
+            animation: metricGlow 0.08s ease-in-out infinite alternate;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+            filter: brightness(1.2);
+        }
+
+        .coop-strip .val.final-reveal {
+            animation: metricPop 0.4s ease-out;
+        }
+
+        @keyframes metricGlow {
+            0% {
+                text-shadow: 0 0 4px rgba(255, 255, 255, 0.3);
+                filter: brightness(1.1);
+            }
+
+            100% {
+                text-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+                filter: brightness(1.25);
+            }
+        }
+
+        @keyframes metricPop {
+            0% {
+                transform: scale(1.05);
+                text-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+            }
+
+            50% {
+                transform: scale(1.1);
+                text-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+            }
+
+            100% {
+                transform: scale(1);
+                text-shadow: none;
+            }
+        }
+
         footer {
             font-size: .75rem;
             color: #666;
@@ -336,6 +448,7 @@
                     <div class="card-header-line">
                         <div class="alliance-name" id="nomeEquipeVermelha">Aliança Vermelha</div>
                     </div>
+                    <div class="teams-inline" id="equipesVermelho"></div>
                     <div class="score-value-wrapper">
                         <div class="score-value-shadow" id="pontosVermelho">0</div>
                     </div>
@@ -347,6 +460,7 @@
                     <div class="card-header-line">
                         <div class="alliance-name" id="nomeEquipeAzul">Aliança Azul</div>
                     </div>
+                    <div class="teams-inline" id="equipesAzul"></div>
                     <div class="score-value-wrapper">
                         <div class="score-value-shadow" id="pontosAzul">0</div>
                     </div>
@@ -391,8 +505,8 @@
         // Mapa: numero -> { numeroJogo, aliancaA, aliancaB, oficial:true }
         let matchesPorNumero = {};
 
-        // Renderização das métricas de uma aliança (duas equipes)
-        function renderAllianceMetrics(containerId, aliancaObj) {
+        // Renderização das métricas de uma aliança (duas equipes) com animação
+        function renderAllianceMetrics(containerId, aliancaObj, animate = false) {
             const container = document.getElementById(containerId);
             container.innerHTML = '';
             if (!aliancaObj) {
@@ -403,14 +517,14 @@
             // Preenche nomes das equipes na faixa inline (fora das métricas)
             const inlineId = containerId === 'metricsVermelho' ? 'equipesVermelho' : 'equipesAzul';
             const inlineWrap = document.getElementById(inlineId);
-            if(inlineWrap){
+            if (inlineWrap) {
                 inlineWrap.innerHTML = '';
                 [equipe1, equipe2].forEach((eq, idx) => {
-                    if(!eq) return; let nome = (eq.nome||'').trim();
-                    if(!nome){
-                        const formatoLinhaUnica = (equipe2.total===0 && equipe2.pN1===0 && equipe2.pN2===0 && equipe2.pN3===0 && equipe2.pMov===0);
-                        if(idx===0 && formatoLinhaUnica){
-                            nome = (aliancaObj.nomeAlianca||'Aliança');
+                    if (!eq) return; let nome = (eq.nome || '').trim();
+                    if (!nome) {
+                        const formatoLinhaUnica = (equipe2.total === 0 && equipe2.pN1 === 0 && equipe2.pN2 === 0 && equipe2.pN3 === 0 && equipe2.pMov === 0);
+                        if (idx === 0 && formatoLinhaUnica) {
+                            nome = (aliancaObj.nomeAlianca || 'Aliança');
                         } else return;
                     }
                     const span = document.createElement('span');
@@ -421,6 +535,9 @@
             }
             const teamsWrapper = document.createElement('div');
             teamsWrapper.className = 'teams-wrapper';
+
+            let delayCounter = 0;
+
             ;[
                 { dados: equipe1 },
                 { dados: equipe2 }
@@ -442,36 +559,172 @@
                     const val = (t.dados[m.k] ?? 0);
                     const div = document.createElement('div');
                     div.className = 'm';
-                    div.innerHTML = `<span>${m.label}</span><strong>${val}</strong>`;
+                    const strongEl = document.createElement('strong');
+                    strongEl.textContent = animate ? '0' : val; // Inicia com 0 se animar
+                    div.innerHTML = `<span>${m.label}</span>`;
+                    div.appendChild(strongEl);
+
+                    // Anima se solicitado
+                    if (animate) {
+                        const delay = 500 + (delayCounter * 150); // Escalonamento dos delays
+                        animateMetric(strongEl, val, delay);
+                        delayCounter++;
+                    }
+
                     metrics.appendChild(div);
                 });
                 block.appendChild(metrics);
                 teamsWrapper.appendChild(block);
             });
             container.appendChild(teamsWrapper);
+
             // Pontos de cooperação: diferença entre pontosAliança e soma dos totais das equipes
             const somaEquipes = (equipe1?.total || 0) + (equipe2?.total || 0);
             const coop = (pontosAlianca ?? 0) - somaEquipes;
             const coopDiv = document.createElement('div');
             coopDiv.className = 'coop-strip' + (coop !== 0 ? ' has-coop' : '');
-            coopDiv.innerHTML = `<span>Cooperação</span><span class="val">${coop}</span>`;
+
+            const coopValEl = document.createElement('span');
+            coopValEl.className = 'val';
+            coopValEl.textContent = animate ? '0' : coop;
+
+            coopDiv.innerHTML = `<span>Cooperação</span>`;
+            coopDiv.appendChild(coopValEl);
+
+            // Anima cooperação por último
+            if (animate) {
+                const delay = 500 + (delayCounter * 150);
+                animateMetric(coopValEl, coop, delay);
+            }
+
             container.appendChild(coopDiv);
         }
 
+        // Animação estilo cassino com suspense crescente
         function animateScore(el, novoValor) {
             const atual = Number(el.dataset.val || el.textContent) || 0;
             const alvo = Number(novoValor) || 0;
             if (atual === alvo) { el.textContent = alvo; return; }
-            const dur = 600;
+
+            const dur = 3000; // 3 segundos de suspense
             const start = performance.now();
+            const maxRandom = Math.max(100, alvo * 2); // Range para números aleatórios
+
+            // Adiciona classe de animação
+            el.classList.add('slot-spinning');
+
             function step(t) {
-                const p = Math.min(1, (t - start) / dur);
-                const eased = 1 - Math.pow(1 - p, 3);
-                const val = Math.round(atual + (alvo - atual) * eased);
-                el.textContent = val;
-                if (p < 1) requestAnimationFrame(step); else el.dataset.val = alvo;
+                const elapsed = t - start;
+                const progress = Math.min(1, elapsed / dur);
+
+                // Fase 1: Números completamente aleatórios (primeiros 60%)
+                if (progress < 0.6) {
+                    const randomVal = Math.floor(Math.random() * maxRandom);
+                    el.textContent = randomVal;
+                    el.style.transform = 'scale(1.05)';
+                }
+                // Fase 2: Desaceleração gradual (30% seguintes)
+                else if (progress < 0.9) {
+                    const slowProgress = (progress - 0.6) / 0.3;
+                    const easedSlow = 1 - Math.pow(1 - slowProgress, 2);
+
+                    // Reduz range aleatório gradualmente
+                    const currentRange = Math.max(10, maxRandom * (1 - easedSlow));
+                    const randomOffset = (Math.random() - 0.5) * currentRange;
+                    const val = Math.max(0, Math.round(alvo + randomOffset));
+                    el.textContent = val;
+
+                    const scale = 1.05 - (slowProgress * 0.05);
+                    el.style.transform = `scale(${scale})`;
+                }
+                // Fase 3: Convergência final suave para o valor real (últimos 10%)
+                else {
+                    const finalProgress = (progress - 0.9) / 0.1;
+                    const eased = 1 - Math.pow(1 - finalProgress, 3);
+                    const currentVal = Number(el.textContent) || 0;
+                    const val = Math.round(currentVal + (alvo - currentVal) * eased);
+                    el.textContent = val;
+                    el.style.transform = 'scale(1)';
+                }
+
+                if (progress < 1) {
+                    requestAnimationFrame(step);
+                } else {
+                    // Finalização
+                    el.textContent = alvo;
+                    el.style.transform = 'scale(1)';
+                    el.classList.remove('slot-spinning');
+                    el.classList.add('final-reveal');
+                    el.dataset.val = alvo;
+
+                    // Remove classe de revelação após animação
+                    setTimeout(() => el.classList.remove('final-reveal'), 500);
+                }
             }
             requestAnimationFrame(step);
+        }
+
+        // Animação estilo cassino para métricas menores (N1, N2, N3, etc.)
+        function animateMetric(el, novoValor, delay = 0) {
+            setTimeout(() => {
+                const atual = Number(el.dataset.val || el.textContent) || 0;
+                const alvo = Number(novoValor) || 0;
+                if (atual === alvo) { el.textContent = alvo; return; }
+
+                const dur = 2500; // Ligeiramente mais rápido que o score principal
+                const start = performance.now();
+                const maxRandom = Math.max(20, alvo * 3); // Range menor para números menores
+
+                // Adiciona classe de animação
+                el.classList.add('slot-spinning');
+
+                function step(t) {
+                    const elapsed = t - start;
+                    const progress = Math.min(1, elapsed / dur);
+
+                    // Fase 1: Números aleatórios (primeiros 65%)
+                    if (progress < 0.65) {
+                        const randomVal = Math.floor(Math.random() * maxRandom);
+                        el.textContent = randomVal;
+                        el.style.transform = 'scale(1.03)';
+                    }
+                    // Fase 2: Desaceleração gradual (25% seguintes)
+                    else if (progress < 0.9) {
+                        const slowProgress = (progress - 0.65) / 0.25;
+                        const easedSlow = 1 - Math.pow(1 - slowProgress, 2);
+
+                        const currentRange = Math.max(5, maxRandom * (1 - easedSlow));
+                        const randomOffset = (Math.random() - 0.5) * currentRange;
+                        const val = Math.max(0, Math.round(alvo + randomOffset));
+                        el.textContent = val;
+
+                        const scale = 1.03 - (slowProgress * 0.03);
+                        el.style.transform = `scale(${scale})`;
+                    }
+                    // Fase 3: Convergência final
+                    else {
+                        const finalProgress = (progress - 0.9) / 0.1;
+                        const eased = 1 - Math.pow(1 - finalProgress, 3);
+                        const currentVal = Number(el.textContent) || 0;
+                        const val = Math.round(currentVal + (alvo - currentVal) * eased);
+                        el.textContent = val;
+                        el.style.transform = 'scale(1)';
+                    }
+
+                    if (progress < 1) {
+                        requestAnimationFrame(step);
+                    } else {
+                        el.textContent = alvo;
+                        el.style.transform = 'scale(1)';
+                        el.classList.remove('slot-spinning');
+                        el.classList.add('final-reveal');
+                        el.dataset.val = alvo;
+
+                        setTimeout(() => el.classList.remove('final-reveal'), 300);
+                    }
+                }
+                requestAnimationFrame(step);
+            }, delay);
         }
 
         // Carrega dados, agrupa por número e monta confrontos (exatamente 2 alianças distintas)
@@ -517,30 +770,30 @@
                     dadosOficiais.forEach(r => {
                         const num = (getValorFlex(r, 'Número de jogo') || getValorFlex(r, 'Numero de jogo') || r['Número de jogo'] || r['Numero de jogo'] || '').toString().trim();
                         const equipeNome = getValorFlex(r, 'Equipe') || r['Equipe'];
-                        if(!num || !equipeNome) return;
+                        if (!num || !equipeNome) return;
                         const equipeN = norm(equipeNome);
-                        const tsStr = getValorFlex(r, 'Data e Hora') || r['Data e Hora'] || getValorFlex(r,'Carimbo de data/hora') || '';
+                        const tsStr = getValorFlex(r, 'Data e Hora') || r['Data e Hora'] || getValorFlex(r, 'Carimbo de data/hora') || '';
                         let ts = 0; const m = tsStr.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?/);
-                        if (m) { const [_, d, mo, y, h, mi, s] = m; ts = new Date(Number(y), Number(mo)-1, Number(d), Number(h), Number(mi), Number(s||0)).getTime(); }
+                        if (m) { const [_, d, mo, y, h, mi, s] = m; ts = new Date(Number(y), Number(mo) - 1, Number(d), Number(h), Number(mi), Number(s || 0)).getTime(); }
                         const bucket = (porNumeroEquipes[num] || (porNumeroEquipes[num] = {}));
                         const atual = bucket[equipeN];
-                        if(!atual || ts >= atual.__ts) bucket[equipeN] = { ...r, __ts: ts };
+                        if (!atual || ts >= atual.__ts) bucket[equipeN] = { ...r, __ts: ts };
                     });
                     Object.keys(porNumeroEquipes).forEach(num => {
                         const equipes = Object.values(porNumeroEquipes[num]);
-                        if(equipes.length === 2){
+                        if (equipes.length === 2) {
                             // Montar duas "alianças" de 1 equipe cada para reutilizar render
-                            function linhaParaAliança(l){
-                                const pN1 = Number(getValorFlex(l,'pontosN1') || l['pontosN1'] || 0);
-                                const pN2 = Number(getValorFlex(l,'pontosN2') || l['pontosN2'] || 0);
-                                const pN3 = Number(getValorFlex(l,'pontosN3') || l['pontosN3'] || 0);
-                                const pMov = Number(getValorFlex(l,'pontosMov') || l['pontosMov'] || 0);
-                                const totalInd = Number(getValorFlex(l,'Pontos Individuais Equipe') || l['Pontos Individuais Equipe'] || (pN1+pN2+pN3+pMov) || 0);
-                                const coop = Number(getValorFlex(l,'Pontos de cooperação (equipe)') || l['Pontos de cooperação (equipe)'] || 0);
-                                const equipeNome = (getValorFlex(l,'Equipe') || l['Equipe'] || '').trim();
+                            function linhaParaAliança(l) {
+                                const pN1 = Number(getValorFlex(l, 'pontosN1') || l['pontosN1'] || 0);
+                                const pN2 = Number(getValorFlex(l, 'pontosN2') || l['pontosN2'] || 0);
+                                const pN3 = Number(getValorFlex(l, 'pontosN3') || l['pontosN3'] || 0);
+                                const pMov = Number(getValorFlex(l, 'pontosMov') || l['pontosMov'] || 0);
+                                const totalInd = Number(getValorFlex(l, 'Pontos Individuais Equipe') || l['Pontos Individuais Equipe'] || (pN1 + pN2 + pN3 + pMov) || 0);
+                                const coop = Number(getValorFlex(l, 'Pontos de cooperação (equipe)') || l['Pontos de cooperação (equipe)'] || 0);
+                                const equipeNome = (getValorFlex(l, 'Equipe') || l['Equipe'] || '').trim();
                                 const equipeObj = { nome: equipeNome, pN1, pN2, pN3, pMov, total: totalInd };
                                 // Para compat: usamos equipe2 vazia
-                                return { nomeAlianca: equipeNome, pontosAlianca: totalInd + coop, equipe1: equipeObj, equipe2: { nome:'', pN1:0,pN2:0,pN3:0,pMov:0,total:0 } };
+                                return { nomeAlianca: equipeNome, pontosAlianca: totalInd + coop, equipe1: equipeObj, equipe2: { nome: '', pN1: 0, pN2: 0, pN3: 0, pMov: 0, total: 0 } };
                             }
                             const a = linhaParaAliança(equipes[0]);
                             const b = linhaParaAliança(equipes[1]);
@@ -582,14 +835,14 @@
             if (temEquipe1 || temEquipe2) {
                 // Formato antigo: duas equipes na mesma linha
                 equipe1 = {
-                    nome: findValue(['equipe 1 nome','equipe1 nome','equipe 1','eq1','time 1']) || '',
+                    nome: findValue(['equipe 1 nome', 'equipe1 nome', 'equipe 1', 'eq1', 'time 1']) || '',
                     pN1: Number(findValue(['pontos n1 equipe1', 'n1 equipe1', 'n1 eq1', 'pontosn1equipe1', 'n1 1']) || 0),
                     pN2: Number(findValue(['pontos n2 equipe1', 'n2 equipe1', 'n2 eq1', 'pontosn2equipe1', 'n2 1']) || 0),
                     pN3: Number(findValue(['pontos n3 equipe1', 'n3 equipe1', 'n3 eq1', 'pontosn3equipe1', 'n3 1']) || 0),
                     pMov: Number(findValue(['pontos mov equipe1', 'mov equipe1', 'mov eq1', 'pontosmovequipe1', 'mov 1', 'pontos movimentacao equipe1']) || 0)
                 }; equipe1.total = equipe1.pN1 + equipe1.pN2 + equipe1.pN3 + equipe1.pMov;
                 equipe2 = {
-                    nome: findValue(['equipe 2 nome','equipe2 nome','equipe 2','eq2','time 2']) || '',
+                    nome: findValue(['equipe 2 nome', 'equipe2 nome', 'equipe 2', 'eq2', 'time 2']) || '',
                     pN1: Number(findValue(['pontos n1 equipe2', 'n1 equipe2', 'n1 eq2', 'pontosn1equipe2', 'n1 2']) || 0),
                     pN2: Number(findValue(['pontos n2 equipe2', 'n2 equipe2', 'n2 eq2', 'pontosn2equipe2', 'n2 2']) || 0),
                     pN3: Number(findValue(['pontos n3 equipe2', 'n3 equipe2', 'n3 eq2', 'pontosn3equipe2', 'n3 2']) || 0),
@@ -602,7 +855,7 @@
                 const pN3 = Number(findValue(['pontos n3', 'n3']) || 0);
                 const pMov = Number(findValue(['pontos mov', 'mov', 'movimentacao']) || 0);
                 const total = pN1 + pN2 + pN3 + pMov;
-                const possivelNome = findValue(['nome equipe','nome da equipe','equipe','time']);
+                const possivelNome = findValue(['nome equipe', 'nome da equipe', 'equipe', 'time']);
                 equipe1 = { nome: possivelNome || '', pN1, pN2, pN3, pMov, total };
                 equipe2 = { nome: '', pN1: 0, pN2: 0, pN3: 0, pMov: 0, total: 0 }; // mantém layout
             }
@@ -671,28 +924,50 @@
         function mostrarResultado(numero) {
             const match = matchesPorNumero[numero];
             if (!match) { statusMsg.textContent = 'Confronto não encontrado.'; return; }
-            // DEBUG: logar chaves disponíveis para identificar nomes
-            console.log('DEBUG match bruto', match);
-            console.log('DEBUG aliancaA keys', Object.keys(match.aliancaA||{}));
-            console.log('DEBUG aliancaB keys', Object.keys(match.aliancaB||{}));
-            console.log('DEBUG equipe1 A', match.aliancaA?.equipe1);
-            console.log('DEBUG equipe2 A', match.aliancaA?.equipe2);
-            console.log('DEBUG equipe1 B', match.aliancaB?.equipe1);
-            console.log('DEBUG equipe2 B', match.aliancaB?.equipe2);
+
             const nomeA = match.aliancaA?.nomeAlianca || 'Aliança A';
             const nomeB = match.aliancaB?.nomeAlianca || 'Aliança B';
             document.getElementById('nomeEquipeVermelha').textContent = nomeA;
             document.getElementById('nomeEquipeAzul').textContent = nomeB;
+
             const pontosV = match.aliancaA?.pontosAlianca ?? 0;
             const pontosA = match.aliancaB?.pontosAlianca ?? 0;
-            // Atualiza destaque imediatamente:
-            destacarVencedor(pontosV, pontosA);
+
+            // Remove qualquer destaque anterior para criar suspense
+            const cardV = document.getElementById('cardVermelho');
+            const cardA = document.getElementById('cardAzul');
+            cardV.classList.remove('winner');
+            cardA.classList.remove('winner');
+
+            // Adiciona efeito de carregamento nos cards durante a animação
+            cardV.classList.add('pulse-highlight');
+            cardA.classList.add('pulse-highlight');
+
+            // Inicia animações dos pontos simultaneamente
             animateScore(document.getElementById('pontosVermelho'), pontosV);
             animateScore(document.getElementById('pontosAzul'), pontosA);
-            renderAllianceMetrics('metricsVermelho', match.aliancaA);
-            renderAllianceMetrics('metricsAzul', match.aliancaB);
-            // (destaque já aplicado previamente)
-            statusMsg.textContent = '';
+
+            // Revela o vencedor apenas após a animação terminar (3.2s)
+            setTimeout(() => {
+                destacarVencedor(pontosV, pontosA);
+                cardV.classList.remove('pulse-highlight');
+                cardA.classList.remove('pulse-highlight');
+
+                // Adiciona um efeito extra ao vencedor
+                const vencedor = pontosV > pontosA ? cardV : (pontosA > pontosV ? cardA : null);
+                if (vencedor) {
+                    vencedor.style.animation = 'finalPop 0.6s ease-out';
+                    setTimeout(() => vencedor.style.animation = '', 600);
+                }
+            }, 3200);
+
+            renderAllianceMetrics('metricsVermelho', match.aliancaA, true); // Ativa animação
+            renderAllianceMetrics('metricsAzul', match.aliancaB, true); // Ativa animação
+
+            // Remove mensagem de status após animação completa (incluindo métricas)
+            setTimeout(() => {
+                statusMsg.textContent = '';
+            }, 4500); // Aumentado para cobrir todas as animações
         }
 
         btnBuscar.addEventListener('click', () => {
