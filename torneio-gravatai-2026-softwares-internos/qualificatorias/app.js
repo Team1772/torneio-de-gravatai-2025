@@ -638,13 +638,58 @@ async function finalizarPartida() {
     if (!confirmar) return;
     
     try {
-        console.log('📤 Enviando resultado da partida:', estado);
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        alert('Partida finalizada com sucesso!');
+        console.log('📤 Preparando dados para o Google Forms...');
+        
+        // Pega valores do juiz e jogo atualizados da tela
+        const juiz = document.getElementById('selectJuiz').value;
+        const jogo = document.getElementById('selectJogo').value;
+
+        // 1. URL de submissão do formulário (Lembre-se de colocar o seu ID real aqui)
+        const formUrl = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLScyTa5gnkymOJKRziR8cSqyYHkAZp2FYeMy0SOyl-8Fzy4__w/formResponse';
+
+        // Enviaremos dois formulários seguidos (um para a equipe verde e outro para a azul)
+        const equipes = ['verde', 'azul'];
+        console.log(estado)
+
+        for (const cor of equipes) {
+            const equipe = estado.equipes[cor];
+            const formData = new URLSearchParams();
+
+            // 🔹 Dados Globais da Partida
+            formData.append('entry.1046867752', juiz); // juiz
+            formData.append('entry.595569872', jogo);  // numjogo
+
+            // 🔹 Dados Específicos da Equipe
+            formData.append('entry.643198029', equipe.nome); // equipe
+            formData.append('entry.725367882', equipe.escalada); // escalada
+            formData.append('entry.525146271', equipe.chaoNoMural); // chao
+            formData.append('entry.1341637456', equipe.pontosTotal); // totalteste
+
+            // 🔹 Dados de Cooperação (Apenas o total)
+            formData.append('entry.1066153371', equipe.pontosCooperacao); // coop
+            
+            // 🔹 Níveis do Mural (um = N1/2pts, dois = N2/3pts, tres = N3/4pts)
+            formData.append('entry.1072194625', equipe.posicaoMural === 2 ? 'Sim' : 'Não'); // um (N1)
+            formData.append('entry.1124041468', equipe.posicaoMural === 3 ? 'Sim' : 'Não'); // dois (N2)
+            formData.append('entry.1818679083', equipe.posicaoMural === 4 ? 'Sim' : 'Não'); // tres (N3)
+
+            // Faz o envio silencioso pro Google (mode: 'no-cors' é OBRIGATÓRIO)
+            await fetch(formUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: formData.toString()
+            });
+        }
+        
+        alert('Partida finalizada e enviada para a nuvem com sucesso!');
         resetarFormulario();
+        
     } catch (erro) {
         console.error('❌ Erro ao finalizar partida:', erro);
-        alert('Erro ao finalizar partida. Tente novamente.');
+        alert('Erro ao enviar dados. Verifique a internet e tente novamente.');
     }
 }
 
