@@ -639,19 +639,21 @@ function atualizarPontosUI(cor, ptsCampo, ptsChao, ptsEscalada, totalIndividual,
     setTimeout(() => placarElement.classList.remove('updating'), 500);
 }
 
-function obterDadosMural(campo) {
+function obterPontuacaoPorNivel(campo, equipe) {
     if (!campo) {
-        return { n1: false, n2: false, n3: false };
+        return { chao: Number(equipe?.chaoNoMural || 0), n1: 0, n2: 0, n3: 0 };
     }
+
     return {
-        n1: campo.getBotoesAtivos('n1').length > 0,
-        n2: campo.getBotoesAtivos('n2').length > 0,
-        n3: campo.getBotoesAtivos('n3').length > 0
+        chao: Number(equipe?.chaoNoMural || 0),
+        n1: campo.getBotoesAtivos('n1').reduce((total, botao) => total + Number(botao.pontos || 0), 0),
+        n2: campo.getBotoesAtivos('n2').reduce((total, botao) => total + Number(botao.pontos || 0), 0),
+        n3: campo.getBotoesAtivos('n3').reduce((total, botao) => total + Number(botao.pontos || 0), 0)
     };
 }
 
 function construirPayloadGoogleForms(equipe, juiz, jogoNumero, jogoTexto, campo) {
-    const mural = obterDadosMural(campo);
+    const pontuacao = obterPontuacaoPorNivel(campo, equipe);
     const payload = [
         { key: FORM_ENTRY_IDS.juiz, label: 'Juiz', value: juiz },
         { key: FORM_ENTRY_IDS.jogoNumero, label: 'Número do Jogo', value: jogoNumero },
@@ -660,9 +662,9 @@ function construirPayloadGoogleForms(equipe, juiz, jogoNumero, jogoTexto, campo)
         { key: FORM_ENTRY_IDS.chao, label: 'Chão no Mural', value: equipe.chaoNoMural },
         { key: FORM_ENTRY_IDS.total, label: 'Pontos Totais', value: equipe.pontosTotal },
         { key: FORM_ENTRY_IDS.coop, label: 'Pontos Cooperação', value: equipe.pontosCooperacao },
-        { key: FORM_ENTRY_IDS.n1, label: 'N1 (um)', value: mural.n1 ? 'Sim' : 'Não' },
-        { key: FORM_ENTRY_IDS.n2, label: 'N2 (dois)', value: mural.n2 ? 'Sim' : 'Não' },
-        { key: FORM_ENTRY_IDS.n3, label: 'N3 (três)', value: mural.n3 ? 'Sim' : 'Não' }
+        { key: FORM_ENTRY_IDS.n1, label: 'N1 (um)', value: pontuacao.n1 },
+        { key: FORM_ENTRY_IDS.n2, label: 'N2 (dois)', value: pontuacao.n2 },
+        { key: FORM_ENTRY_IDS.n3, label: 'N3 (três)', value: pontuacao.n3 }
     ];
 
     return {

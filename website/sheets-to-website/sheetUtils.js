@@ -17,25 +17,60 @@ async function carregarSheetData(sheetUrl) {
     if (!sheetId || !gid) return reject("URL inválida ou sem 'gid'");
 
     const sheetCSVUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&gid=${gid}`;
+    console.log("📥 Buscando planilha:", sheetCSVUrl);
 
     fetch(sheetCSVUrl)
       .then((response) => {
-        if (!response.ok) throw new Error("Erro ao acessar a planilha");
+        if (!response.ok) throw new Error(`Erro ao acessar a planilha: ${response.status}`);
         return response.text();
       })
-      .then((csvText) => {
-        const rows = csvText.trim().split("\n");
-        const headers = rows[0].split(",").map((h) => h.trim().replace(/^"|"$/g, ""));
-        const data = rows.slice(1).map((row) => {
-          const values = row.split(",").map((v) => v.trim().replace(/^"|"$/g, ""));
+      .then((text) => {
+        console.log("📄 Resposta recebida da planilha:", text.slice(0, 300));
+
+        if (text.includes('/*O_o*/')) {
+          const match = text.match(/google\.visualization\.Query\.setResponse\((.*)\);/s);
+          if (!match) throw new Error('Resposta da planilha não pôde ser parseada');
+          const dataJson = JSON.parse(match[1]);
+          const table = dataJson.table;
+          const headers = (table.cols || []).map((col) => col.label || col.id || '');
+          const rows = (table.rows || []).map((row) => {
+            const values = (row.c || []).map((cell) => {
+              if (!cell) return '';
+              return cell.v ?? cell.f ?? '';
+            });
+            const obj = {};
+            headers.forEach((header, i) => (obj[header] = values[i]));
+            return obj;
+          });
+          resolve(rows);
+          return;
+        }
+
+        const lines = text.trim().split(/\r?\n/).filter(Boolean);
+        if (!lines.length) {
+          resolve([]);
+          return;
+        }
+
+        const headers = lines[0].split(',').map((h) => h.trim().replace(/^"|"$/g, ''));
+        const data = lines.slice(1).map((line) => {
+          const values = line.split(',').map((v) => v.trim().replace(/^"|"$/g, ''));
           const obj = {};
           headers.forEach((header, i) => (obj[header] = values[i]));
           return obj;
         });
+
         resolve(data);
       })
-      .catch((err) => reject(err.message));
+      .catch((err) => {
+        console.error('❌ Falha ao carregar planilha:', err);
+        reject(err.message || err);
+      });
   });
 }
 
-window.carregarSheetData = carregarSheetData;
+if (typeof window !== 'undefined') {
+  window.carregarSheetData = carregarSheetData;
+}
+
+export { carregarSheetData, extractSheetIdFromUrl, extractGidFromUrl };
