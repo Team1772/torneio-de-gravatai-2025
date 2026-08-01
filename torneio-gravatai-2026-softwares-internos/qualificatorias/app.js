@@ -263,6 +263,19 @@ const estado = {
     cooperacao: { coopetition: false, networking: false, integration: false }
 };
 
+const FORM_ENTRY_IDS = {
+    juiz: 'entry.1046867752',
+    jogoNumero: 'entry.595569872',
+    equipe: 'entry.643198029',
+    escalada: 'entry.725367882',
+    chao: 'entry.525146271',
+    total: 'entry.1341637456',
+    coop: 'entry.1066153371',
+    n1: 'entry.1072194625',
+    n2: 'entry.1124041468',
+    n3: 'entry.1818679083'
+};
+
 let campoVerde = null;
 let campoAzul = null;
 
@@ -626,6 +639,89 @@ function atualizarPontosUI(cor, ptsCampo, ptsChao, ptsEscalada, totalIndividual,
     setTimeout(() => placarElement.classList.remove('updating'), 500);
 }
 
+function obterDadosMural(campo) {
+    if (!campo) {
+        return { n1: false, n2: false, n3: false };
+    }
+    return {
+        n1: campo.getBotoesAtivos('n1').length > 0,
+        n2: campo.getBotoesAtivos('n2').length > 0,
+        n3: campo.getBotoesAtivos('n3').length > 0
+    };
+}
+
+function construirPayloadGoogleForms(equipe, juiz, jogoNumero, jogoTexto, campo) {
+    const mural = obterDadosMural(campo);
+    const payload = [
+        { key: FORM_ENTRY_IDS.juiz, label: 'Juiz', value: juiz },
+        { key: FORM_ENTRY_IDS.jogoNumero, label: 'Número do Jogo', value: jogoNumero },
+        { key: FORM_ENTRY_IDS.equipe, label: 'Equipe', value: equipe.nome },
+        { key: FORM_ENTRY_IDS.escalada, label: 'Escalada', value: equipe.escalada },
+        { key: FORM_ENTRY_IDS.chao, label: 'Chão no Mural', value: equipe.chaoNoMural },
+        { key: FORM_ENTRY_IDS.total, label: 'Pontos Totais', value: equipe.pontosTotal },
+        { key: FORM_ENTRY_IDS.coop, label: 'Pontos Cooperação', value: equipe.pontosCooperacao },
+        { key: FORM_ENTRY_IDS.n1, label: 'N1 (um)', value: mural.n1 ? 'Sim' : 'Não' },
+        { key: FORM_ENTRY_IDS.n2, label: 'N2 (dois)', value: mural.n2 ? 'Sim' : 'Não' },
+        { key: FORM_ENTRY_IDS.n3, label: 'N3 (três)', value: mural.n3 ? 'Sim' : 'Não' }
+    ];
+
+    return {
+        equipeNome: equipe.nome,
+        jogoTexto,
+        payload
+    };
+}
+
+function criarFormDataGoogleForms(payload) {
+    const formData = new URLSearchParams();
+    payload.forEach(field => {
+        if (field.key) {
+            formData.append(field.key, field.value);
+        }
+    });
+    return formData;
+}
+
+function mostrarResumoEnvio(payloads) {
+    const container = document.getElementById('formSubmissionSummary');
+    const content = document.getElementById('formSubmissionSummaryContent');
+    if (!container || !content) return;
+
+    const html = payloads.map(({ cor, equipeNome, jogoTexto, payload }) => {
+        const linhas = payload.map(field => `
+                <tr>
+                    <td>${field.label}</td>
+                    <td>${String(field.value)}</td>
+                    <td><code>${field.key}</code></td>
+                </tr>
+            `).join('');
+
+        return `
+            <div class="mb-4">
+                <h3 class="h6 mb-3">Equipe ${cor === 'verde' ? 'Verde' : 'Azul'} - ${equipeNome || 'Não definida'}</h3>
+                <p class="mb-2"><strong>Jogo:</strong> ${jogoTexto}</p>
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered mb-0">
+                        <thead>
+                            <tr>
+                                <th>Campo</th>
+                                <th>Valor</th>
+                                <th>Entry</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${linhas}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    content.innerHTML = html;
+    container.style.display = 'block';
+}
+
 async function finalizarPartida() {
     const erros = validarPartida();
     
@@ -640,40 +736,27 @@ async function finalizarPartida() {
     try {
         console.log('📤 Preparando dados para o Google Forms...');
         
-        // Pega valores do juiz e jogo atualizados da tela
         const juiz = document.getElementById('selectJuiz').value;
-        const jogo = document.getElementById('selectJogo').value;
+        const selectJogo = document.getElementById('selectJogo');
+        const jogo = selectJogo.value;
+        const jogoTexto = selectJogo.options[selectJogo.selectedIndex]?.textContent || jogo;
 
-        // 1. URL de submissão do formulário (Lembre-se de colocar o seu ID real aqui)
         const formUrl = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLScyTa5gnkymOJKRziR8cSqyYHkAZp2FYeMy0SOyl-8Fzy4__w/formResponse';
-
-        // Enviaremos dois formulários seguidos (um para a equipe verde e outro para a azul)
         const equipes = ['verde', 'azul'];
-        console.log(estado)
 
-        for (const cor of equipes) {
-            const equipe = estado.equipes[cor];
-            const formData = new URLSearchParams();
+        const payloads = equipes.map(cor => {
+            const campo = cor === 'verde' ? campoVerde : campoAzul;
+            return {
+                cor,
+                ...construirPayloadGoogleForms(estado.equipes[cor], juiz, jogo, jogoTexto, campo)
+            };
+        });
 
-            // 🔹 Dados Globais da Partida
-            formData.append('entry.1046867752', juiz); // juiz
-            formData.append('entry.595569872', jogo);  // numjogo
+        mostrarResumoEnvio(payloads);
+        console.log('📄 Dados do formulário:', payloads);
 
-            // 🔹 Dados Específicos da Equipe
-            formData.append('entry.643198029', equipe.nome); // equipe
-            formData.append('entry.725367882', equipe.escalada); // escalada
-            formData.append('entry.525146271', equipe.chaoNoMural); // chao
-            formData.append('entry.1341637456', equipe.pontosTotal); // totalteste
-
-            // 🔹 Dados de Cooperação (Apenas o total)
-            formData.append('entry.1066153371', equipe.pontosCooperacao); // coop
-            
-            // 🔹 Níveis do Mural (um = N1/2pts, dois = N2/3pts, tres = N3/4pts)
-            formData.append('entry.1072194625', equipe.posicaoMural === 2 ? 'Sim' : 'Não'); // um (N1)
-            formData.append('entry.1124041468', equipe.posicaoMural === 3 ? 'Sim' : 'Não'); // dois (N2)
-            formData.append('entry.1818679083', equipe.posicaoMural === 4 ? 'Sim' : 'Não'); // tres (N3)
-
-            // Faz o envio silencioso pro Google (mode: 'no-cors' é OBRIGATÓRIO)
+        for (const { payload } of payloads) {
+            const formData = criarFormDataGoogleForms(payload);
             await fetch(formUrl, {
                 method: 'POST',
                 mode: 'no-cors',
@@ -728,6 +811,15 @@ function resetarFormulario() {
     
     if (campoVerde) campoVerde.resetar();
     if (campoAzul) campoAzul.resetar();
+    
+    const summary = document.getElementById('formSubmissionSummary');
+    const summaryContent = document.getElementById('formSubmissionSummaryContent');
+    if (summary) {
+        summary.style.display = 'none';
+    }
+    if (summaryContent) {
+        summaryContent.innerHTML = '';
+    }
     
     estado.equipes.verde = { nome: null, posicaoMural: null, chaoNoMural: 0, escalada: 0, pontosIndividuais: 0, pontosCooperacao: 0, pontosTotal: 0 };
     estado.equipes.azul = { nome: null, posicaoMural: null, chaoNoMural: 0, escalada: 0, pontosIndividuais: 0, pontosCooperacao: 0, pontosTotal: 0 };
