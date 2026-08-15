@@ -50,6 +50,10 @@ const POSICOES_MURAL = [
     { id: 11, nivel: 'n1', x: '85%', y: '70%', pontos: 2, central: false }
 ];
 
+// Limite máximo de pilares que cada equipe pode pontuar
+// (soma de pilares no mural + pilares no chão)
+const MAX_PILARES_POR_EQUIPE = 11;
+
 class CampoJogo {
     constructor(cor) {
         this.cor = cor;
@@ -113,6 +117,13 @@ class CampoJogo {
         const estadoAtual = botao.dataset.estado;
         
         if (estadoAtual === 'off') {
+            // Verificar limite de pilares antes de ativar
+            const totalPilares = this.botoesAtivos.size + (estado.equipes[this.cor]?.chaoNoMural || 0);
+            if (totalPilares >= MAX_PILARES_POR_EQUIPE) {
+                alert(`⚠️ Limite de ${MAX_PILARES_POR_EQUIPE} pilares atingido para esta equipe!`);
+                return;
+            }
+            
             // OFF → ON (cor própria)
             botao.dataset.estado = 'propria';
             botao.dataset.corAtiva = this.cor;
@@ -135,6 +146,13 @@ class CampoJogo {
         const corOposta = this.cor === 'verde' ? 'azul' : 'verde';
         
         if (estadoAtual === 'off') {
+            // Verificar limite de pilares antes de ativar
+            const totalPilares = this.botoesAtivos.size + (estado.equipes[this.cor]?.chaoNoMural || 0);
+            if (totalPilares >= MAX_PILARES_POR_EQUIPE) {
+                alert(`⚠️ Limite de ${MAX_PILARES_POR_EQUIPE} pilares atingido para esta equipe!`);
+                return;
+            }
+            
             // OFF → Cor Própria
             botao.dataset.estado = 'propria';
             botao.dataset.corAtiva = this.cor;
@@ -571,6 +589,15 @@ function atualizarNomeEquipe(cor) {
 function alterarChao(cor, delta) {
     const valorAtual = estado.equipes[cor].chaoNoMural;
     const novoValor = Math.max(0, valorAtual + delta);
+    
+    // Ao incrementar, verificar limite de pilares (mural + chão)
+    const campo = cor === 'verde' ? campoVerde : campoAzul;
+    const pilaresMural = campo ? campo.botoesAtivos.size : 0;
+    if (delta > 0 && (pilaresMural + novoValor) > MAX_PILARES_POR_EQUIPE) {
+        alert(`⚠️ Limite de ${MAX_PILARES_POR_EQUIPE} pilares atingido para esta equipe!`);
+        return;
+    }
+    
     estado.equipes[cor].chaoNoMural = novoValor;
     const inputId = cor === 'verde' ? 'chaoValorVerde' : 'chaoValorAzul';
     document.getElementById(inputId).value = novoValor;

@@ -1,0 +1,1246 @@
+﻿Para melhor visualização deste documento no celular com o aplicativo Google Docs, clique no topo do cabeçalho: 
+Ícone de três pontos > Layout de Impressão / Ver no tema claro
+	
+
+Atualizações de conteúdo
+	Data
+	Mudanças realizadas
+	01/05/26
+	Lançamento do manual
+	09/05/26
+	Mudança de regra - G5
+	11/05/26
+	Mudança do STL do PILAR e do STL dos PINOS do MURAL.
+	04/06/26
+	Correção do endereço do evento
+	04/06/26
+	Mudança de material dos PILARES
+	01/08/26
+	Adição da altura do cano do FLUXO
+	
+
+TABELA DE CONTEÚDOS
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+1 INFORMAÇÕES        5
+1.1 Atualizações de conteúdo        5
+1.2 Dúvidas sobre o manual        5
+1.3 Instagram do Torneio de Robótica de Gravataí        5
+1.4 Recursos para uso de inteligência artificial no manual        6
+2 O QUE É O TORNEIO DE 2026?        7
+2.1 Informações do Torneio        8
+2.1.1 Informações do local        8
+3 EQUIPES        9
+3.1 Competidores:        9
+3.2 Mentores:        9
+3.3 Inscrição da equipe:        9
+3.4 Valores da Competição do Torneio de Robótica de Gravataí        10
+4 INICIATIVA INOVADORA: VISÃO GERAL        11
+4.1 Requisitos        11
+5 QUADRA COOPERATIVA DE DESAFIOS        13
+5.1 Objetivo do jogo        13
+5.2 Como pontuar no jogo        14
+5.2.1 Pontos Individuais        16
+5.2.2 Pontos de Cooperação        19
+5.3 Modo autônomo e teleoperado        21
+5.4 Fases da competição        22
+5.5 Sobre o robô        22
+5.5.1  Comunicação do robô        22
+5.5.2  Construção do robô        23
+5.5.3  Inspeções        25
+5.6 Quadra de jogo        26
+5.6.1  Especificações da dimensão da quadra de um robô        26
+5.6.2   Como reproduzir a quadra        26
+5.7 Dimensões dos elementos da quadra        30
+5.8 Funcionamento detalhado de uma partida        32
+5.8.1  Especificações das partidas        32
+5.8.2  Penalidades        36
+5.8.3  Cenários de pontuação        38
+5.9 Treinos        42
+5.10 Fase Qualificatória        42
+5.11 Fase Eliminatória        44
+5.11.1 Escolha de Alianças        44
+5.11.2 Como funciona os pontos nas eliminatórias        45
+5.11.3 Partidas eliminatórias        45
+6 PRÊMIOS        46
+6.1 Prêmio de desempenho do robô        46
+6.2 Prêmios de apresentação para juízes        46
+6.2.1 Prêmios de apresentação do robô        47
+6.2.2 Prêmios de atributo de equipe        48
+6.2.3 Prêmios de reconhecimento de juízes        49
+6.3 Prêmio de submissão para juízes        50
+7 PRÊMIO PILAR        51
+7.1 Requisitos        51
+8 PRÊMIO DE INSPIRAÇÃO        53
+8.1 Requisitos        53
+9 VALORES COMPLETOS        54
+
+
+INSTITUIÇÕES ORGANIZADORAS DESTE TORNEIO 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+Realização:
+  
+
+
+
+Apoio:
+  
+
+
+
+________________
+1        INFORMAÇÕES
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+Este manual está dividido entre informações gerais do torneio, INICIATIVA INOVADORA e QUADRA COOPERATIVA DE DESAFIOS.
+
+
+1.1        Atualizações de conteúdo
+Este manual poderá ser atualizado ao longo do tempo, por isso, as equipes deverão entrar neste documento regularmente para se certificar que não há mudanças nas regras da competição. Todas as atualizações de texto e regras serão destacadas com uma decoração de texto, seguindo a tabela abaixo:
+
+
+Tipos de decoração de texto para as atualizações de manual
+	Tipo
+	Exemplo
+	Regra adicionada/alterada
+	Esta linha foi adicionada/alterada no documento
+	Regra removida
+	Esta linha foi removida no documento
+	
+
+1.2        Dúvidas sobre o manual
+Se você tiver dúvidas em relação a qualquer informação contida neste manual, envie um email para torneioderoboticagravatai@gmail.com.
+
+
+1.3        Instagram do Torneio de Robótica de Gravataí
+O torneio possui um perfil oficial sobre comunicados importantes, siga o perfil (@torneioroboticagravatai) para acompanhar!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1.4        Recursos para uso de inteligência artificial no manual
+Para tirar dúvidas sobre o manual usando recursos de inteligência artificial (IA), você pode acessar o link para o NotebooKML ou entrar no documento deste link para copiar o manual otimizado para janela de contexto à inteligência artificial. Abaixo há os passos para utilizar esse recurso: 
+
+
+1. Acesse o link
+2. Siga instruções para copiar o conteúdo do documento
+3. Cole todo o documento em uma inteligência artificial (Chat GPT, Claude)
+4. Pronto! Agora você pode realizar perguntas sobre regras no manual
+
+
+  
+
+	Aviso importante sobre explicação de regras usando o Chat GPT
+
+
+A IA tem como objetivo facilitar o entendimento do manual, mas ela possui algumas restrições:
+
+* A IA somente responderá informações que estão explicitamente escritas no manual.
+* A IA não realizará a leitura de fotos de explicações de regras, você deve enviar fotos manualmente.
+* A IA pode realizar alucinações, isto é, responder erroneamente perguntas e induzir erros aos competidores.
+
+
+Sempre revise as regras explicadas pela inteligência artificial. O documento comprimido para uso de IA será atualizado regularmente conforme a atualização do manual.
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2        O QUE É O TORNEIO DE 2026?
+  
+
+A ECONOMIA CRIATIVA está moldando o mercado de trabalho, diversificando as áreas de uma empresa com o pensamento criativo e o desenvolvimento humano e tecnológico. Sustentabilidade, inclusão, diversidade e inovação estão materializando uma nova geração aos negócios, abrangendo mais estratégias e possibilitando novos empregos. Além disso, a comunicação e o marketing se tornaram ferramentas essenciais para atender às demandas dos clientes e impulsionar vendas, favorecendo o fluxo comercial de forma inovadora e dinâmica.
+Por isso, o Torneio de Robótica de Gravataí 2026 traz esse tema para a competição, incentivando os competidores a explorarem a criatividade para o novo modelo de trabalho. O torneio contará com duas modalidades: QUADRA COOPERATIVA DE DESAFIOS, onde os robôs enfrentarão desafios inspirados em estratégias de marketing, e INICIATIVA INOVADORA, que incentivará propostas criativas para às metas da ONU sobre os Objetivos de Desenvolvimento Sustentável. 
+INICIATIVA INOVADORA: As equipes são desafiadas a identificar um problema em sua comunidade, pesquisar por referências, e desenvolver uma solução para ser apresentada aos juízes da competição. A criação de um projeto é obrigatório para todas equipes.
+
+
+QUADRA COOPERATIVA DE DESAFIOS: Robôs possuem a tarefa de alavancar o fluxo econômico de Gravataí, reorganizando o mural central com novos pilares para o futuro do comércio e da cultura.
+________________
+
+
+2.1        Informações do Torneio
+O evento ocorrerá entre os dias 28, 29 e 30 de outubro no Ginásio De Esportes Prof Wilma Camargo
+
+
+Cronograma de ações do evento
+	Ação
+	Período
+	Abertura das inscrições
+	1 de Maio
+	Término das inscrições
+	19 de Junho
+	Divulgação dos inscritos
+	27 de Junho
+	Suporte técnico da comissão organizadora para as escolas
+	Maio, Junho, Julho, Agosto, Setembro
+	Realização do torneio
+	Treinos oficiais: 28 de outubro das 13h às 17h
+Evento: 29 das 8h30 às 16h e 30 das 9h às 16h de outubro
+	  
+
+	2.1.1        Informações do local
+O evento ocorrerá no Ginásio De Esportes Prof Wilma Camargo, localizado na Rua Frederico Grall - 343, bairro Dom Feliciano, em Gravataí. 
+
+
+Água: Mais informações em Setembro.
+
+
+Pits: Mais informações em Setembro.
+
+
+Refeitório: Mais informações em Setembro
+
+
+Visitas externas: O torneio será aberto ao público
+
+
+3        EQUIPES
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Para participar das modalidades, uma equipe deverá ser formada a partir dos seguintes requisitos:
+
+
+3.1        Competidores:
+* Competidores são os estudantes que trabalham na equipe, desenvolvem o robô e a INICIATIVA INOVADORA.
+* Cada equipe pode ter entre 2 a 8 competidores;
+* Todos os competidores devem estar matriculados e cursando o ensino fundamental, médio ou técnico;
+* Os competidores devem ter idade igual ou inferior a 21 anos;
+* São permitidas instituições públicas e privadas;
+* São permitidas equipes que não estejam vinculadas a nenhuma instituição;
+
+
+3.2        Mentores:
+* Os mentores são os responsáveis pelo time na competição;
+* Cada equipe pode ter até 2 mentores;
+* Os mentores devem ter idade igual ou superior a 18 anos.
+
+
+Papel de cada integrante da equipe na competição
+	Competidor
+	Mentor
+	Realiza todos os processos de montagem e programação dos robôs.
+	Responsável pelos competidores na competição.
+	Apresenta seu projeto e robô para os juízes avaliadores.
+	Não pode trabalhar no robô no lugar dos alunos.
+	Não pode ser mentor.
+	Não pode apresentar nenhum projeto para os juízes avaliadores.
+	3.3        Inscrição da equipe:
+Para inscrever uma equipe para o Torneio de Robótica de Gravataí 2026, você deve possuir as seguintes informações:
+* Mentores e competidores selecionados
+* Nome da equipe
+* Termos de participação e direitos de imagem e voz 
+* Anexo para menores de idade (De todos competidores)
+* Anexo para maiores de idade (De todos competidores e mentores)
+* Enviar os anexos pelo formulário ou pelo e-mail torneioderoboticagravatai@gmail.com.
+
+
+  
+
+
+
+3.4        Valores da Competição do Torneio de Robótica de Gravataí
+No rodapé de algumas páginas deste manual, você encontrará a explicação dos valores do Torneio de Robótica de Gravataí. Você está convidado a explorar quais engrenagens são necessárias para participar do torneio!
+
+
+  
+
+________________
+  4     INICIATIVA INOVADORA: VISÃO GERAL
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+A INICIATIVA INOVADORA tem o propósito de promover o contato com a tecnologia e o pensamento científico entre os alunos. O prêmio estimula o desenvolvimento de Gravataí por meio da criatividade e do talento dos participantes. Nesse contexto, os estudantes são desafiados a criar projetos inovadores que tenham o potencial de causar um impacto positivo no país dentro dos temas dos Objetivos de Desenvolvimento Sustentável no Brasil (ODS). 
+
+
+Os ODS possuem 17 objetivos que tratam de um abrangente cenário de desenvolvimento. Neste ano, a temática ECONOMIA CRIATIVA está alinhada diretamente com os seguintes objetivos:
+
+
+
+
+	  
+  
+  
+
+	
+
+As equipes são incentivadas a criar INICIATIVAS INOVADORAS que impactam a ODS 8, ODS 9 e ODS 10, mas qualquer ODS é permitido a realização do projeto.
+
+
+4.1        Requisitos
+Z1        Aderência ao tema: A INICIATIVA INOVADORA deve estar de acordo com a temática do prêmio, “Objetivos de Desenvolvimento Sustentável no Brasil”, divulgados em https://brasil.un.org/pt-br/sdgs.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Z2         APRESENTAÇÃO DO PROJETO: A equipe deve criar uma apresentação que contenha as seguintes informações, mas não limitado:
+* Nome do projeto: o projeto deve ter um nome criativo que tenha relação com a questão abordada pela equipe;
+* Situação problema: deve ser escolhido uma problemática que pretende resolver dentro do tema; 
+* Justificativa: deve ser explicado o porquê desse problema ser escolhido;
+* Relevância: como o projeto agrega ao tema, aos pesquisadores da área e a sociedade;
+* Objetivos: quais as metas do grupo com o projeto;
+* Metodologia de trabalho: como foi feito o projeto e suas etapas, quais métodos foram utilizados para construí-lo;
+* Referências: fontes das informações e dados apresentados;
+* Apresentação: Apenas os competidores devem apresentar o projeto para os juízes, podendo ter o auxílio de slides (PowerPoint, Canva), cartaz ou maquete.
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Z3        Categorias de avaliação: A avaliação dos projetos são separadas por 3 categorias: ensino fundamental I (1° a 5° ano), ensino fundamental II (6° a 9° ano), ensino médio e técnico. Haverá 2 ganhadores por categoria.
+Z4        Ausência da apresentação: Para a avaliação da INICIATIVA INOVADORA, é necessário que ao menos 1 integrante esteja no estande remetente à equipe. Caso nenhum integrante do time esteja presente na hora da avaliação, haverá uma segunda visita. Projetos não apresentados serão desclassificados.
+  
+
+	Todas as equipes devem possuir uma INICIATIVA INOVADORA
+	
+
+________________
+5        QUADRA COOPERATIVA DE DESAFIOS
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+  
+
+5.1        Objetivo do jogo
+Duas equipes jogam uma partida de 2:30 minutos simultaneamente com o objetivo de coletar PILARES, levando-os e os encaixando no MURAL FINANCEIRO. Os robôs devem trabalhar somente em sua quadra para armazenar os PILARES nos PINOS DO MURAL para PONTOS INDIVIDUAIS e cooperarem para realizar os PONTOS DE COOPERAÇÃO da partida. A entrega dos PILARES dentro do prazo estipulado é importante para o comércio e a arte da cidade de Gravataí. Nos momentos finais da partida, as equipes devem se pendurar e se manter, com os seus robôs, nos FLUXOS CRIATIVOS, para assim pontuarem no fim da partida.
+
+
+  
+
+  
+
+	O que os elementos de jogo interagem com a vida real?
+
+
+PILAR: É a produção de valor de uma empresa.
+
+
+MURAL FINANCEIRO: A representação de um gráfico comercial que demonstra a situação financeira da empresa.
+
+
+BASE PRODUTIVA: Plataforma que representa o desenvolvimento da produção econômica.
+
+
+FLUXO CRIATIVO: Representa a troca entre 4 conceitos do mercado de trabalho: mídia, tecnologia, consumo e cultura.
+
+
+ZONA DE CARGA: Demarcação da quadra que remete à um depósito de ideias ou estratégias da equipe.
+	
+
+  
+
+5.2        Como pontuar no jogo
+Em cada lado da quadra há ao total 11 PILARES, 3 deles estão localizados no chão, sendo demarcados por círculos, enquanto outros 8 estão distribuídos em cima de 2 BASES PRODUTIVAS localizadas na quadra.
+
+
+Com esses PILARES, há 6 formas diferentes de pontuar na partida, divididos entre PONTOS INDIVIDUAIS e PONTOS DE COOPERAÇÃO. Os pontos serão contabilizados no final da partida.
+
+
+
+
+
+
+
+
+
+
+Mapa de pontuações
+	Missão
+	Pontuação
+	Armazenar no CHÃO
+	+1 PONTO INDIVIDUAL  por PILAR armazenado no CHÃO
+	Armazenar no N1
+	+2 PONTOS INDIVIDUAIS por PILAR armazenado nos PINOS N1
+	Armazenar no N2
+	+3 PONTOS INDIVIDUAIS por PILAR armazenado nos pinos N2
+	Armazenar no N3
+	+4 PONTOS INDIVIDUAIS por PILAR armazenado nos PINOS N3
+	Se pendurar com o robô no final da partida nos FLUXOS CRIATIVOS
+	+8 pontos
+	Ponto de CO-OP Coopetition
+	+2 PONTOS DE COOPERAÇÃO se ambas as equipes colocarem PILARES no mesmo PINO N1 dos dois lados do MURAL
+	Pontos de CO-OP Networking
+	+6 PONTOS DE COOPERAÇÃO se ambas equipes colocarem um PILAR da cor oposta do time no PINO CENTRAL COOPERATIVO
+	Pontos de CO-OP Integration
+	+4 PONTOS DE COOPERAÇÃO se ambas as equipes se pendurarem com seus robôs no mesmo FLUXO
+	
+
+  
+
+	O que “Coopetition”, “Networking”, “Integration” dos pontos de cooperação são na vida real?
+
+
+Coopetition: Empresas concorrentes (ex: Apple e Samsung) cooperam em partes do negócio para ganho mútuo.
+
+
+Networking: Construção de relações estratégicas com pessoas/empresas (ex: eventos como South Summit).
+
+
+Integration: Integração de sistemas/processos entre empresas (ex: união de tecnologias da Uber e Google Maps).
+
+
+	
+
+5.2.1        Pontos Individuais
+Os PONTOS INDIVIDUAIS são ações realizadas por um robô e suas capacidades de pontuação individuais. Os PONTOS INDIVIDUAIS determinam a performance individual do robô.
+  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+A1        PONTOS INDIVIDUAIS SOMENTE COM SUA COR: Cada lado da quadra possui PILARES de cores diferentes (PILARES azul para o lado A e PILARES verdes para o lado B). Os PILARES só contam pontos individuais no seu lado respectivo da quadra, exemplo: PILARES verdes só contam pontos individuais do lado verde da quadra.
+  
+
+A2        ESCALAR  FLUXO – 8 PONTOS: Ao final da partida, se o robô estiver pendurado em qualquer FLUXO ganha 8 PONTOS INDIVIDUAIS. 
+  
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+A3        ARMAZENAR NO CHÃO DO MURAL – 1 PONTO: Cada PILAR posicionado ao final da partida encostando no perímetro de 10cm do CHÃO frente ao MURAL vale 1 ponto.
+  
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  
+
+
+
+
+
+A4        ARMAZENAR NA PRIMEIRA LINHA (N1) DO MURAL – 2 PONTOS: Cada PILAR colocado dentro dos PINOS do N1 do MURAL vale 2 pontos. 
+  
+
+A5        ARMAZENAR NA SEGUNDA LINHA (N2) DO MURAL – 3 PONTOS: Cada PILAR encaixado dentro dos PINOS do N2 do MURAL vale 3 pontos. 
+  
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+A6        ARMAZENAR NA TERCEIRA LINHA (N3) DO MURAL – 4 PONTOS: Cada PILAR colocado dentro dos PINOS do N3 do MURAL vale 4 pontos. 
+  
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+5.2.2        Pontos de Cooperação 
+Os PONTOS DE COOPERAÇÃO são ações realizadas por dois robôs, que mesmo sendo de times opostos, cooperam juntos para aumentar suas pontuações. Os PONTOS DE COOPERAÇÃO têm o  objetivo de incentivar o trabalho em equipe dentro da quadra. Ao todo, existem 3 modos de ganhar PONTOS DE COOPERAÇÃO na partida, sendo eles as missões  B2, B3 e B4.
+
+
+  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+B1        PONTOS DE COOPERAÇÃO DAS MISSÕES CO-OP: Normalmente, cada equipe fará os PILARES de sua quadra em seu MURAL, entretanto, caso as equipes queiram, mesmo não sendo da cor da peça respectiva ao time, elas podem colocar no MURAL delas, mesmo não ganhando ponto individual, como citado na regra A1. Porém, caso façam a missão B3, que exige uma troca de cores, os times ganharão os pontos CO-OP da missão, mas os individuais não.
+  
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+B2        COOPETITION: AMBOS PILARES EM PINOS N1 - 2 PONTOS CO-OP: No nível 1 do MURAL, robôs devem preencher ambos lados do MURAL com seus PILARES para a missão Coopetition. Para cada PILAR colocado em ambos lados vale 2 PONTOS CO-OP.
+  
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+B3        NETWORKING: PINO CENTRAL COOPERATIVO - 6 PONTOS CO-OP:  No nível 2 do MURAL há o PINO CENTRAL. Os times devem encaixar uma peça da cor do seu aliado para realizar a missão Networking, recebendo 6 pontos CO-OP. 
+  
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+B4        INTEGRATION: ROBÔS SE PENDURAM JUNTOS EM UM FLUXO - 4 PONTOS CO-OP:  Ao final da partida, os robôs devem subir em um dos FLUXOS. Se ambos robôs manterem o mesmo FLUXO, eles ganham 4 pontos CO-OP.
+  
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+5.3        Modo autônomo e teleoperado
+No começo de uma partida, todos robôs devem ser autônomos na quadra, As equipes podem optar por trocar o modo de controle para teleoperado após  45 segundos de partida.
+  
+
+5.4        Fases da competição 
+Durante a Fase Qualificatória, os robôs fazem duplas aleatórias em partidas para alcançar suas pontuações máximas. Nas Fases Eliminatórias, os robôs fazem alianças para uma disputa mata-mata. Os robôs entre a posição do ranking 1 e 8 seguirão para a Fase Eliminatória como capitães de aliança e escolhem um outro robô para competir junto.
+  
+
+
+
+  5.5        Sobre o robô
+Nesta seção, serão abordadas regras e informações para a construção do robô, sua comunicação e equipamentos permitidos para seu desenvolvimento. Essas regras são fundamentais para o funcionamento da competição,
+5.5.1         Comunicação do robô
+C1        Robôs autônomos: Devem ser capazes de se locomover de forma independente sobre a quadra, iniciando sua movimentação após um comando manual.
+C2        Robôs teleoperados: devem ser capazes de se locomover utilizando um sistema controlador, como um celular, um controle de videogame e etc. Se a conexão wireless do robô estiver com problemas de delay ou não reconhecimento do robô, é permitido controle do robô com cabeamento.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+C3        COMO CONFIGURAR TELEOPERADO NA LEGO®: Temos um vídeo para ensinar a configurar um sistema teleoperado no LEGO® SPIKE Prime Tutorial - Robô teleoperado com SPIKE PRIME. Para configurar um sistema teleoperado no LEGO® EV3, este tutorial ensina How to use Lego Commander APP Bluetooth remote control Lego EV3
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+C4        COMPUTADORES DA PREFEITURA DE GRAVATAÍ - INSTRUÇÕES PARA INSTALAÇÃO DO MINDSTORMS: O tutorial da seção C3 utiliza o software MINDSTORMS para configurar o autônomo no LEGO® SPIKE Prime. Este documento do DTI informa como pedir a instalação do MINDSTORMS para computadores da prefeitura de Gravataí. Se algum problema ocorrer, você pode tentar instalar o software no celular, em um outro computador, ou entrar em contato com o suporte do torneio através do e-mail torneioderoboticagravatai@gmail.com.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+5.5.2         Construção do robô
+D1        Uso de materiais: As equipes podem utilizar materiais diversos para a construção do robô.
+D2        Definição de robô: O robô é composto por um ou mais sistemas com controlador central LEGO® (NXT, EV3, SPIKE) ou material diverso (Arduino, Gogo Board, entre outros); Motores com rodas em seus eixos; Estrutura de sustentação; Sistema(s) que permite(m) pontuar PILARES.
+D3        Acoplar sistemas no meio da partida: O robô pode ter alterações com sistemas acopláveis no meio da partida. Elas devem ser adicionadas ao robô na ZONA DE CARGA.
+D4        Eletrônica: Não há um limite na quantidade de componentes eletrônicos utilizados no robô, como motores e sensores.
+D5        1 Robô por equipe: Cada equipe deve ter seu próprio robô, não sendo permitido o compartilhamento de robôs entre equipes.
+D6    Atravessar a quadra: O robô pode atravessar para o outro lado da quadra passando por baixo de um FLUXO.
+D7        Desacoplar sistemas na partida: O robô deve intencionalmente desacoplar sistemas somente dentro da ZONA DE CARGA.
+  
+
+	Exemplos de desacoplar sistemas no meio da partida
+* O que é permitido
+   * Os competidores removeram um sistema do robô na pausa da partida / no meio da partida dentro da ZONA DE CARGA.
+   * O robô acidentalmente estragou e soltou um sistema no meio da quadra.
+* O que não é permitido
+   * O robô intencionalmente soltou uma caixa com PILARES no CHÃO DO MURAL
+   * O robô soltou um sistema no meio da quadra para atrapalhar o outro robô
+	
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+D8        CONFIGURAÇÃO INICIAL: A configuração inicial do robô significa suas dimensões de tamanho quando ele está em repouso (programação desligada) em seu tamanho mais reduzido. A configuração inicial do robô não deve ultrapassar 20 cm de altura, 20 cm de largura e 25 cm de comprimento, inclusive de sistemas acopláveis. O robô deve passar pela inspeção para todos os sistemas estarem com a configuração mínima a este tamanho.
+  
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+D9        CONFIGURAÇÃO DE JOGO: A configuração de jogo serve quando o robô está no meio da partida com a programação ligada. O robô somente pode ser maior que a configuração inicial se ele aumentar seu tamanho sem interferência manual de competidores manuseando o robô. A configuração de jogo do robô não deve ultrapassar 20 cm de largura e 30 cm de comprimento, mas a altura de mecanismos, como a garra, é ilimitada.
+  
+
+5.5.3         Inspeções
+E1        Inspeção Inicial: Todos os robôs devem passar por uma inspeção técnica inicial antes de entrar na primeira partida do torneio. Serão analisadas as especificações e restrições aplicáveis à modalidade. A inspeção técnica poderá ocorrer novamente em qualquer momento da competição se houver dúvidas quanto ao atendimento das regras.
+E2        Configuração de tamanho: O robô será inspecionado verificando a configuração mínima de todos os sistemas acopláveis. Em nenhum momento o robô poderá passar do limite de tamanho estabelecido nas configurações iniciais e de jogo.
+E3        Configuração de tamanho de jogo: O robô deve corresponder ao tamanho da configuração de jogo segundo a regra D9. A equipe deve explicar na inspeção como funciona o aumento de tamanho sem interferência humana.
+E4        Se houver problemas na inspeção: Se o robô não passar pelos requisitos da inspeção, a equipe poderá corrigir os requisitos e pedir uma nova inspeção. Caso a equipe não queira fazer a correção ou não passar na inspeção antes do início das partidas, a equipe não poderá participar das partidas.
+E5        Pedido de reinspeção: Juizes de quadra podem requerir uma reinspeção do robô se entenderem que algum aspecto está fora das regras.
+5.6        Quadra de jogo
+  5.6.1         Especificações da dimensão da quadra de um robô
+F1        Tamanho da quadra: A quadra de um robô possui 180 cm de largura e 150cm de comprimento. Uma partida possui 2 quadras.
+F2        Chão: O chão da quadra é uma lona de banner.
+F3        Barreiras: As quadras são protegidas por uma barreira.
+5.6.2   Como reproduzir a quadra
+A quadra pode ser recriada utilizando papelão ou papel com largura e comprimento de 30cm. O chão da quadra deve ser liso. Não é necessário recriar toda a quadra para programar o robô, já que o lado esquerdo e direito estão espelhados.
+
+
+Como criar uma quadra
+	Passo
+	Exemplo
+	Crie a base de um quadrado 30x30cm  utilizando papel ou papelão
+	  
+
+	Marque no chão liso quadrados, com 6 deles na horizontal e 5 deles na vertical. 
+
+
+No total, a vertical possuí 150 cm, enquanto a horizontal possuí 180 cm.
+	  
+
+	Marque no chão em círculos às três demarcações dos PILARES que ficarão no chão. Após isso demarque em formato quadrático o local das BASES PRODUTIVAS, que são duas, uma à direita e outra à esquerda.
+
+
+O círculo possui 10cm de diâmetro
+	  
+
+	Marque no chão a ZONA DE CARGA.
+	  
+
+	Adicione o MURAL FINANCEIRO  e os dois FLUXOS na zona demarcada.
+
+
+Impressões 3D MURAL:
+Link 1
+Link 2
+Link 3 
+
+
+	  
+
+	Coloque às peças, representadas pelos círculos verdes, nas áreas delimitadas, sendo os círculos no chão brancos e os dois quadrados azuis.
+Se necessário, faça esse mesmo processo de construção do lado oposto da quadra.
+
+
+	  
+
+	  
+
+5.7        Dimensões dos elementos da quadra
+
+
+Elemento de jogo: PILAR
+	  
+
+	Os robôs devem coletar PILARES, que podem estar nas BASES PRODUTIVAS ou no chão.
+O PILAR tem 4,6cm de diâmetro, 4cm de diâmetro interno e 5,5 de comprimento.
+Projeto 3D dos PILARES
+Arquivo STL dos PILARES
+* Alternativa ao projeto 3D para treino: Comprar cano PVC, exemplo de local: Cano PVC. Como alternativa pode-se usar uma cano liso, por mais que não seja o oficial.
+* OBS: Durante o manual algumas representações podem estar com se fosse um cano liso, no entanto oficialmente a peça de jogo será o mesmo formato de uma Luva PVC, mas impressa em 3D (por apresentar melhor interação com robôs devido ao peso).
+	
+
+Elemento de jogo: BASE PRODUTIVA
+	  
+
+	Os robôs devem coletar os PILARES da BASE PRODUTIVA
+A BASE PRODUTIVA possui 7,5cm de altura e 11cm de largura de cada lateral, sendo um quadrado.
+Em cima da BASE PRODUTIVA haverá 4 PILARES em cada e serão 2 BASES por lado da quadra, uma à direita e outra à  esquerda.
+* Projeto 3D da BASE PRODUTIVA 
+* Arquivo STL da BASE PRODUTIVA 
+* Alternativa ao projeto 3D para treino: Usar papelão para a base e estrutura e colocar os PILARES por cima.
+	
+
+Elemento de jogo: MURAL FINANCEIRO
+	  
+
+	Os robôs devem encaixar PILARES nos PINOS DO MURAL FINANCEIRO.
+O MURAL FINANCEIRO em sua totalidade possuí 24cm de altura, 60cm de comprimento e 10cm de espessura contando já com sua base.
+A distância entre os níveis é em torno de 8,4cm, para visualização acesse o link.
+* Projeto 3D do MURAL FINANCEIRO:        
+* Arquivos STL do MURAL FINANCEIRO: Link 1, Link2 e Link3.
+* Arquivo STL dos PINOS do MURAL: Se você possuir acesso a impressora 3D, este item é importante para a reprodução da quadra. Pequeno custo de impressão. 
+* Alternativa ao projeto 3D para treino: Usar um bloco de isopor com 11 palitos enfiados para simular o MURAL.
+	
+
+Elementos de jogo: FLUXO CRIATIVO
+	  
+
+	Os robôs devem se pendurar ao fim do jogo em um dos dois FLUXOS.
+
+
+As paredes dos FLUXOS contêm 2cm de espessura, 19cm de altura e 5cm de largura. Para melhor visualização, segue o link.
+
+
+Os canos dos FLUXOS contêm 2cm de diâmetro e com uma altura de 17cm.
+
+
+* Projeto 3D do FLUXO
+* Arquivo STL do FLUXO
+* Alternativa ao projeto 3D para treino: Usar um cabo de madeira para representar os FLUXOS e como sua sustentação lateral um pedaço de madeira parafusado ao cabo. Você pode comprar o cano PVC do FLUXO.
+	
+
+
+
+
+
+Elementos de jogo: ZONA DE CARGA
+	  
+
+	Os robôs devem utilizar a ZONA DE CARGA para mudar as programações do robô e carregá-lo com PILARES.
+
+
+O raio da ZONA DE CARGA é de 45cm, porém seu comprimento na quadra equivale a 90cm.
+
+
+* Alternativa para representá-lo: Com um fita azul ou verde, você pode representar ambos lados das cores da quadra.
+	
+
+5.8        Funcionamento detalhado de uma partida
+Esta seção centraliza todas as informações sobre regras de uma partida. É apresentado especificações, penalidades e simulações de pontuação.
+
+
+5.8.1         Especificações das partidas
+G1        Tempo de partida: Uma partida tem o tempo de 2:30 minutos.
+  
+
+G2        Time na quadra: É permitida apenas a presença de 3 integrantes da equipe para manusear o robô na partida. Um mentor pode estar presente antes do início da partida para ajudar na configuração dos equipamentos.
+G3        Início da partida: O robô inicia sua programação quando o cronômetro começa a contar o tempo.
+G4        Como mudar programação autônoma: Será permitido a reposição da programação do robô apenas dentro da ZONA DE CARGA. Se caso o robô parar no meio da quadra ou precisar ser reposicionado, ele receberá uma falta (Veja H1)
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+G5        PILARES NA ZONA DE CARGA: Robôs podem jogar ou levar PILARES para a ZONA DE CARGA, assim, os competidores podem manipular os PILARES dentro do robô. Entretanto, o competidor de uma equipe não pode entregar os PILARES para outro jogador de outro time ao manipulá-lo ou então posicioná-lo em outro local, além da própria ZONA DE CARGA do respectivo time.
+  
+
+G6        PAUSA NA PARTIDA PARA TROCA DE MODOS: Para a troca dos modos do robô (autônomo para teleoperado), há uma pausa obrigatória na partida.
+  
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+G7        NÃO HÁ UM NÚMERO MÁXIMO DE PILARES COLETADOS AO MESMO TEMPO: Robôs podem controlar ao mesmo tempo PILARES sem um limite máximo .
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+G8        “Checkpoint” de um PILAR: PILARES que foram coletados e armazenados na ZONA DE CARGA recebem um “checkpoint” para cenários em que o robô parou no meio da quadra com PILARES armazenados. Algumas regras como G9 e G12 tratam sobre o conceito de “checkpoint” para PILARES.
+G9        Pausa de jogo com PILARES controlados no robô: Se o robô está carregando PILARES que não possuem “checkpoint” (veja G8) enquanto há a troca para modo teleoperado, o PILAR é reposicionado na mesma posição de onde o robô parou. Se o PILAR possuir “checkpoint”, ele pode ser reposicionado na ZONA DE CARGA novamente.
+G10        Mudar sistemas acoplados do robô: Durante a partida ou pausa entre o período autônomo e teleoperado, a equipe pode mudar sistemas do robô.
+G11        Robô pendurado em um dos FLUXOS: Para ser considerado pendurado o robô e assim ganhar seus respectivos pontos, ele deve encostar diretamente em um dos FLUXOS e não estar encostando no chão. Ele deve estar pendurado ao menos 5 segundos após o fim da partida.
+  
+
+	Exemplos de escalada em FLUXOS:
+* Robôs que ainda se mantêm no chão - não é permitido ❌
+   * Se o robô não possuir sistema para a escalada e apenas ficar segurando na barra do FLUXO durante o final, sem sair do chão, não será contabilizado PONTOS INDIVIDUAIS. Exemplos de outras situações hipotéticas:
+      * O robô se fixou ao FLUXO, no entanto não se elevou do nível do chão, porém, o robô da outra equipe está pendurado no mesmo FLUXO e está acima do chão. Nessa situação o robô da outra equipe ganhará os 8 PONTOS INDIVIDUAIS apenas.
+      * Se o robô fixado ao FLUXO ficar por alguns segundos pendurado sobre o chão, porém cair antes de ser considerado o final da partida, os pontos ganhos não contarão para a equipe. 
+      * Se o robô fixado ao FLUXO ficar por 2 segundos após o fim da partida, porém cair antes dos 5 segundos, os pontos ganhos não contarão para a equipe. 
+* Robôs que estão sobre o chão - é permitido ✅
+   * O robô conseguiu estar acima do chão e pendurado a um dos FLUXOS ao fim da partida ser anunciado.
+   * O robô está acima do nível do chão, no entanto ele usou outro robô, seja o do time oposto ou, em casos onde está já formada as alianças, com o robô da equipe que ele se juntou, para impulsioná-lo para cima e, com isso, conseguiu se manter. O robô ganha pontos, mas apenas o que está acima do nível do chão.
+	G12        Reposição de robô e PILAR no CHÃO DO MURAL: Se um robô parar encostando no CHÃO DO MURAL, existe um processo em relação aos PILARES coletados e controlados por ele no diagrama abaixo. A regra tem o objetivo de não punir equipes que perderam movimentos do robô no meio da quadra e definir que tentativas de pontuação falhas no MURAL devem ser evitadas para não perder “checkpoint” de PILARES.  
+Legenda oculta para uso de IA: Se o robô estiver parado no CHÃO DO MURAL. ele está manuseando PILARES? Se não, ele pode reposicionar o robô na ZONA DE CARGA. Se sim, Esse pilar já passou pela ZONA DE CARGA (checkpoint)? Se não, reposicionar PILAR onde o robô parou & reposicionar robô na ZONA DE CARGA. Se sim, o robô mantém a posse/controle do PILAR?  Se não, reposicionar o robô na ZONA DE CARGA, se sim, reposicionar PILAR na ZONA DE CARGA & Reposicionar robô na ZONA DE CARGA
+  
+
+	Exemplos de reposição de robô com PILAR controlado
+* Pode reposicionar PILAR ✅:
+   * O robô coletou 3 PILARES na quadra e os armazenou na ZONA DE CARGA. Após isso, os colocou dentro de um sistema armazenador e continuou a partida, entretanto, ele parou no meio da partida com os PILARES dentro do robô.
+   * O robô estava empurrando um pilar que estava na ZONA DE CARGA com o objetivo de pontuá-lo no         MURAL FINANCEIRO, mas a programação parou inesperadamente. O PILAR está em contato direto com o robô e é considerado controlado. 
+* Não pode reposicionar o PILAR ❌:
+   * O robô coletou 3 PILARES e não os levou para a ZONA DE CARGA. A programação parou inesperadamente. O competidor deve retirar o PILAR  e colocar de volta na mesma posição do robô parado, similar a regra G9 e G4.
+   * O robô coletou 2 PILARES e tentou pontuá-los no MURAL, mas não conseguiu os encaixar em PINOS e eles caíram no CHÃO. O robô deve pegar os PILARES novamente usando o robô e não pode reposicionar o PILAR.
+	5.8.2         Penalidades
+H1        PEGAR ROBÔ DENTRO DA QUADRA: 5 SEGUNDOS DE ESPERA. Robôs que necessitam ser recolhidos  dentro da área da quadra, independente do motivo, precisam ser reposicionados dentro da ZONA DE CARGA e esperar 5 segundos sem a interação de um competidor, recebendo assim uma falta com espera do tempo. Juízes realizarão uma contagem visual de 5 segundos para a equipe poder encostar no robô novamente. 
+* O juiz levantará uma bandeira verde para permitir que o competidor encoste no robô.
+  
+
+H2        Atrasos para o começo da partida: O atraso da partida no cronograma por motivos de falta de pontualidade de uma ou ambas equipes será tolerado em até 3 minutos. Atrasos por problemas de conexão de robô ou outros motivos serão negociados com os juízes.
+  
+
+	Exemplos de atrasos
+* Atrasos não toleráveis
+   * A equipe não compareceu à competição
+   * A equipe não respondeu às chamadas para a partida
+* Atrasos toleráveis 
+   * A equipe contatou os juízes, que analisaram e entenderam a incapacidade da equipe ter jogado. 
+   * A equipe teve problemas com a conexão do robô. 
+   * Para esses dois casos acima, será negociada uma nova partida com os juízes. 
+
+
+Independente do atraso da partida, a equipe será substituída e outra equipe entrará na partida com a intenção de treinar. Esta equipe não receberá pontos extras.
+	H3        Análise de regras: Quebras de regras para beneficiar uma pontuação serão analisadas pelos juízes. Se for considerado uma quebra não-intencional, os pontos favorecidos não serão contabilizados. Se for considerado uma quebra intencional e antidesportiva, a regra H4 será aplicada.
+
+
+H4        Punição de regras antidesportivas: Robôs que intencionalmente atrapalham outros robôs são considerados antidesportivos. Os pontos da partida para o robô punido são zerados e os juízes possuem a liberdade de interferir no resultado da partida.
+________________
+5.8.3         Cenários de pontuação
+Cenário A
+	  
+
+  
+
+	  
+
+	* 4 pontos azul
+* 8 pontos verde
+
+
+* 0 pontos de CO-OP
+
+
+* N3
+
+
+	  
+
+	* 3 pontos azul 
+* 6 pontos verde 
+
+
+* 0 pontos CO-OP
+
+
+* N2
+	  
+
+	* 8 pontos azul
+* 6 pontos verde 
+
+
+* 2 pontos CO-OP
+
+
+* N1 e CHÃO
+
+
+	  
+
+	* 8 pontos azul
+* 8 pontos verde
+
+
+* 0 pontos CO-OP
+
+
+* CLIMB
+	  
+
+	________________
+    Cenário B
+	  
+  
+
+	  
+
+	* 12 pontos azul 
+* 0 pontos verde
+
+
+* 0 pontos CO-OP
+
+
+* N3
+	  
+
+	* 3 pontos azul
+* 6 pontos verde
+
+
+* 6 pontos CO-OP
+
+
+* N2
+	  
+
+	* 4 pontos azul
+* 8 pontos verde
+
+
+* 2 pontos CO-OP
+
+
+* N1 e CHÃO
+	  
+
+	* 8 pontos azul
+* 8 pontos verde
+
+
+* 4 pontos CO-OP
+
+
+* CLIMB
+	  
+
+	
+
+5.9        Treinos
+No primeiro dia de evento, as quadras estarão liberadas para treino, com treinos abertos e partidas teste. Um robô não inspecionado pode entrar em treinos abertos, mas não pode participar de partidas teste.
+
+
+5.10        Fase Qualificatória
+A primeira fase do torneio, após os robôs já estarem inspecionados pelos juízes, ocorrerá partidas de cada equipe. O objetivo é obter a maior pontuação possível para melhorar sua posição no ranking. Todas as equipes jogarão partidas na fase qualificatória para aumentar a média de pontos até o final da qualificatória. Exemplo abaixo:
+
+
+  
+
+I1        Em caso de desistência: Se uma equipe não jogar sua partida programada no cronograma, outro robô será convocado para não prejudicar os PONTOS DE COOPERAÇÃO da partida.
+I2        Em caso de empate para entrar no top 8: Empates técnicos serão definidos com partidas individuais.
+Ranking de exemplo de qualificatórias
+	Pos.
+	Nome do time
+	Média de pontos
+	Média de pontos individuais
+	Média de pontos de cooperação
+	1
+	Time 1
+	56
+	38
+	18
+	2
+	Time 2
+	52
+	34
+	18
+	3
+	Time 3
+	48
+	30
+	18
+	4
+	Time 4
+	46
+	32
+	14
+	5
+	Time 5
+	44
+	32
+	12
+	6
+	Time 6
+	41
+	23
+	18
+	7
+	Time 7
+	40
+	28
+	12
+	8
+	Time 8
+	37
+	16
+	18
+	9
+	Time 9
+	32
+	20
+	12
+	10
+	Time 10
+	30
+	16
+	14
+	11
+	Time 11
+	28
+	16
+	12
+	12
+	Time 12
+	27
+	21
+	6
+	13
+	Time 13
+	26
+	16
+	10
+	14
+	Time 14
+	25
+	15
+	10
+	15
+	Time 15
+	24
+	18
+	6
+	16
+	Time 16
+	23
+	19
+	4
+	17
+	Time 17
+	22
+	18
+	4
+	18
+	Time 18
+	21
+	13
+	8
+	19
+	Time 19
+	20
+	12
+	8
+	20
+	Time 20
+	18
+	8
+	10
+	21
+	Time 21
+	16
+	10
+	6
+	22
+	Time 22
+	15
+	9
+	6
+	23
+	Time 23
+	14
+	8
+	6
+	24
+	Time 24
+	12
+	6
+	6
+	25
+	Time 25
+	11
+	7
+	4
+	Ordem para desempatar as classificações: 
+1. Média de pontos;  
+2. Média de pontos individuais
+3. Média de pontos de cooperação
+	Capitães da escolha de alianças
+	
+
+5.11        Fase Eliminatória
+A última fase do torneio conta com alianças de 2 equipes, onde os 8 primeiros colocados do ranking são os capitães na escolha de alianças. 8 alianças disputam o campeonato em um sistema de mata-mata semelhante a Copa do Mundo.
+
+
+Chaveamento eliminatórias
+	  
+
+	5.11.1 Escolha de Alianças
+Após o fim da Fase Qualificatória, as 8 equipes mais bem colocadas no ranking das qualificatórias devem escolher uma equipe não-capitã (9 colocado no ranking em diante) para formar alianças.
+
+
+  
+
+  
+
+5.11.2 Como funciona os pontos nas eliminatórias
+Nas Eliminatórias, todos os pontos são contabilizados para PONTOS DA ALIANÇA. 
+  
+
+5.11.3 Partidas eliminatórias
+Para avançar às fases nas eliminatórias (quartas e semifinais), as alianças realizam 1 partida eliminatória. A aliança vencedora avança de fase e a aliança perdedora se despede da competição. Para definir os prêmios de aliança ouro, prata e bronze, haverá um formato de melhor de 3 jogos.
+
+
+  
+
+________________
+6        PRÊMIOS
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Além das competições com os robôs e apresentações de projetos, o torneio contará com diversos prêmios, que são separados em 4 segmentos. Os prêmios são o reconhecimento dos esforços da equipe na preparação dos projetos, apresentações e robôs.
+
+
+6.1        Prêmio de desempenho do robô
+Aliança Ouro QUADRA COOPERATIVA
+	Para os robôs da aliança que tiveram a melhor performance nas eliminatórias, a vencedora da final.
+	Aliança Prata QUADRA COOPERATIVA
+	Para os robôs da aliança que tiveram a segunda melhor performance nas eliminatórias, perdedora da final.
+	Aliança Bronze QUADRA COOPERATIVA
+	Para os robôs da aliança que tiveram a terceira melhor performance nas eliminatórias, vencedora da disputa de 3 lugar.
+	
+
+6.2 Prêmios de apresentação para juízes
+❗ Estes prêmios precisam ser apresentados nos pits para os juízes. As equipes podem usar diversos materiais para a apresentação, por exemplo (mas não limitado):
+* Slides;
+* Cartazes;
+* Documentos;
+* Fotos.
+	6.2.1 Prêmios de apresentação do robô
+Prêmio de visual de robô
+	Robô com boa demonstração visual e que cativou a curiosidade dos juízes na modelagem artística.
+
+
+Orientações:
+* Apresentar a parte criativa e estética do robô, apresentando suas funções;
+* Explicar as escolhas de design.
+	
+
+Prêmio engenharia criativa
+	
+
+	Robô que possui a melhor inovação na sua construção, seja na programação ou na mecânica.
+
+
+Orientações:
+* Apresentar a parte técnica do robô e explicar o processo de construção;
+* Demonstrar o que foi feito para diminuir a chance de erros no funcionamento;
+	
+
+Prêmio solução de problemas
+	
+
+	Equipe que, apesar de um problema ou situação difícil na construção do robô, conseguiu fazer um bom trabalho na montagem ou programação.
+
+
+Orientações:
+* A equipe apresentou uma dificuldade que teve durante a construção do robô;
+* O time conseguiu solucionar de forma criativa.
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+Prêmio excelência estratégica
+	Equipe que desenvolveu uma estratégia eficaz durante a competição, sendo planos criativos e técnicos que serviram para as partidas do time.
+
+
+Orientações:
+* Apresentar os planos, métodos e técnicas utilizadas para as estratégias do time, em relação às partidas;
+* Explicar como a estratégia utilizada se interliga à construção do robô.
+	
+
+Prêmio de automação
+	Equipe que melhor realizou o momento do autônomo na quadra com o robô e desenvolveu a programação dentro do time.
+
+
+Orientações:
+* Se destacar com o robô em momentos de autônomo na quadra.
+* Demonstrar etapas e processos para o desenvolvimento da programação.
+	6.2.2 Prêmios de atributo de equipe
+Prêmio de INICIATIVA INOVADORA
+	Os projetos que mais se destacaram de acordo com os requisitos do prêmio.
+	
+
+Prêmio valores da competição
+	Equipe que melhor aplicou os valores da competição dentro e fora do torneio.
+
+
+Orientações:
+* Demonstrar respeito durante toda competição;
+* Trabalhar em equipe e se divertir acima de tudo;
+* Ajudar outros times quando necessário.
+	
+
+
+
+Prêmio de divulgação 
+	Equipe que mais divulgou o torneio através das redes sociais ou na própria escola.
+
+
+Orientações:
+* Ajudar na divulgação do torneio, através de redes sociais, cartazes, folhetos, entre outros materiais;
+* Mensurar e apresentar o alcance das atividades realizadas.
+* Ao realizar postagens no Instagram da equipe, marcar o perfil do Torneio de Robótica de Gravataí
+	6.2.3 Prêmios de reconhecimento de juízes
+Prêmio Escolha do Juiz (social)
+	Equipe que chamou a atenção dos juízes graças ao seu desempenho social.
+
+
+Orientações:
+* Algum aspecto ou ação social em específico chamou a atenção dos juízes;
+* Os juízes acreditam que esse time tem um forte potencial social para as futuras competições.
+	
+
+Prêmio Escolha do Juiz (engenharia)
+	
+
+	Equipe que chamou a atenção dos juízes graças ao seu desempenho em engenharia.
+
+
+Orientações:
+* Algum aspecto no robô ou ação em específico chamou a atenção dos juízes;
+* Os juízes acreditam que esse time tem um forte potencial de engenharia para as futuras competições.
+	
+
+
+
+
+
+
+
+Visual da equipe
+	Equipe que possui identidade visual e demonstra isso através de roupas, fantasias e acessórios.
+
+
+Orientações:
+* Apresentar um bom visual de robô;
+* Utilizar uma paleta de cores definidas e explicar porquê escolheram ela;
+* O time possui acessórios de torcida.
+	
+
+Espírito de equipe
+	Equipe que mostra entusiasmo e espírito de equipe durante o torneio.
+
+
+Orientações:
+* Demonstrar entusiasmo ao apoiar outras equipes, em sua aparência, nas interações com outras equipes/juízes, etc;
+* Evidenciar o espírito em equipe como peça chave;
+* Realizar as tarefas com união.
+	
+
+6.3        Prêmio de submissão para juízes  
+❗ Estes prêmios precisam ser escritos em forma de texto virtual em português, formatados e enviados em formato de PDF.  Os textos poderão conter o auxílio de Inteligência artificial, desde que o conteúdo predominantemente seja escrito por um humano.
+	
+
+Prêmio PILAR
+	O texto indicado à um aluno que mais se encaixa nos requisitos do prêmio.
+	
+
+Prêmio de Inspiração
+	O prêmio dado ao time que melhor cumprir as categorias destes requisitos.
+	
+
+7 PRÊMIO PILAR
+       ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+O PRÊMIO PILAR (Protagonismo, Inspiração, Liderança, Altruísmo e Responsabilidade.) tem como foco homenagear um aluno da competição através da visão de seus mentores. Neste sentido, os mentores são propostos a realizar uma atividade escrita que descreva a apreciação deles pelo seu aluno indicado.
+
+
+7.1        Requisitos
+J1        Regras textuais: O PRÊMIO PILAR tem como limite de caracteres 1500, sendo uma submissão feita e escrita apenas por mentores da equipe, com o requisito de ter a escrita direcionada a apenas 1 aluno.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+J2        ESTRUTURA GRAMATICAL: A equipe deve criar um texto seguindo critérios de avaliação, como no exemplo do link a seguir de Template. Os parâmetros de análise a seguir são:
+* Introdução: Um início que cative e que mostre para os jurados uma visão geral, demonstrando aquilo que está por vir em relação ao estudante indicado;
+* Comunicação: Demonstrar como o estudante se comunica com os demais membros e o ambiente gerado com isso; 
+* Impacto dentro do time: Destacar as melhorias do aluno dentro do time ou os impactos nos próprios membros, destacando situações;
+* Marco de superação: Como o aluno ajudou a superar um grande desafio que a equipe estava passando;
+* Impacto duradouro: Descrever como o legado desse estudante se estende pelas próximas gerações da equipe.
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+J3        ENTREVISTA: Durante a competição, o candidato ao prêmio deverá fazer uma entrevista em uma sala separada com um ou mais jurados para terminar a avaliação dos critérios do troféu. O horário das entrevistas será anunciado no primeiro dia da competição e a entrevista pode durar até 7min.
+Os juízes podem, mas não se limitando a isso, fazer perguntas referentes a estes temas citados abaixo:
+* Valores de competidor: Este tema envolve os valores do aluno dentro da competição, podendo ser direcionada ao valor que mais combina com o aluno ou aos seus próprios;
+* História e desenvolvimento: A jornada do candidato e a essência de sua história que o torna quem ele é atualmente e como isso se encaixa em suas ações e planos futuros.
+* Detalhamento do texto: Caso haja questões ou dúvidas do jurado referente a algo citado no texto do aluno, este é o momento de esclarecer ou detalhar ainda mais ações e impactos gerados pelo indicado.
+* Motivo da indicação: Um dos interesses dos entrevistadores pode ser a razão pela qual o indicado acredita que foi selecionado pelo seu mentor.
+* Exemplo de inspiração: Fazer uma pergunta referente a uma ajuda que o aluno pode dar a um de seus colegas de time, relatando mais sobre sua relação com os demais membros.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+J4        Categoria de avaliação: A avaliação dos textos será feita pelos jurados do evento antes da competição, sendo essencial que seja mandado o texto até 16 de outubro às 23h59min através do link. Este prêmio não é obrigatório para um time competir e haverá 3 ganhadores, sendo um do fundamental I, o segundo do fundamental II e o terceiro do ensino médio e técnico.
+  
+
+
+________________
+
+8 PRÊMIO DE INSPIRAÇÃO
+---------------------------------------------------------------o-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+O PRÊMIO DE INSPIRAÇÃO prestigia o time que apresentou um impacto duradouro em sua comunidade através de iniciativas da equipe. Nesse contexto, os times são propostos a realizar uma atividade escrita que descreve seus feitos, dando maior valor para as iniciativas que perduraram mais tempo ou que são mais recentes.
+
+
+8.1        Requisitos
+K1        Regras textuais: O PRÊMIO DE INSPIRAÇÃO tem como limite de caracteres 3000, sendo escrito por alunos e com o auxílio do mentor, com o requisito de ter a escrita direcionada ao impacto na comunidade.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+K2        ESTRUTURA GRAMATICAL: A equipe deve criar um texto envolvendo os critérios de avaliação, como no exemplo do link do Template. Os parâmetros de análise a seguir são:
+* Introdução: Um início que cative e que mostre para os jurados uma visão geral daquilo que está por vir em relação às iniciativas e ao impacto;
+* Ações principais: Descrever os esforços contínuos da equipe em relação aos seus eventos e projetos e como eles impactam a comunidade;
+* Impacto gerado: Destacar como as ações do time impactam de modo duradouro e concreto sua comunidade e qual seu alcance;
+* Sustentabilidade: Como o time garante a duração a longo prazo de seus eventos, destacando o modo de organização e preparo;
+* Gestão: Citar o modo no qual o time utiliza para se manter, mencionando a captação de recursos e a formação de novos membros;
+* Impacto duradouro: Descrever como o legado desse time se estende pelas próximas gerações de sua comunidade ou das pessoas impactadas.
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+K3        Categoria de avaliação: A avaliação dos textos será feita pelos jurados do evento antes da competição, sendo essencial que seja mandado o texto até 25 de setembro às 23h59min pelo link de envio. Este prêmio não é obrigatório para um time competir e haverá uma equipe ganhadora no   evento. 
+  
+
+
+
+9 VALORES COMPLETOS
+---------------------------------------------------------------o-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Após ler todas as páginas do manual, você deve ter encontrado todas as engrenagens que compõem o torneio. Cada peça é essencial para construir um ecossistema acolhedor, impactante e inovador, onde cada membro contribui para fazer esse mecanismo funcionar.
