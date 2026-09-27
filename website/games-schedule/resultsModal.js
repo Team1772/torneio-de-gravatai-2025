@@ -7,30 +7,40 @@ let cacheTimestamp = 0;
 const CACHE_MS = 30 * 1000; // 30s
 let matchesMap = {};
 
-function normalizarChave(str) { return (str || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toLowerCase(); }
+function normalizarChave(str) { return (str || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[\s_]/g, '').toLowerCase(); }
 function getFlex(row, alvo) { const n = normalizarChave(alvo); for (const k of Object.keys(row)) { if (normalizarChave(k) === n) return row[k]; } }
+function isEquipeTreino(nome) { return normalizarChave(nome) === 'equipetreino'; }
+function nomeComFlagTreino(info) {
+    const nome = typeof info === 'string' ? info : info.nome;
+    const naoJogou = typeof info === 'string' ? isEquipeTreino(info) : (info.naoJogou || isEquipeTreino(nome));
+    return naoJogou
+        ? `${nome} <span class="flag-treino" title="N\u00e3o jogou (advers\u00e1rio de treino)">(n\u00e3o jogou)</span>`
+        : nome;
+}
 function parseTimestamp(ts) { if (!ts) return 0; const m = ts.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?/); if (!m) return 0; const [_, d, mo, y, h, mi, s] = m; return new Date(+y, +mo - 1, +d, +h, +mi, +(s || 0)).getTime(); }
 
 function extrairPontuacoes(linha) {
     function num(v) { return Number(v || 0) || 0; }
-    const pN1 = num(getFlex(linha, 'pontosN1') || linha['pontosN1']);
-    const pN2 = num(getFlex(linha, 'pontosN2') || linha['pontosN2']);
-    const pN3 = num(getFlex(linha, 'pontosN3') || linha['pontosN3']);
-    const pMov = num(getFlex(linha, 'pontosMov') || linha['pontosMov']);
-    const coop = num(getFlex(linha, 'Pontos de cooperação (equipe)') || linha['Pontos de cooperação (equipe)']);
-    const totalSemCoop = pN1 + pN2 + pN3 + pMov; const total = totalSemCoop + coop;
-    return { pN1, pN2, pN3, pMov, coop, totalSemCoop, total };
+    const pN1 = num(getFlex(linha, 'pts_individuais_n1'));
+    const pN2 = num(getFlex(linha, 'pts_individuais_n2'));
+    const pN3 = num(getFlex(linha, 'pts_individuais_n3'));
+    const pChao = num(getFlex(linha, 'pts_individuais_chao'));
+    const pEscalada = num(getFlex(linha, 'escalada'));
+    const coop = num(getFlex(linha, 'pontos_de_cooperacao'));
+    // pts_totais já vem calculado (individuais + cooperação); fallback soma manual
+    const total = num(getFlex(linha, 'pts_totais')) || (pN1 + pN2 + pN3 + pChao + pEscalada + coop);
+    return { pN1, pN2, pN3, pChao, pEscalada, coop, total };
 }
 
 function agrupar(raw) {
     const jogos = {};
     raw.forEach(r => {
-        const numero = (getFlex(r, 'Número de jogo') || getFlex(r, 'Numero de jogo') || r['Número de jogo'] || r['Numero de jogo'] || '').toString().trim();
-        const equipe = getFlex(r, 'Equipe') || r['Equipe'];
+        const numero = (getFlex(r, 'selecao_numero_jogo') || '').toString().trim();
+        const equipe = getFlex(r, 'selecao_da_equipe');
         if (!numero || !equipe) return;
         const bucket = (jogos[numero] || (jogos[numero] = { numero, equipes: {} }));
         const equipeKey = equipe.trim();
-        const ts = parseTimestamp(getFlex(r, 'Data e Hora') || r['Data e Hora']);
+        const ts = parseTimestamp(getFlex(r, 'Carimbo de data/hora'));
         const atual = bucket.equipes[equipeKey];
         if (!atual || ts >= (atual.__ts || 0)) {
             bucket.equipes[equipeKey] = { ...r, __ts: ts };
@@ -67,8 +77,14 @@ function criarMetricBox(label, val) {
 }
 
 function renderMatch(match) {
-    const nomeA = getFlex(match.equipeA, 'Equipe') || match.equipeA['Equipe'] || '(sem nome)';
-    const nomeB = getFlex(match.equipeB, 'Equipe') || match.equipeB['Equipe'] || '(sem nome)';
+    const cruA = getFlex(match.equipeA, 'selecao_da_equipe') || '(sem nome)';
+    const cruB = getFlex(match.equipeB, 'selecao_da_equipe') || '(sem nome)';
+    // Resolve nome real do adversário (troca "Equipe treino") via config do cronograma
+    const resolver = configResultados.resolverEquipe;
+    const infoA = resolver ? resolver(match.numero, cruA) : { nome: cruA, naoJogou: isEquipeTreino(cruA) };
+    const infoB = resolver ? resolver(match.numero, cruB) : { nome: cruB, naoJogou: isEquipeTreino(cruB) };
+    const nomeA = nomeComFlagTreino(infoA);
+    const nomeB = nomeComFlagTreino(infoB);
     const pontA = extrairPontuacoes(match.equipeA);
     const pontB = extrairPontuacoes(match.equipeB);
     const winA = pontA.total > pontB.total;
@@ -81,7 +97,8 @@ function renderMatch(match) {
         ${criarMetricBox('N1', pontA.pN1)}
         ${criarMetricBox('N2', pontA.pN2)}
         ${criarMetricBox('N3', pontA.pN3)}
-        ${criarMetricBox('Mov', pontA.pMov)}
+        ${criarMetricBox('Chão', pontA.pChao)}
+        ${criarMetricBox('Escalada', pontA.pEscalada)}
       </div>
       <div class="res-coop-bar ${pontA.coop > 0 ? 'highlight' : ''}"><span>Cooperação</span><strong data-valor-final="${pontA.coop}">0</strong></div>
     </div>`;
@@ -93,7 +110,8 @@ function renderMatch(match) {
         ${criarMetricBox('N1', pontB.pN1)}
         ${criarMetricBox('N2', pontB.pN2)}
         ${criarMetricBox('N3', pontB.pN3)}
-        ${criarMetricBox('Mov', pontB.pMov)}
+        ${criarMetricBox('Chão', pontB.pChao)}
+        ${criarMetricBox('Escalada', pontB.pEscalada)}
       </div>
       <div class="res-coop-bar ${pontB.coop > 0 ? 'highlight' : ''}"><span>Cooperação</span><strong data-valor-final="${pontB.coop}">0</strong></div>
     </div>`;

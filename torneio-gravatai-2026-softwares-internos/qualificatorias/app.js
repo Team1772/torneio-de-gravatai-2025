@@ -1,31 +1,67 @@
 // ===================================
-// APLICAÇÃO COMPLETA - SEM MÓDULOS ES6
+// APLICAÇÃO COMPLETA (ES6 MODULE)
 // ===================================
+import { carregarSheetData } from "../../website/sheets-to-website/sheetUtils.js";
 
 // ===================================
-// DADOS MOCK
+// DADOS REAIS (Google Sheets 2026)
 // ===================================
-async function carregarDadosMock() {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
-    return {
-        juizes: ["Eduardo", "Maria", "João", "Ana"],
-        equipes: [
-            "Eletrobots", "Technoibots", "Robotic Warriors", "Tech Titans",
-            "Cyber Dragons", "Mech Masters", "Code Ninjas", "Robo Legends",
-            "Tech Pioneers", "Digital Innovators"
-        ],
-        jogos: [
-            { numero: 1, equipe1: "Eletrobots", equipe2: "Technoibots", juiz: "Eduardo" },
-            { numero: 2, equipe1: "Robotic Warriors", equipe2: "Tech Titans", juiz: "Maria" },
-            { numero: 3, equipe1: "Cyber Dragons", equipe2: "Mech Masters", juiz: "João" },
-            { numero: 4, equipe1: "Code Ninjas", equipe2: "Robo Legends", juiz: "Ana" },
-            { numero: 5, equipe1: "Tech Pioneers", equipe2: "Digital Innovators", juiz: "Eduardo" },
-            { numero: 6, equipe1: "Eletrobots", equipe2: "Robotic Warriors", juiz: "Maria" },
-            { numero: 7, equipe1: "Technoibots", equipe2: "Tech Titans", juiz: "João" },
-            { numero: 8, equipe1: "Cyber Dragons", equipe2: "Code Ninjas", juiz: "Ana" }
-        ]
-    };
+// Aba de jogos/agenda: numeroJogo, juiz, horario, equipe... (2 linhas por jogo)
+const SHEET_JOGOS_URL = "https://docs.google.com/spreadsheets/d/1SW3MyTRQzhMUCHjvXLhrdTijCCtq1yfgv6RAHdV9QYs/edit?gid=2032908800#gid=2032908800";
+// Aba de equipes: Ordem, Equipe, Escola
+const SHEET_EQUIPES_URL = "https://docs.google.com/spreadsheets/d/1SW3MyTRQzhMUCHjvXLhrdTijCCtq1yfgv6RAHdV9QYs/edit?gid=421523644#gid=421523644";
+
+// Equipe de treino: aparece na agenda como adversário em jogos de treino.
+// Deve ser exibida normalmente no frontend, mas NUNCA enviada ao Google Forms.
+const EQUIPE_TREINO = "Equipe Treino";
+// Normaliza nome (sem acento, espa\u00e7os colapsados, min\u00fasculo) para compara\u00e7\u00f5es
+function normNome(nome) {
+    return String(nome || '')
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, "")
+        .replace(/\s+/g, ' ').trim().toLowerCase();
+}
+function isEquipeTreino(nome) {
+    return normNome(nome) === 'equipe treino';
+}
+
+async function carregarDados() {
+    const [linhasJogos, linhasEquipes] = await Promise.all([
+        carregarSheetData(SHEET_JOGOS_URL),
+        carregarSheetData(SHEET_EQUIPES_URL)
+    ]);
+
+    // Equipes (coluna "Equipe") — nomes usados nos dropdowns de equipe
+    const equipes = linhasEquipes
+        .map(linha => String(linha.Equipe ?? linha.equipe ?? '').trim())
+        .filter(Boolean);
+
+    // "Equipe Treino" não está na aba de equipes, mas aparece como adversário
+    // nos jogos de treino da agenda — precisa estar disponível nos dropdowns.
+    if (!equipes.some(isEquipeTreino)) equipes.push(EQUIPE_TREINO);
+
+    // Jogos: agrupar por numeroJogo (cada jogo tem 2 linhas, uma por equipe)
+    const jogosMap = {};
+    linhasJogos.forEach(linha => {
+        const numero = String(linha.numeroJogo ?? '').trim();
+        if (!numero) return;
+        if (!jogosMap[numero]) {
+            jogosMap[numero] = { numero, juiz: String(linha.juiz ?? '').trim(), equipes: [] };
+        }
+        const equipe = String(linha.equipe ?? '').trim();
+        if (equipe) jogosMap[numero].equipes.push(equipe);
+    });
+
+    const jogos = Object.values(jogosMap).map(jogo => ({
+        numero: jogo.numero,
+        equipe1: jogo.equipes[0] || '',
+        equipe2: jogo.equipes[1] || '',
+        juiz: jogo.juiz
+    }));
+
+    // Juízes: valores únicos vindos da agenda
+    const juizes = [...new Set(jogos.map(jogo => jogo.juiz).filter(Boolean))];
+
+    return { juizes, equipes, jogos };
 }
 
 // ===================================
@@ -304,7 +340,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.log('🚀 Iniciando aplicação...');
     
     try {
-        const dados = await carregarDadosMock();
+        const dados = await carregarDados();
         console.log('✅ Dados carregados:', dados);
         preencherDropdowns(dados);
         configurarEventListeners();
@@ -557,17 +593,33 @@ function verificarTodasCooperacoes() {
     calcularPontos();
 }
 
+// Seleciona no <select> a opção cujo valor bate com o nome (comparação
+// normalizada: ignora acento/caixa/espaços extras). Evita que o auto-preenchimento
+// do jogo falhe por diferença sutil entre o nome da agenda e a opção do dropdown.
+function definirEquipeSelect(selectId, nome) {
+    const select = document.getElementById(selectId);
+    const alvo = normNome(nome);
+    let valorEncontrado = '';
+    for (const opt of select.options) {
+        if (opt.value && normNome(opt.value) === alvo) {
+            valorEncontrado = opt.value;
+            break;
+        }
+    }
+    select.value = valorEncontrado;
+}
+
 function aoSelecionarJogo(event) {
     const select = event.target;
     const option = select.options[select.selectedIndex];
-    
+
     if (option.value) {
         const equipe1 = option.dataset.equipe1;
         const equipe2 = option.dataset.equipe2;
-        
-        document.getElementById('selectEquipe1').value = equipe1;
-        document.getElementById('selectEquipe2').value = equipe2;
-        
+
+        definirEquipeSelect('selectEquipe1', equipe1);
+        definirEquipeSelect('selectEquipe2', equipe2);
+
         atualizarNomeEquipe('verde');
         atualizarNomeEquipe('azul');
     }
@@ -577,13 +629,15 @@ function atualizarNomeEquipe(cor) {
     const selectId = cor === 'verde' ? 'selectEquipe1' : 'selectEquipe2';
     const select = document.getElementById(selectId);
     const nomeEquipe = select.value;
-    
-    if (nomeEquipe) {
-        estado.equipes[cor].nome = nomeEquipe;
-        document.getElementById(`nomeEquipe${cor === 'verde' ? 'Verde' : 'Azul'}`).textContent = nomeEquipe;
-        document.getElementById(`labelEscalada${cor === 'verde' ? 'Verde' : 'Azul'}`).textContent = nomeEquipe;
-        document.getElementById(`placarNome${cor === 'verde' ? 'Verde' : 'Azul'}`).textContent = nomeEquipe;
-    }
+    const sufixo = cor === 'verde' ? 'Verde' : 'Azul';
+
+    // Sempre atualiza a UI — inclusive quando vazio — para nunca manter o
+    // nome de uma equipe de um jogo anterior (bug do "state antigo").
+    const rotulo = nomeEquipe || `Equipe ${sufixo}`;
+    estado.equipes[cor].nome = nomeEquipe || null;
+    document.getElementById(`nomeEquipe${sufixo}`).textContent = rotulo;
+    document.getElementById(`labelEscalada${sufixo}`).textContent = rotulo;
+    document.getElementById(`placarNome${sufixo}`).textContent = rotulo;
 }
 
 function alterarChao(cor, delta) {
@@ -717,6 +771,7 @@ function mostrarResumoEnvio(payloads) {
     if (!container || !content) return;
 
     const html = payloads.map(({ cor, equipeNome, jogoTexto, payload }) => {
+        const treino = isEquipeTreino(equipeNome);
         const linhas = payload.map(field => `
                 <tr>
                     <td>${field.label}</td>
@@ -727,7 +782,7 @@ function mostrarResumoEnvio(payloads) {
 
         return `
             <div class="mb-4">
-                <h3 class="h6 mb-3">Equipe ${cor === 'verde' ? 'Verde' : 'Azul'} - ${equipeNome || 'Não definida'}</h3>
+                <h3 class="h6 mb-3">Equipe ${cor === 'verde' ? 'Verde' : 'Azul'} - ${equipeNome || 'Não definida'}${treino ? ' <span class="badge bg-warning text-dark">treino</span>' : ''}</h3>
                 <p class="mb-2"><strong>Jogo:</strong> ${jogoTexto}</p>
                 <div class="table-responsive">
                     <table class="table table-sm table-bordered mb-0">
@@ -784,6 +839,8 @@ async function finalizarPartida() {
         mostrarResumoEnvio(payloads);
         console.log('📄 Dados do formulário:', payloads);
 
+        // Enviamos as DUAS equipes (inclusive a "Equipe Treino") para que o
+        // cronograma reconheça o jogo como completo (ele exige 2 resultados).
         for (const { payload } of payloads) {
             const formData = criarFormDataGoogleForms(payload);
             await fetch(formUrl, {

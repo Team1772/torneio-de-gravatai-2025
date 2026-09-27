@@ -14,7 +14,7 @@
   <div class="container">
     <header class="app-header d-flex flex-column flex-lg-row align-items-lg-center gap-2">
       <div>
-        <div class="brand-title">Qualificatórias - Torneio de Robótica de Gravataí 2025</div>
+        <div class="brand-title">Torneio de Robótica 2026</div>
         <div class="subtitle">Horários estimados — sujeito a atrasos operacionais</div>
       </div>
       <div id="ultima-atualizacao" class="last-updated ms-lg-auto"></div>
@@ -306,6 +306,22 @@
       color: #5b6b79;
     }
 
+    /* Flag de equipe de treino (não jogou de verdade) */
+    .flag-treino {
+      font-size: .72rem;
+      font-weight: 600;
+      font-style: italic;
+      color: #c0392b;
+      margin-left: .3rem;
+      white-space: nowrap;
+    }
+
+    /* Dentro do modal os cards têm fundo colorido: flag em branco p/ contraste */
+    .res-alliance-name .flag-treino {
+      color: #fff;
+      opacity: .9;
+    }
+
     /* Pesquisa: destaque e desfoque */
     #tabela-jogos tr.search-fade {
       opacity: .65;
@@ -400,6 +416,31 @@
     import { carregarSheetData } from "../../website/sheets-to-website/sheetUtils.js";
     import { abrirResultadoJogo, fecharResultadoJogo, inicializarResultadosSchedule } from "../../website/games-schedule/resultsModal.js";
 
+    // Planilha de respostas das qualificatórias 2026 (Google Forms)
+    const SHEET_RESULTADOS_URL = "https://docs.google.com/spreadsheets/d/1PGOdUi3p0ZttiHlhkk3Il53ZvThFwsQfWqdoDPlXP0s/edit?gid=1402051272#gid=1402051272";
+
+    // Leitura de coluna tolerante a acento/espaço/underscore nos cabeçalhos
+    function normKey(s) { return String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[\s_]/g, '').toLowerCase(); }
+    function campo(obj, nome) { const alvo = normKey(nome); for (const k of Object.keys(obj || {})) { if (normKey(k) === alvo) return obj[k]; } return ''; }
+
+    // "Equipe Treino": adversário de treino (não é uma equipe real que jogou)
+    function isEquipeTreino(nome) { return normKey(nome) === 'equipetreino'; }
+    // Info de exibição de uma equipe: aceita string ou { nome, naoJogou }.
+    // Quando a equipe não jogou (treino), mostra "(não jogou)" ao lado do nome
+    // — usando o nome REAL do adversário agendado quando disponível.
+    function nomeComFlag(info) {
+      const nome = typeof info === 'string' ? info : info.nome;
+      const naoJogou = typeof info === 'string' ? isEquipeTreino(info) : (info.naoJogou || isEquipeTreino(nome));
+      return naoJogou
+        ? `${nome} <span class="flag-treino" title="Não jogou (adversário de treino)">(não jogou)</span>`
+        : nome;
+    }
+
+    // Nomes resolvidos por jogo, para o modal reaproveitar:
+    // { [numero]: { [nomeResultadoNormalizado]: { nome, naoJogou } } }
+    const resolvidosPorJogo = {};
+
+
     async function atualizarTabela() {
       const agora = new Date()
       const hh = String(agora.getHours()).padStart(2, '0')
@@ -434,30 +475,47 @@
       })
       console.log("🧩 Jogos agrupados:", jogosAgrupados);
 
-      const dataJogosJogados = await carregarSheetData("https://docs.google.com/spreadsheets/d/1R1JcLto9Eowp3VG-SWhJIve4Q9ikWV3ani4eWzOhRoc/edit?usp=sharing&gid=283528837#gid=283528837")
+      const dataJogosJogados = await carregarSheetData(SHEET_RESULTADOS_URL)
       console.log("📄 Linhas da planilha (resultados):", dataJogosJogados);
       const jogosJogadosMap = {}
       dataJogosJogados.forEach(item => {
-        const num = item['Número de jogo '] || item['Numero de jogo'] || item['numeroJogo'] || item['Número de jogo'];
-        if (!num) return;
-        if (!jogosJogadosMap[num]) jogosJogadosMap[num] = [];
-        jogosJogadosMap[num].push(item);
+        const num = String(campo(item, 'selecao_numero_jogo')).trim();
+        const equipe = String(campo(item, 'selecao_da_equipe')).trim();
+        if (!num || !equipe) return;
+        if (!jogosJogadosMap[num]) jogosJogadosMap[num] = {};
+        jogosJogadosMap[num][equipe] = item; // dedupe por equipe (último envio vence)
       })
       console.log("🧩 Resultados agrupados:", jogosJogadosMap);
 
       Object.values(jogosAgrupados).forEach(jogo => {
         if (!jogo) return;
         const num = jogo.numeroJogo;
-        if (jogosJogadosMap[num] && jogosJogadosMap[num].length >= 2) {
+        const equipesAgenda = [...jogo.equipes]; // nomes reais agendados
+        const resultado = jogosJogadosMap[num];
+        const nomesEquipes = resultado ? Object.keys(resultado) : [];
+        if (nomesEquipes.length >= 2) {
           jogo.completo = true;
-          const first = jogosJogadosMap[num][0] || {};
-          const second = jogosJogadosMap[num][1] || {};
-          jogo.equipes = [
-            first['Equipe '] || first['Equipe'] || first.equipe || '',
-            second['Equipe '] || second['Equipe'] || second.equipe || ''
-          ].filter(Boolean);
-          jogo.pontosEquipe1 = first['Pontos Individuais Equipe '] || first['Pontos Individuais Equipe'] || first['Pontos Individuais'] || '';
-          jogo.pontosEquipe2 = second['Pontos Individuais Equipe '] || second['Pontos Individuais Equipe'] || second['Pontos Individuais'] || '';
+          // quem efetivamente jogou (nome != "Equipe treino")
+          const nomesReais = nomesEquipes.filter(n => !isEquipeTreino(n));
+          // Resolve nome de exibição + flag para cada equipe do resultado
+          const info = nomesEquipes.slice(0, 2).map(nome => {
+            if (isEquipeTreino(nome)) {
+              // adversário agendado que NÃO é quem realmente jogou
+              const adversario = equipesAgenda.find(a => !nomesReais.some(r => normKey(r) === normKey(a)));
+              return { nome: adversario || nome, naoJogou: true, resultKey: normKey(nome) };
+            }
+            return { nome, naoJogou: false, resultKey: normKey(nome) };
+          });
+          jogo.equipesInfo = info;
+          jogo.equipes = info.map(e => e.nome);
+          jogo.pontosEquipe1 = campo(resultado[nomesEquipes[0]], 'pts_totais') || '';
+          jogo.pontosEquipe2 = campo(resultado[nomesEquipes[1]], 'pts_totais') || '';
+          // guarda para o modal resolver pelo nome vindo do resultado
+          resolvidosPorJogo[num] = {};
+          info.forEach(e => { resolvidosPorJogo[num][e.resultKey] = { nome: e.nome, naoJogou: e.naoJogou }; });
+        } else {
+          // jogo ainda não completo: info a partir da agenda (sem flag de resolução)
+          jogo.equipesInfo = equipesAgenda.map(nome => ({ nome, naoJogou: isEquipeTreino(nome) }));
         }
       })
 
@@ -490,10 +548,14 @@
 
       let jogosParaExibir = [];
       if (filtroAtivo === 'proximos') {
-        // Últimos 4 jogos completos + todos os próximos (não completos)
+        // Últimos 4 jogos completos + apenas os que estão em "próximo" ou "fila"
+        // (exclui os pendentes distantes do resto do cronograma)
         const jogosCompletos = jogosAgrupados.filter(j => j && j.completo).slice(-4);
-        const jogosNaoCompletos = jogosAgrupados.filter(j => j && !j.completo);
-        jogosParaExibir = [...jogosCompletos, ...jogosNaoCompletos];
+        const jogosProximosFila = jogosAgrupados.filter(j =>
+          j && !j.completo &&
+          (proximosJogosIds.includes(j.numeroJogo) || entrarFilaIds.includes(j.numeroJogo))
+        );
+        jogosParaExibir = [...jogosCompletos, ...jogosProximosFila];
       } else {
         // Todos os jogos
         jogosParaExibir = jogosAgrupados.filter(j => j);
@@ -520,10 +582,13 @@
         tr.dataset.numero = jogo.numeroJogo;
         tr.dataset.status = statusKey;
         const equipesFormatadas = (() => {
-          if (jogo.equipes.length === 2) {
-            return `<div class=\"team-match-line\"><span class=\"team-name-lg\">${jogo.equipes[0]}</span><span class=\"vs-sep\">×</span><span class=\"team-name-lg\">${jogo.equipes[1]}</span></div>`;
+          const infos = (jogo.equipesInfo && jogo.equipesInfo.length)
+            ? jogo.equipesInfo
+            : jogo.equipes.map(n => ({ nome: n, naoJogou: false }));
+          if (infos.length === 2) {
+            return `<div class=\"team-match-line\"><span class=\"team-name-lg\">${nomeComFlag(infos[0])}</span><span class=\"vs-sep\">×</span><span class=\"team-name-lg\">${nomeComFlag(infos[1])}</span></div>`;
           }
-          return `<div class=\"team-names">${jogo.equipes.map(n => `<span class=\\"team-chip\\">${n}</span>`).join('')}</div>`;
+          return `<div class=\"team-names">${infos.map(e => `<span class=\\"team-chip\\">${nomeComFlag(e)}</span>`).join('')}</div>`;
         })();
         tr.innerHTML = `
           <td class="numero-col">${jogo.numeroJogo}</td>
@@ -561,9 +626,19 @@
       }
     }
 
+    // Resolve, para o modal, o nome de exibição de uma equipe a partir do
+    // nome cru vindo do resultado (troca "Equipe treino" pelo adversário real).
+    function resolverEquipeModal(numero, nomeResultado) {
+      const mapa = resolvidosPorJogo[String(numero)];
+      const info = mapa && mapa[normKey(nomeResultado)];
+      if (info) return info;
+      return { nome: nomeResultado, naoJogou: isEquipeTreino(nomeResultado) };
+    }
+
     // Atualiza a tabela imediatamente e depois a cada 30s
     atualizarTabela().then(() => inicializarResultadosSchedule({
-      urlPlanilhaQuali: "https://docs.google.com/spreadsheets/d/1R1JcLto9Eowp3VG-SWhJIve4Q9ikWV3ani4eWzOhRoc/edit?usp=sharing&gid=283528837#gid=283528837"
+      urlPlanilhaQuali: SHEET_RESULTADOS_URL,
+      resolverEquipe: resolverEquipeModal
     })).catch(err => console.error("❌ Erro ao atualizar cronograma:", err));
     setInterval(atualizarTabela, 30000)
 
