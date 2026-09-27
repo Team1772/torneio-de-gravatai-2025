@@ -2,6 +2,10 @@
 // APLICAÇÃO COMPLETA (ES6 MODULE)
 // ===================================
 import { carregarSheetData } from "../../website/sheets-to-website/sheetUtils.js";
+import { autenticar } from "../../website/utils/autenticacao.js";
+
+// Senha de acesso (juizquadra2026) — validada por hash SHA-256
+const SENHA_HASH = "649a0e35deb7de81cb07a5401d37fe92addfe8540541b88f534e00b7bfa36812";
 
 // ===================================
 // DADOS REAIS (Google Sheets 2026)
@@ -336,19 +340,21 @@ let campoAzul = null;
 // ===================================
 // INICIALIZAÇÃO
 // ===================================
-document.addEventListener('DOMContentLoaded', async () => {
-    console.log('🚀 Iniciando aplicação...');
-    
-    try {
-        const dados = await carregarDados();
-        console.log('✅ Dados carregados:', dados);
-        preencherDropdowns(dados);
-        configurarEventListeners();
-        console.log('✅ Aplicação inicializada com sucesso!');
-    } catch (erro) {
-        console.error('❌ Erro ao inicializar:', erro);
-        mostrarMensagem('Erro ao carregar dados. Recarregue a página.', 'erro');
-    }
+document.addEventListener('DOMContentLoaded', () => {
+    autenticar(SENHA_HASH, async () => {
+        console.log('🚀 Iniciando aplicação...');
+
+        try {
+            const dados = await carregarDados();
+            console.log('✅ Dados carregados:', dados);
+            preencherDropdowns(dados);
+            configurarEventListeners();
+            console.log('✅ Aplicação inicializada com sucesso!');
+        } catch (erro) {
+            console.error('❌ Erro ao inicializar:', erro);
+            mostrarMensagem('Erro ao carregar dados. Recarregue a página.', 'erro');
+        }
+    });
 });
 
 function preencherDropdowns(dados) {
