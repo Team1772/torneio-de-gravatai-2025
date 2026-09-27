@@ -5,8 +5,8 @@
 import { carregarSheetData } from "../../website/sheets-to-website/sheetUtils.js";
 import { autenticar } from "../../website/utils/autenticacao.js";
 
-// Senha de acesso (juizquadra2026) — validada por hash SHA-256
-const SENHA_HASH = "649a0e35deb7de81cb07a5401d37fe92addfe8540541b88f534e00b7bfa36812";
+// Senha de acesso — validada por hash SHA-256 (senha em texto não fica no código)
+const SENHA_HASH = "f33584319b8cedb03dfe0b4c7ecec9bbee86b21d6898097a2e72f5a6027ccb66";
 
 // ===================================
 // DADOS REAIS (Google Sheets 2026)
