@@ -359,6 +359,7 @@ const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdjM3rnU9o5fkQD9dMjGy
 
 // O formulário grava UMA linha por ALIANÇA, com os pontos já somados das 2 equipes.
 const FORM_ENTRY_IDS = {
+    numeroJogo: 'entry.1023443543',
     juiz: 'entry.1511401248',
     alianca: 'entry.1665289923',
     equipe1: 'entry.1242493789',
@@ -896,7 +897,7 @@ function obterPontuacaoPorNivel(campo, equipe) {
 
 // Monta o payload da ALIANÇA (uma única submissão), com N1/N2/N3/chão/escalada
 // somados das duas equipes e a cooperação contada uma vez.
-function construirPayloadAlianca(juiz, alianca) {
+function construirPayloadAlianca(juiz, alianca, jogoNumero) {
     const pv = obterPontuacaoPorNivel(campoVerde, estado.equipes.verde);
     const pa = obterPontuacaoPorNivel(campoAzul, estado.equipes.azul);
 
@@ -910,6 +911,7 @@ function construirPayloadAlianca(juiz, alianca) {
     const nomeEq2 = estado.equipes.azul.nome || '';
 
     const payload = [
+        { key: FORM_ENTRY_IDS.numeroJogo, label: 'Número do Jogo', value: jogoNumero },
         { key: FORM_ENTRY_IDS.juiz, label: 'Juiz', value: juiz },
         { key: FORM_ENTRY_IDS.alianca, label: 'Aliança', value: alianca },
         { key: FORM_ENTRY_IDS.equipe1, label: 'Equipe 1', value: nomeEq1 },
@@ -1005,7 +1007,7 @@ async function finalizarPartida() {
         const alianca = estado.aliancaSelecionada || '';
 
         // Uma única submissão por aliança (schema do formulário 2026)
-        const payload = construirPayloadAlianca(juiz, alianca);
+        const payload = construirPayloadAlianca(juiz, alianca, jogo);
 
         mostrarResumoEnvio(payload, jogoTexto);
         console.log('📄 Dados do formulário:', payload);
