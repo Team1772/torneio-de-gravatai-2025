@@ -1,10 +1,89 @@
 // ===================================
-// APLICAÇÃO COMPLETA - SEM MÓDULOS ES6
+// APLICAÇÃO COMPLETA (ES6 MODULE)
 // ELIMINATÓRIAS - PONTOS DA ALIANÇA
 // ===================================
+import { carregarSheetData } from "../../website/sheets-to-website/sheetUtils.js";
 
-// carregarDadosMock é definido em elim-mock-data.js
-// (importado antes deste arquivo no index.html)
+// ===================================
+// DADOS REAIS (Google Sheets 2026)
+// ===================================
+// Aba de jogos das eliminatórias: numeroJogo, juiz, quadra, horario, alianca,
+// fase, dia (2 linhas por jogo — uma para cada aliança do confronto).
+const SHEET_JOGOS_ELIM_URL = "https://docs.google.com/spreadsheets/d/1SW3MyTRQzhMUCHjvXLhrdTijCCtq1yfgv6RAHdV9QYs/edit?gid=520356987#gid=520356987";
+// Aba de alianças: Alianca, Equipa A, Equipe B
+const SHEET_ALIANCAS_URL = "https://docs.google.com/spreadsheets/d/1SW3MyTRQzhMUCHjvXLhrdTijCCtq1yfgv6RAHdV9QYs/edit?gid=892503405#gid=892503405";
+
+// Leitura de coluna tolerante a acento/espaço/caixa nos cabeçalhos
+function normCabecalho(s) {
+    return String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[\s_]/g, '').toLowerCase();
+}
+function coluna(obj, ...nomes) {
+    for (const nome of nomes) {
+        const alvo = normCabecalho(nome);
+        for (const k of Object.keys(obj || {})) {
+            if (normCabecalho(k) === alvo) return obj[k];
+        }
+    }
+    return '';
+}
+
+// Carrega juízes, alianças e jogos das planilhas oficiais de 2026.
+// Formato de retorno (compatível com o restante da aplicação):
+//   { juizes: [...], aliancas: { "Aliança 1": [eqA, eqB] }, jogos: [{ numero, alianca1, alianca2, juiz, fase, horario }], equipes: [...] }
+async function carregarDados() {
+    const [linhasJogos, linhasAliancas] = await Promise.all([
+        carregarSheetData(SHEET_JOGOS_ELIM_URL),
+        carregarSheetData(SHEET_ALIANCAS_URL)
+    ]);
+
+    // Alianças: nome -> [Equipa A, Equipe B]
+    const aliancas = {};
+    linhasAliancas.forEach(linha => {
+        const nome = String(coluna(linha, 'Alianca', 'Aliança')).trim();
+        const eqA = String(coluna(linha, 'Equipa A', 'Equipe A', 'equipe1')).trim();
+        const eqB = String(coluna(linha, 'Equipe B', 'Equipa B', 'equipe2')).trim();
+        if (nome) aliancas[nome] = [eqA, eqB].filter(Boolean);
+    });
+
+    // Jogos: agrupar por numeroJogo (cada confronto tem 2 linhas, uma por aliança)
+    const jogosMap = {};
+    linhasJogos.forEach(linha => {
+        const numero = String(coluna(linha, 'numeroJogo')).trim();
+        if (!numero) return;
+        if (!jogosMap[numero]) {
+            jogosMap[numero] = {
+                numero,
+                juiz: String(coluna(linha, 'juiz')).trim(),
+                fase: String(coluna(linha, 'fase')).trim(),
+                horario: String(coluna(linha, 'horario')).trim(),
+                aliancas: []
+            };
+        }
+        const alianca = String(coluna(linha, 'alianca', 'aliança')).trim();
+        if (alianca) jogosMap[numero].aliancas.push(alianca);
+    });
+
+    const jogos = Object.values(jogosMap)
+        .map(jogo => ({
+            numero: jogo.numero,
+            alianca1: jogo.aliancas[0] || '',
+            alianca2: jogo.aliancas[1] || '',
+            juiz: jogo.juiz,
+            fase: jogo.fase,
+            horario: jogo.horario
+        }))
+        .filter(jogo => jogo.alianca1 && jogo.alianca2);
+
+    // Juízes: valores únicos da coluna "juiz" (ex.: Alpha, Beta)
+    const juizes = [...new Set(linhasJogos.map(l => String(coluna(l, 'juiz')).trim()).filter(Boolean))];
+
+    // Todas as equipes (usadas como fallback manual em fases cuja aliança ainda
+    // não está definida — ex.: "1 ou 8", "Desempate")
+    const equipes = [...new Set(Object.values(aliancas).flat())].sort((a, b) => a.localeCompare(b));
+
+    return { juizes, aliancas, jogos, equipes };
+}
+
 
 // ===================================
 // CAMPO DE JOGO - POSIÇÕES DOS PILARES
@@ -275,34 +354,38 @@ const estado = {
     }
 };
 
+// URL de submissão do Google Forms das eliminatórias 2026
+const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdjM3rnU9o5fkQD9dMjGytseORUa_iDGzBT2eZx20mnVQrxyw/formResponse';
+
+// O formulário grava UMA linha por ALIANÇA, com os pontos já somados das 2 equipes.
 const FORM_ENTRY_IDS = {
-    juiz: 'entry.1046867752',
-    jogoNumero: 'entry.595569872',
-    alianca: 'entry.0000000000', // PLACEHOLDER: preencher com o entry real do form de eliminatórias
-    equipe: 'entry.643198029',
-    escalada: 'entry.725367882',
-    chao: 'entry.525146271',
-    total: 'entry.1341637456',
-    coop: 'entry.1066153371',
-    n1: 'entry.1072194625',
-    n2: 'entry.1124041468',
-    n3: 'entry.1818679083'
+    juiz: 'entry.1511401248',
+    alianca: 'entry.1665289923',
+    equipe1: 'entry.1242493789',
+    equipe2: 'entry.1730076199',
+    ptsTotais: 'entry.1002022759',      // total da aliança (indiv + indiv + coop)
+    n1: 'entry.903057890',              // N1 somado das 2 equipes
+    n2: 'entry.1062546722',             // N2 somado das 2 equipes
+    n3: 'entry.1534906457',             // N3 somado das 2 equipes
+    chao: 'entry.2093924691',           // chão somado das 2 equipes
+    escalada: 'entry.2076287704',       // escalada somada das 2 equipes
+    coop: 'entry.658955567'             // cooperação da aliança (contada 1x)
 };
 
 let campoVerde = null;
 let campoAzul = null;
-let dadosMock = null; // Dados carregados do elim-mock-data.js
+let dados = null; // Dados carregados das planilhas do Google Sheets
 
 // ===================================
 // INICIALIZAÇÃO
 // ===================================
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('🚀 Iniciando aplicação de Eliminatórias...');
-    
+
     try {
-        dadosMock = await carregarDadosMock();
-        console.log('✅ Dados carregados:', dadosMock);
-        preencherDropdowns(dadosMock);
+        dados = await carregarDados();
+        console.log('✅ Dados carregados:', dados);
+        preencherDropdowns(dados);
         configurarEventListeners();
         console.log('✅ Aplicação inicializada com sucesso!');
     } catch (erro) {
@@ -326,7 +409,8 @@ function preencherDropdowns(dados) {
     dados.jogos.forEach(jogo => {
         const option = document.createElement('option');
         option.value = jogo.numero;
-        option.textContent = `N° ${jogo.numero}: ${jogo.alianca1} x ${jogo.alianca2}`;
+        const faseTxt = jogo.fase ? ` [${jogo.fase}]` : '';
+        option.textContent = `N° ${jogo.numero}: ${jogo.alianca1} x ${jogo.alianca2}${faseTxt}`;
         option.dataset.alianca1 = jogo.alianca1;
         option.dataset.alianca2 = jogo.alianca2;
         selectJogo.appendChild(option);
@@ -349,6 +433,17 @@ function configurarEventListeners() {
     
     document.getElementById('selectJogo').addEventListener('change', aoSelecionarJogo);
     document.getElementById('selectAlianca').addEventListener('change', aoSelecionarAlianca);
+
+    // Seleção manual de equipes (usada quando a aliança ainda não está definida,
+    // ex.: fases "1 ou 8" / "Desempate")
+    document.getElementById('selectEquipe1').addEventListener('change', () => {
+        atualizarNomeEquipe('verde');
+        calcularPontos();
+    });
+    document.getElementById('selectEquipe2').addEventListener('change', () => {
+        atualizarNomeEquipe('azul');
+        calcularPontos();
+    });
     
     document.getElementById('btnChaoMaisVerde').addEventListener('click', () => alterarChao('verde', 1));
     document.getElementById('btnChaoMenosVerde').addEventListener('click', () => alterarChao('verde', -1));
@@ -408,36 +503,66 @@ function aoSelecionarJogo(event) {
 
 function aoSelecionarAlianca(event) {
     const alianca = event.target.value;
-    
-    if (alianca) {
-        estado.aliancaSelecionada = alianca;
-        
-        const equipes = dadosMock.aliancas[alianca];
-        if (equipes && equipes.length === 2) {
-            // Preencher automaticamente as 2 equipes da aliança
-            const selectEquipe1 = document.getElementById('selectEquipe1');
-            const selectEquipe2 = document.getElementById('selectEquipe2');
-            
-            // Limpar e popular com as equipes da aliança
-            selectEquipe1.innerHTML = '';
-            selectEquipe2.innerHTML = '';
-            
-            selectEquipe1.appendChild(new Option(equipes[0], equipes[0]));
-            selectEquipe2.appendChild(new Option(equipes[1], equipes[1]));
-            
-            selectEquipe1.value = equipes[0];
-            selectEquipe2.value = equipes[1];
-            
-            atualizarNomeEquipe('verde');
-            atualizarNomeEquipe('azul');
-            atualizarNomeAlianca(alianca);
-            
-            mostrarMensagem(`Avaliando ${alianca}: ${equipes[0]} + ${equipes[1]}`, 'sucesso');
-        }
-    } else {
+
+    if (!alianca) {
         estado.aliancaSelecionada = null;
         limparEquipesDaAlianca();
+        return;
     }
+
+    estado.aliancaSelecionada = alianca;
+
+    const equipes = dados.aliancas[alianca];
+    if (equipes && equipes.length === 2) {
+        // Aliança conhecida: preencher automaticamente as 2 equipes (fixas)
+        const selectEquipe1 = document.getElementById('selectEquipe1');
+        const selectEquipe2 = document.getElementById('selectEquipe2');
+
+        selectEquipe1.innerHTML = '';
+        selectEquipe2.innerHTML = '';
+
+        selectEquipe1.appendChild(new Option(equipes[0], equipes[0]));
+        selectEquipe2.appendChild(new Option(equipes[1], equipes[1]));
+
+        selectEquipe1.value = equipes[0];
+        selectEquipe2.value = equipes[1];
+
+        atualizarNomeEquipe('verde');
+        atualizarNomeEquipe('azul');
+        atualizarNomeAlianca(alianca);
+
+        mostrarMensagem(`Avaliando ${alianca}: ${equipes[0]} + ${equipes[1]}`, 'sucesso');
+    } else {
+        // Aliança ainda não definida (ex.: "1 ou 8", "Desempate"): permitir que o
+        // juiz escolha manualmente as 2 equipes entre todas as equipes do torneio.
+        popularEquipesManual();
+        atualizarNomeAlianca(alianca);
+        mostrarMensagem(`${alianca}: selecione manualmente as 2 equipes desta fase.`, 'info');
+    }
+}
+
+// Popula os dois selects de equipe com TODAS as equipes (seleção manual)
+function popularEquipesManual() {
+    const selectEquipe1 = document.getElementById('selectEquipe1');
+    const selectEquipe2 = document.getElementById('selectEquipe2');
+
+    [selectEquipe1, selectEquipe2].forEach(select => {
+        select.innerHTML = '';
+        const placeholder = document.createElement('option');
+        placeholder.value = '';
+        placeholder.textContent = 'Selecione a equipe';
+        select.appendChild(placeholder);
+        (dados.equipes || []).forEach(nome => {
+            select.appendChild(new Option(nome, nome));
+        });
+    });
+
+    estado.equipes.verde.nome = null;
+    estado.equipes.azul.nome = null;
+    document.getElementById('nomeEquipeVerde').textContent = 'Equipe 1 (Verde)';
+    document.getElementById('nomeEquipeAzul').textContent = 'Equipe 2 (Azul)';
+    document.getElementById('labelEscaladaVerde').textContent = 'Equipe 1 (Verde)';
+    document.getElementById('labelEscaladaAzul').textContent = 'Equipe 2 (Azul)';
 }
 
 function limparEquipesDaAlianca() {
@@ -754,7 +879,7 @@ function atualizarPlacarAlianca() {
 }
 
 // ===================================
-// FINALIZAR PARTIDA (PLACEHOLDER)
+// FINALIZAR PARTIDA (envio ao Google Forms)
 // ===================================
 function obterPontuacaoPorNivel(campo, equipe) {
     if (!campo) {
@@ -769,27 +894,36 @@ function obterPontuacaoPorNivel(campo, equipe) {
     };
 }
 
-function construirPayloadGoogleForms(equipe, juiz, jogoNumero, jogoTexto, campo, alianca) {
-    const pontuacao = obterPontuacaoPorNivel(campo, equipe);
+// Monta o payload da ALIANÇA (uma única submissão), com N1/N2/N3/chão/escalada
+// somados das duas equipes e a cooperação contada uma vez.
+function construirPayloadAlianca(juiz, alianca) {
+    const pv = obterPontuacaoPorNivel(campoVerde, estado.equipes.verde);
+    const pa = obterPontuacaoPorNivel(campoAzul, estado.equipes.azul);
+
+    const n1 = pv.n1 + pa.n1;
+    const n2 = pv.n2 + pa.n2;
+    const n3 = pv.n3 + pa.n3;
+    const chao = pv.chao + pa.chao; // 1pt por pilar no chão
+    const escalada = (estado.equipes.verde.escalada || 0) + (estado.equipes.azul.escalada || 0);
+
+    const nomeEq1 = estado.equipes.verde.nome || '';
+    const nomeEq2 = estado.equipes.azul.nome || '';
+
     const payload = [
         { key: FORM_ENTRY_IDS.juiz, label: 'Juiz', value: juiz },
-        { key: FORM_ENTRY_IDS.jogoNumero, label: 'Número do Jogo', value: jogoNumero },
         { key: FORM_ENTRY_IDS.alianca, label: 'Aliança', value: alianca },
-        { key: FORM_ENTRY_IDS.equipe, label: 'Equipe', value: equipe.nome },
-        { key: FORM_ENTRY_IDS.escalada, label: 'Escalada', value: equipe.escalada },
-        { key: FORM_ENTRY_IDS.chao, label: 'Chão no Mural', value: equipe.chaoNoMural },
-        { key: FORM_ENTRY_IDS.total, label: 'Pontos Individuais', value: equipe.pontosIndividuais },
-        { key: FORM_ENTRY_IDS.coop, label: 'Pontos Cooperação (Aliança)', value: estado.pontosAlianca.cooperacao },
-        { key: FORM_ENTRY_IDS.n1, label: 'N1 (um)', value: pontuacao.n1 },
-        { key: FORM_ENTRY_IDS.n2, label: 'N2 (dois)', value: pontuacao.n2 },
-        { key: FORM_ENTRY_IDS.n3, label: 'N3 (três)', value: pontuacao.n3 }
+        { key: FORM_ENTRY_IDS.equipe1, label: 'Equipe 1', value: nomeEq1 },
+        { key: FORM_ENTRY_IDS.equipe2, label: 'Equipe 2', value: nomeEq2 },
+        { key: FORM_ENTRY_IDS.ptsTotais, label: 'Pontos Totais (Aliança)', value: estado.pontosAlianca.total },
+        { key: FORM_ENTRY_IDS.n1, label: 'N1 (Aliança)', value: n1 },
+        { key: FORM_ENTRY_IDS.n2, label: 'N2 (Aliança)', value: n2 },
+        { key: FORM_ENTRY_IDS.n3, label: 'N3 (Aliança)', value: n3 },
+        { key: FORM_ENTRY_IDS.chao, label: 'Chão (Aliança)', value: chao },
+        { key: FORM_ENTRY_IDS.escalada, label: 'Escalada (Aliança)', value: escalada },
+        { key: FORM_ENTRY_IDS.coop, label: 'Cooperação (Aliança)', value: estado.pontosAlianca.cooperacao }
     ];
 
-    return {
-        equipeNome: equipe.nome,
-        jogoTexto,
-        payload
-    };
+    return payload;
 }
 
 function criarFormDataGoogleForms(payload) {
@@ -802,56 +936,51 @@ function criarFormDataGoogleForms(payload) {
     return formData;
 }
 
-function mostrarResumoEnvio(payloads) {
+function mostrarResumoEnvio(payload, jogoTexto) {
     const container = document.getElementById('formSubmissionSummary');
     const content = document.getElementById('formSubmissionSummaryContent');
     if (!container || !content) return;
 
-    // Adicionar resumo da aliança no topo
+    const nomeEq1 = estado.equipes.verde.nome || 'Eq1';
+    const nomeEq2 = estado.equipes.azul.nome || 'Eq2';
+
     const resumoAlianca = `
         <div class="mb-4 p-3 bg-light rounded">
             <h3 class="h6 mb-2"><strong>ALIANÇA: ${estado.aliancaSelecionada || 'Não definida'}</strong></h3>
+            <p class="mb-1"><strong>Jogo:</strong> ${jogoTexto}</p>
             <p class="mb-1">
-                Individuais Eq1: <strong>${estado.pontosAlianca.individuaisVerde}pts</strong> + 
-                Individuais Eq2: <strong>${estado.pontosAlianca.individuaisAzul}pts</strong> + 
+                ${nomeEq1}: <strong>${estado.pontosAlianca.individuaisVerde}pts</strong> +
+                ${nomeEq2}: <strong>${estado.pontosAlianca.individuaisAzul}pts</strong> +
                 Cooperação: <strong>${estado.pontosAlianca.cooperacao}pts</strong>
             </p>
             <p class="mb-0 fs-5"><strong>TOTAL DA ALIANÇA: ${estado.pontosAlianca.total} pts</strong></p>
         </div>
     `;
 
-    const html = resumoAlianca + payloads.map(({ cor, equipeNome, jogoTexto, payload }) => {
-        const linhas = payload.map(field => `
-                <tr>
-                    <td>${field.label}</td>
-                    <td>${String(field.value)}</td>
-                    <td><code>${field.key}</code></td>
-                </tr>
-            `).join('');
+    const linhas = payload.map(field => `
+        <tr>
+            <td>${field.label}</td>
+            <td>${String(field.value)}</td>
+            <td><code>${field.key}</code></td>
+        </tr>
+    `).join('');
 
-        return `
-            <div class="mb-4">
-                <h3 class="h6 mb-3">Equipe ${cor === 'verde' ? '1 (Verde)' : '2 (Azul)'} - ${equipeNome || 'Não definida'}</h3>
-                <p class="mb-2"><strong>Jogo:</strong> ${jogoTexto}</p>
-                <div class="table-responsive">
-                    <table class="table table-sm table-bordered mb-0">
-                        <thead>
-                            <tr>
-                                <th>Campo</th>
-                                <th>Valor</th>
-                                <th>Entry</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${linhas}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        `;
-    }).join('');
-
-    content.innerHTML = html;
+    content.innerHTML = resumoAlianca + `
+        <div class="table-responsive">
+            <table class="table table-sm table-bordered mb-0">
+                <thead>
+                    <tr>
+                        <th>Campo</th>
+                        <th>Valor</th>
+                        <th>Entry</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${linhas}
+                </tbody>
+            </table>
+        </div>
+    `;
     container.style.display = 'block';
 }
 
@@ -868,47 +997,33 @@ async function finalizarPartida() {
     
     try {
         console.log('📤 Preparando dados para o Google Forms...');
-        
+
         const juiz = document.getElementById('selectJuiz').value;
         const selectJogo = document.getElementById('selectJogo');
         const jogo = selectJogo.value;
         const jogoTexto = selectJogo.options[selectJogo.selectedIndex]?.textContent || jogo;
         const alianca = estado.aliancaSelecionada || '';
 
-        // PLACEHOLDER: URL do form de eliminatórias (será definida no backend)
-        const formUrl = 'https://docs.google.com/forms/u/0/d/e/PLACEHOLDER_ELIMINATORIAS/formResponse';
-        const equipes = ['verde', 'azul'];
+        // Uma única submissão por aliança (schema do formulário 2026)
+        const payload = construirPayloadAlianca(juiz, alianca);
 
-        const payloads = equipes.map(cor => {
-            const campo = cor === 'verde' ? campoVerde : campoAzul;
-            return {
-                cor,
-                ...construirPayloadGoogleForms(estado.equipes[cor], juiz, jogo, jogoTexto, campo, alianca)
-            };
-        });
-
-        mostrarResumoEnvio(payloads);
-        console.log('📄 Dados do formulário:', payloads);
+        mostrarResumoEnvio(payload, jogoTexto);
+        console.log('📄 Dados do formulário:', payload);
         console.log('🏆 Pontos da Aliança:', estado.pontosAlianca);
 
-        /*
-        // TODO Backend: descomentar quando a URL real do form estiver disponível
-        for (const { payload } of payloads) {
-            const formData = criarFormDataGoogleForms(payload);
-            await fetch(formUrl, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: formData.toString()
-            });
-        }
-        */
-        
-        alert(`Avaliação da ${alianca} finalizada! (Simulação - envio real será implementado no backend)`);
+        const formData = criarFormDataGoogleForms(payload);
+        await fetch(FORM_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: formData.toString()
+        });
+
+        alert(`Avaliação da ${alianca} finalizada e enviada com sucesso!`);
         resetarFormulario();
-        
+
     } catch (erro) {
         console.error('❌ Erro ao finalizar partida:', erro);
         alert('Erro ao enviar dados. Verifique a internet e tente novamente.');

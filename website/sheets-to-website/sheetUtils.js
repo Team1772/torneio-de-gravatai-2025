@@ -10,6 +10,34 @@ function extractGidFromUrl(sheetUrl) {
   return match ? match[1] : null;
 }
 
+// Divide UMA linha de CSV respeitando campos entre aspas (que podem conter
+// vírgulas) e aspas escapadas ("").  Ex.: '"1, 8 ou 3","Terceiro"' -> ['1, 8 ou 3','Terceiro']
+function parseCsvLine(line) {
+  const campos = [];
+  let atual = '';
+  let dentroAspas = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (dentroAspas) {
+      if (c === '"') {
+        if (line[i + 1] === '"') { atual += '"'; i++; } // aspas escapadas
+        else dentroAspas = false;
+      } else {
+        atual += c;
+      }
+    } else if (c === '"') {
+      dentroAspas = true;
+    } else if (c === ',') {
+      campos.push(atual);
+      atual = '';
+    } else {
+      atual += c;
+    }
+  }
+  campos.push(atual);
+  return campos.map((v) => v.trim());
+}
+
 async function carregarSheetData(sheetUrl) {
   return new Promise((resolve, reject) => {
     const sheetId = extractSheetIdFromUrl(sheetUrl);
@@ -52,9 +80,9 @@ async function carregarSheetData(sheetUrl) {
           return;
         }
 
-        const headers = lines[0].split(',').map((h) => h.trim().replace(/^"|"$/g, ''));
+        const headers = parseCsvLine(lines[0]);
         const data = lines.slice(1).map((line) => {
-          const values = line.split(',').map((v) => v.trim().replace(/^"|"$/g, ''));
+          const values = parseCsvLine(line);
           const obj = {};
           headers.forEach((header, i) => (obj[header] = values[i]));
           return obj;

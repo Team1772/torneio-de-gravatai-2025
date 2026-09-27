@@ -263,11 +263,8 @@
 
     <!-- Bootstrap 5.3.3 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Mock Data - Sem módulos ES6 para funcionar com file:// -->
-    <script src="../utils/elim-mock-data.js"></script>
-    
-    <!-- Custom JS - Versão sem módulos ES6 para funcionar com file:// -->
-    <script src="elim-app.js"></script>
+
+    <!-- App (ES6 module) — carrega dados reais das planilhas do Google Sheets -->
+    <script type="module" src="elim-app.js"></script>
 </body>
 </html>

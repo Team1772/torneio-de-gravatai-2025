@@ -19,36 +19,88 @@
       </div>
       <div id="ultima-atualizacao" class="last-updated ms-lg-auto"></div>
     </header>
-    <div class="toolbar">
-      <input type="text" id="pesquisa-time" class="form-control" placeholder="Pesquisar equipe" />
-      <div class="filter-group" role="group" aria-label="Filtros de status">
-        <button type="button" class="filter-btn active" data-filter="all">Todos</button>
-        <button type="button" class="filter-btn" data-filter="proximos">Próximos jogos</button>
+
+    <!-- Navegação entre páginas (âncora) -->
+    <nav class="page-nav" aria-label="Navegação de páginas">
+      <a href="#cronograma" class="page-nav-btn" data-view="cronograma">Cronograma</a>
+      <a href="#ranking" class="page-nav-btn" data-view="ranking">Ranking</a>
+    </nav>
+
+    <!-- ================= VIEW: CRONOGRAMA ================= -->
+    <section id="view-cronograma" class="page-view">
+      <div class="toolbar">
+        <input type="text" id="pesquisa-time" class="form-control" placeholder="Pesquisar equipe" />
+        <div class="filter-group" role="group" aria-label="Filtros de status">
+          <button type="button" class="filter-btn active" data-filter="all">Todos</button>
+          <button type="button" class="filter-btn" data-filter="proximos">Próximos jogos</button>
+        </div>
       </div>
-    </div>
-    <div class="legend" aria-label="Legenda de status">
-      <div class="legend-item"><span class="legend-swatch"
-          style="background:linear-gradient(135deg,#ffd43b,#ffa94d);"></span>Próximo</div>
-      <div class="legend-item"><span class="legend-swatch"
-          style="background:linear-gradient(135deg,#74c0fc,#4dabf7);"></span>Fila</div>
-      <div class="legend-item"><span class="legend-swatch"
-          style="background:linear-gradient(135deg,#51cf66,#2f9e44);"></span>Completo</div>
-      <div class="legend-item"><span class="legend-swatch" style="background:#2c3744;"></span>Pendente</div>
-    </div>
-    <div class="table-wrapper mt-3">
-      <table class="schedule" aria-describedby="ultima-atualizacao">
-        <thead>
-          <tr>
-            <th scope="col">Nº</th>
-            <th scope="col">Dia</th>
-            <th scope="col">Horário</th>
-            <th scope="col">Equipes</th>
-            <th scope="col">Status</th>
-          </tr>
-        </thead>
-        <tbody id="tabela-jogos" aria-live="polite"></tbody>
-      </table>
-    </div>
+      <div class="legend" aria-label="Legenda de status">
+        <div class="legend-item"><span class="legend-swatch"
+            style="background:linear-gradient(135deg,#ffd43b,#ffa94d);"></span>Próximo</div>
+        <div class="legend-item"><span class="legend-swatch"
+            style="background:linear-gradient(135deg,#74c0fc,#4dabf7);"></span>Fila</div>
+        <div class="legend-item"><span class="legend-swatch"
+            style="background:linear-gradient(135deg,#51cf66,#2f9e44);"></span>Completo</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#2c3744;"></span>Pendente</div>
+      </div>
+      <div class="table-wrapper mt-3">
+        <table class="schedule" aria-describedby="ultima-atualizacao">
+          <thead>
+            <tr>
+              <th scope="col">Nº</th>
+              <th scope="col">Dia</th>
+              <th scope="col">Horário</th>
+              <th scope="col">Equipes</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody id="tabela-jogos" aria-live="polite"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================= VIEW: RANKING ================= -->
+    <section id="view-ranking" class="page-view" hidden>
+      <div class="rank-tabs" role="tablist" aria-label="Abas do ranking">
+        <button type="button" class="rank-tab active" data-tab="tabela" role="tab">Ranking Geral</button>
+        <button type="button" class="rank-tab" data-tab="grafico" role="tab">Gráfico</button>
+      </div>
+
+      <!-- Sub-aba: tabela de ranking geral -->
+      <div id="rank-panel-tabela" class="rank-panel" role="tabpanel">
+        <div class="table-wrapper mt-3">
+          <table class="ranking-table">
+            <thead>
+              <tr>
+                <th scope="col">Pos.</th>
+                <th scope="col">Nome do time</th>
+                <th scope="col">Média de pontos</th>
+                <th scope="col">Média de pontos individuais</th>
+                <th scope="col">Média de pontos de cooperação</th>
+              </tr>
+            </thead>
+            <tbody id="ranking-body" aria-live="polite"></tbody>
+          </table>
+        </div>
+        <p class="rank-note">
+          <strong>Capitães da escolha de alianças:</strong> os 8 primeiros colocados (destacados).
+          Critério de desempate: 1) média de pontos, 2) média de pontos individuais,
+          3) média de pontos de cooperação.
+        </p>
+      </div>
+
+      <!-- Sub-aba: gráfico horizontal -->
+      <div id="rank-panel-grafico" class="rank-panel" role="tabpanel" hidden>
+        <div class="chart-legend" aria-hidden="true">
+          <span class="chart-legend-item"><span class="chart-swatch seg-ind"></span>Pontos individuais</span>
+          <span class="chart-legend-item"><span class="chart-swatch seg-coop"></span>Pontos de cooperação</span>
+        </div>
+        <div class="table-wrapper mt-3">
+          <div id="ranking-chart" class="ranking-chart" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
   </div>
 
   <!-- Modal Resultados -->
@@ -410,11 +462,343 @@
         padding-top: max(1rem, env(safe-area-inset-top));
       }
     }
+
+    /* ================= Navegação entre páginas (âncora) ================= */
+    .page-nav {
+      display: flex;
+      gap: .4rem;
+      margin: .25rem 0 1.1rem;
+      border-bottom: 1px solid #d9e1ea;
+    }
+
+    .page-nav-btn {
+      text-decoration: none;
+      font-weight: 600;
+      font-size: .95rem;
+      color: #52606d;
+      padding: .55rem .95rem;
+      border-radius: .55rem .55rem 0 0;
+      border-bottom: 3px solid transparent;
+      transition: .2s;
+    }
+
+    .page-nav-btn:hover {
+      color: #2d3748;
+      background: #eef2f7;
+    }
+
+    .page-nav-btn.active {
+      color: #1b6fc4;
+      border-bottom-color: #1b6fc4;
+    }
+
+    .page-view[hidden] {
+      display: none;
+    }
+
+    /* ================= Ranking: sub-abas ================= */
+    .rank-tabs {
+      display: flex;
+      gap: .4rem;
+      margin-bottom: .25rem;
+    }
+
+    .rank-tab {
+      background: #eef2f7;
+      color: #52606d;
+      border: 1px solid #d9e1ea;
+      border-bottom: 0;
+      font-weight: 600;
+      font-size: .88rem;
+      padding: .5rem .9rem;
+      border-radius: .55rem .55rem 0 0;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .rank-tab:hover {
+      background: #e2e9f0;
+    }
+
+    .rank-tab.active {
+      background: #fff;
+      color: #1b6fc4;
+      border-color: #d9e1ea;
+    }
+
+    .rank-panel[hidden] {
+      display: none;
+    }
+
+    /* ================= Ranking: tabela (standalone, mobile-first) =================
+       Não usa a classe .schedule de propósito: o layout "card" mobile do
+       cronograma é específico das colunas Nº/Dia/Horário e quebraria aqui. */
+    .ranking-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .82rem;
+    }
+
+    .ranking-table thead th {
+      background: #f0f4f8;
+      padding: .7rem .75rem;
+      font-weight: 600;
+      letter-spacing: .5px;
+      font-size: .62rem;
+      text-transform: uppercase;
+      color: #495a69;
+      border-bottom: 1px solid #e2e8f0;
+      text-align: left;
+    }
+
+    .ranking-table tbody td {
+      padding: .55rem .75rem;
+      border-bottom: 1px solid #eef2f5;
+      vertical-align: middle;
+    }
+
+    .ranking-table tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .ranking-table .rank-pos {
+      font-weight: 700;
+      color: #1b6fc4;
+      text-align: center;
+      width: 3.5rem;
+    }
+
+    .ranking-table .rank-nome {
+      font-weight: 600;
+      color: #1a2f42;
+    }
+
+    .ranking-table .rank-num {
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+      color: #33424f;
+    }
+
+    .ranking-table .rank-total {
+      font-weight: 700;
+      color: #1a2f42;
+    }
+
+    .ranking-table tr.rank-captain .rank-pos::after {
+      content: "★";
+      display: block;
+      font-size: .7rem;
+      color: #f0a020;
+      line-height: 1;
+    }
+
+    .ranking-table tr.rank-captain {
+      background: linear-gradient(90deg, rgba(255, 216, 128, .18), rgba(255, 216, 128, 0));
+    }
+
+    .rank-note {
+      margin: .9rem .2rem 0;
+      font-size: .82rem;
+      color: #52606d;
+    }
+
+    .rank-note strong {
+      color: #2d3748;
+    }
+
+    /* Mobile: cada equipe vira um card (posição + nome em cima, métricas
+       rotuladas embaixo). O cabeçalho some, então usamos data-label. */
+    @media (max-width: 640px) {
+      .ranking-table thead {
+        display: none;
+      }
+
+      .ranking-table tbody tr {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        column-gap: .7rem;
+        row-gap: .35rem;
+        padding: .75rem .9rem .85rem;
+        margin: .55rem .1rem;
+        background: #fff;
+        border-radius: .9rem;
+        box-shadow: 0 4px 14px -4px rgba(15, 23, 42, .12);
+        align-items: center;
+      }
+
+      .ranking-table tbody td {
+        border: 0;
+        padding: 0;
+      }
+
+      .ranking-table .rank-pos {
+        grid-column: 1;
+        grid-row: 1;
+        width: auto;
+        justify-self: start;
+        background: #eef2f7;
+        border-radius: .5rem;
+        padding: .18rem .55rem;
+        min-width: 2.2rem;
+      }
+
+      .ranking-table tr.rank-captain .rank-pos::after {
+        display: inline;
+        margin-left: .2rem;
+      }
+
+      .ranking-table .rank-nome {
+        grid-column: 2;
+        grid-row: 1;
+        font-size: 1rem;
+      }
+
+      .ranking-table .rank-num {
+        grid-column: 1 / 3;
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        text-align: left;
+        padding-top: .4rem;
+        border-top: 1px solid #eef2f5;
+        font-weight: 600;
+      }
+
+      .ranking-table .rank-num::before {
+        content: attr(data-label);
+        font-size: .72rem;
+        font-weight: 500;
+        color: #64758b;
+      }
+
+      .ranking-table .rank-total {
+        color: #1b6fc4;
+      }
+    }
+
+    /* ================= Ranking: gráfico horizontal ================= */
+    .chart-legend {
+      display: flex;
+      gap: 1.1rem;
+      margin: .35rem .2rem .1rem;
+      font-size: .82rem;
+      color: #52606d;
+      flex-wrap: wrap;
+    }
+
+    .chart-legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+    }
+
+    .chart-swatch {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      display: inline-block;
+    }
+
+    .seg-ind {
+      background: linear-gradient(135deg, #2f8dff, #0b63d6);
+    }
+
+    .seg-coop {
+      background: linear-gradient(135deg, #ffd54f, #ffb347);
+    }
+
+    .ranking-chart {
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+      padding: .4rem .2rem;
+    }
+
+    .chart-row {
+      display: grid;
+      grid-template-columns: minmax(120px, 220px) 1fr;
+      align-items: center;
+      gap: .75rem;
+    }
+
+    .chart-label {
+      font-size: .85rem;
+      font-weight: 600;
+      color: #1a2f42;
+      display: flex;
+      align-items: center;
+      gap: .45rem;
+      overflow-wrap: anywhere;
+    }
+
+    .chart-rank {
+      flex: 0 0 auto;
+      background: #eef2f7;
+      color: #1b6fc4;
+      font-size: .72rem;
+      font-weight: 700;
+      border-radius: .4rem;
+      padding: .1rem .4rem;
+      min-width: 1.6rem;
+      text-align: center;
+    }
+
+    .chart-bar-track {
+      display: flex;
+      align-items: stretch;
+      height: 26px;
+      background: #f0f4f8;
+      border-radius: .5rem;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .chart-seg {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 .4rem;
+      color: #fff;
+      font-size: .72rem;
+      font-weight: 700;
+      min-width: 0;
+      transition: width .5s cubic-bezier(.16, .8, .24, 1);
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .chart-seg.seg-coop {
+      color: #4a3200;
+    }
+
+    .chart-total {
+      align-self: center;
+      margin-left: .55rem;
+      font-size: .82rem;
+      font-weight: 700;
+      color: #1a2f42;
+      white-space: nowrap;
+    }
+
+    .chart-empty,
+    .ranking-empty {
+      text-align: center;
+      padding: 1.2rem;
+      color: #7a8794;
+    }
+
+    @media (max-width:600px) {
+      .chart-row {
+        grid-template-columns: 1fr;
+        gap: .25rem;
+      }
+    }
   </style>
 
   <script type="module">
     import { carregarSheetData } from "../../website/sheets-to-website/sheetUtils.js";
     import { abrirResultadoJogo, fecharResultadoJogo, inicializarResultadosSchedule } from "../../website/games-schedule/resultsModal.js";
+    import { calcularRanking } from "./ranking.js";
 
     // Planilha de respostas das qualificatórias 2026 (Google Forms)
     const SHEET_RESULTADOS_URL = "https://docs.google.com/spreadsheets/d/1PGOdUi3p0ZttiHlhkk3Il53ZvThFwsQfWqdoDPlXP0s/edit?gid=1402051272#gid=1402051272";
@@ -641,6 +1025,86 @@
       resolverEquipe: resolverEquipeModal
     })).catch(err => console.error("❌ Erro ao atualizar cronograma:", err));
     setInterval(atualizarTabela, 30000)
+
+    // ================= Ranking =================
+    function fmt(n) { return Math.round(n); }
+
+    function renderRankingTabela(lista) {
+      const tb = document.getElementById('ranking-body');
+      if (!lista.length) {
+        tb.innerHTML = `<tr><td colspan="5" class="ranking-empty">Nenhum resultado registrado ainda.</td></tr>`;
+        return;
+      }
+      tb.innerHTML = lista.map((t, i) => `
+        <tr class="${i < 8 ? 'rank-captain' : ''}">
+          <td class="rank-pos">${i + 1}</td>
+          <td class="rank-nome">${t.nome}</td>
+          <td class="rank-num rank-total" data-label="Média de pontos">${fmt(t.mediaTotal)}</td>
+          <td class="rank-num" data-label="Média individuais">${fmt(t.mediaInd)}</td>
+          <td class="rank-num" data-label="Média cooperação">${fmt(t.mediaCoop)}</td>
+        </tr>`).join('');
+    }
+
+    function renderRankingChart(lista) {
+      const cont = document.getElementById('ranking-chart');
+      if (!lista.length) {
+        cont.innerHTML = `<p class="chart-empty">Nenhum resultado registrado ainda.</p>`;
+        return;
+      }
+      const max = Math.max(1, ...lista.map(t => t.mediaInd + t.mediaCoop));
+      cont.innerHTML = lista.map((t, i) => {
+        const ind = t.mediaInd, coop = t.mediaCoop, total = ind + coop;
+        const pInd = (ind / max) * 100;
+        const pCoop = (coop / max) * 100;
+        return `
+        <div class="chart-row">
+          <div class="chart-label"><span class="chart-rank">${i + 1}º</span>${t.nome}</div>
+          <div class="chart-bar-track">
+            <div class="chart-seg seg-ind" style="width:${pInd}%" title="Individual: ${fmt(ind)}"><span>${ind ? fmt(ind) : ''}</span></div>
+            <div class="chart-seg seg-coop" style="width:${pCoop}%" title="Cooperação: ${fmt(coop)}"><span>${coop ? fmt(coop) : ''}</span></div>
+            <span class="chart-total">${fmt(total)}</span>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    async function atualizarRanking() {
+      try {
+        const linhas = await carregarSheetData(SHEET_RESULTADOS_URL);
+        const lista = calcularRanking(linhas);
+        renderRankingTabela(lista);
+        renderRankingChart(lista);
+      } catch (err) {
+        console.error("❌ Erro ao atualizar ranking:", err);
+      }
+    }
+
+    // ================= Navegação por âncora (#cronograma / #ranking) =================
+    function mostrarView(view) {
+      const isRank = view === 'ranking';
+      document.getElementById('view-cronograma').hidden = isRank;
+      document.getElementById('view-ranking').hidden = !isRank;
+      document.querySelectorAll('.page-nav-btn').forEach(b =>
+        b.classList.toggle('active', b.dataset.view === view));
+      if (isRank) atualizarRanking();
+    }
+    function rota() {
+      const hash = (location.hash || '').replace('#', '');
+      mostrarView(hash === 'ranking' ? 'ranking' : 'cronograma');
+    }
+    window.addEventListener('hashchange', rota);
+    rota();
+
+    // Sub-abas do ranking
+    document.querySelectorAll('.rank-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.rank-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const which = tab.dataset.tab;
+        document.getElementById('rank-panel-tabela').hidden = which !== 'tabela';
+        document.getElementById('rank-panel-grafico').hidden = which !== 'grafico';
+      });
+    });
 
     const inputPesquisa = document.getElementById('pesquisa-time');
     if (inputPesquisa) {
