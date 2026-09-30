@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Resultados Eliminatórias | Torneio de Robótica de Gravataí 2026</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <style>
+    :root {
+      --bg: #0e141b;
+      --panel: #ffffff;
+    }
+
+    body {
+      background: #eef2f6;
+      color: #1f2d3d;
+    }
+
+    header.topo {
+      background: linear-gradient(135deg, #12263a, #0b1b2b);
+      color: #fff;
+      padding: 1.4rem 0 1.5rem;
+      box-shadow: 0 6px 18px -8px rgba(0, 0, 0, .5);
+    }
+
+    header.topo h1 {
+      font-size: clamp(1.3rem, 2.4vw, 2rem);
+      font-weight: 800;
+      letter-spacing: .5px;
+      margin: 0;
+    }
+
+    header.topo p {
+      margin: .35rem 0 0;
+      opacity: .8;
+      font-size: .95rem;
+    }
+
+    .barra-acoes {
+      display: flex;
+      gap: .6rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .status-msg {
+      font-size: .85rem;
+      opacity: .85;
+      margin: 0;
+    }
+
+    /* ===== Lista de partidas ===== */
+    .fase-titulo {
+      font-size: 1.05rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #35506b;
+      margin: 1.6rem 0 .8rem;
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+    }
+
+    .fase-titulo::after {
+      content: "";
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(90deg, #cdd8e3, transparent);
+    }
+
+    .partidas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1rem;
+    }
+
+    .partida-card {
+      background: var(--panel);
+      border: 1px solid #e2e8f0;
+      border-radius: 1rem;
+      padding: 1rem 1.1rem 1.1rem;
+      box-shadow: 0 6px 16px -8px rgba(15, 23, 42, .18);
+      display: flex;
+      flex-direction: column;
+      gap: .7rem;
+    }
+
+    .partida-topo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .partida-jogo {
+      font-size: .72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      color: #6b7c8d;
+    }
+
+    .partida-tag {
+      font-size: .68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      padding: .2rem .55rem;
+      border-radius: 999px;
+      background: #eef4fb;
+      color: #2f6fb0;
+    }
+
+    .partida-tag.pendente {
+      background: #fdf1e3;
+      color: #b5701d;
+    }
+
+    .partida-tag.pronta {
+      background: #e7f6ec;
+      color: #1f8a44;
+    }
+
+    .partida-confronto {
+      display: flex;
+      align-items: center;
+      gap: .55rem;
+      font-weight: 700;
+      font-size: 1.02rem;
+      color: #1f2d3d;
+    }
+
+    .partida-lado {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: .45rem;
+      min-width: 0;
+    }
+
+    .partida-lado.b {
+      justify-content: flex-end;
+      text-align: right;
+    }
+
+    .dot {
+      width: .7rem;
+      height: .7rem;
+      border-radius: 50%;
+      flex: 0 0 auto;
+    }
+
+    .dot.red {
+      background: #e3122b;
+    }
+
+    .dot.blue {
+      background: #0b63d6;
+    }
+
+    .partida-vs {
+      font-size: .75rem;
+      font-weight: 800;
+      color: #90a1b2;
+      flex: 0 0 auto;
+    }
+
+    .btn-ver {
+      align-self: stretch;
+      font-weight: 700;
+      letter-spacing: .3px;
+    }
+
+    /* ===== Overlay de revelação (telão) ===== */
+    .revelacao {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 50% 15%, #1b3350, #0a121c 70%);
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+      padding: clamp(1rem, 3vw, 2.5rem);
+      color: #fff;
+    }
+
+    .revelacao.aberto {
+      display: flex;
+      animation: fadeIn .25s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    .revelacao-topo {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: clamp(.8rem, 2vw, 1.6rem);
+    }
+
+    .revelacao-titulo {
+      font-size: clamp(1.3rem, 3vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: .5px;
+      line-height: 1.1;
+    }
+
+    .revelacao-sub {
+      font-size: clamp(.85rem, 1.6vw, 1.1rem);
+      opacity: .75;
+      margin-top: .25rem;
+    }
+
+    .painel-cards {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: stretch;
+      gap: clamp(1rem, 3vw, 2.5rem);
+      min-height: 0;
+    }
+
+    .vs-central {
+      align-self: center;
+      font-size: clamp(1.6rem, 4vw, 3.4rem);
+      font-weight: 900;
+      opacity: .5;
+      letter-spacing: 1px;
+    }
+
+    .score-card {
+      --grad-angle: 135deg;
+      border-radius: 1.6rem;
+      padding: clamp(1.2rem, 2.4vw, 2.2rem);
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+      background: #222;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 16px 30px -12px rgba(0, 0, 0, .55);
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+
+    .score-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 75% 15%, rgba(255, 255, 255, .3), transparent 60%);
+      mix-blend-mode: overlay;
+      opacity: .4;
+      pointer-events: none;
+    }
+
+    .score-card.red {
+      background: linear-gradient(var(--grad-angle), #ff4d5b 0%, #e3122b 55%, #b80a1e 100%);
+    }
+
+    .score-card.blue {
+      background: linear-gradient(var(--grad-angle), #2f8dff 0%, #0b63d6 55%, #00439f 100%);
+    }
+
+    .score-card.winner {
+      box-shadow: 0 0 0 4px #ffd54f, 0 0 0 9px rgba(255, 213, 79, .4), 0 22px 34px -10px rgba(0, 0, 0, .6);
+      transform: translateY(-6px);
+    }
+
+    .sc-alliance {
+      font-size: clamp(1.4rem, 2.8vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: .5px;
+      line-height: 1.1;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, .4);
+    }
+
+    .sc-times {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .4rem .5rem;
+      margin-top: .6rem;
+    }
+
+    .sc-times .ti {
+      background: rgba(255, 255, 255, .16);
+      padding: .3rem .6rem;
+      border-radius: .7rem;
+      font-size: clamp(.7rem, 1.2vw, 1rem);
+      font-weight: 600;
+      letter-spacing: .3px;
+    }
+
+    .sc-total {
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      font-weight: 900;
+      line-height: .85;
+      text-align: center;
+      margin: clamp(.6rem, 2vw, 1.4rem) 0;
+      filter: drop-shadow(0 5px 12px rgba(0, 0, 0, .55));
+    }
+
+    .sc-metrics {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: clamp(.35rem, 1vw, .7rem);
+    }
+
+    .sc-metric {
+      background: rgba(255, 255, 255, .15);
+      border: 1px solid rgba(255, 255, 255, .28);
+      border-radius: .7rem;
+      padding: clamp(.4rem, 1vw, .7rem) .25rem;
+      text-align: center;
+    }
+
+    .sc-metric span {
+      display: block;
+      font-size: clamp(.55rem, 1vw, .8rem);
+      opacity: .85;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+
+    .sc-metric strong {
+      font-size: clamp(1.1rem, 2.2vw, 2rem);
+      font-weight: 800;
+    }
+
+    .sc-coop {
+      margin-top: clamp(.5rem, 1.4vw, 1rem);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: .6rem;
+      background: rgba(255, 255, 255, .14);
+      border-radius: .8rem;
+      padding: clamp(.5rem, 1.2vw, .9rem) clamp(.7rem, 1.6vw, 1.1rem);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      font-size: clamp(.7rem, 1.3vw, 1.05rem);
+      font-weight: 700;
+    }
+
+    .sc-coop.has-coop {
+      background: linear-gradient(90deg, #ffd54f, #ffb347);
+      color: #3a2500;
+    }
+
+    .sc-coop strong {
+      font-size: clamp(1.1rem, 2.2vw, 2rem);
+      font-weight: 900;
+    }
+
+    .campeao-faixa {
+      text-align: center;
+      font-size: clamp(1rem, 2vw, 1.6rem);
+      font-weight: 800;
+      margin-top: clamp(.7rem, 2vw, 1.3rem);
+      min-height: 1.4em;
+      color: #ffd766;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, .5);
+    }
+
+    /* animações estilo cassino (reaproveitadas do telão 2025) */
+    .slot-spinning {
+      animation: slotGlow .1s ease-in-out infinite alternate;
+      text-shadow: 0 0 12px rgba(255, 255, 255, .6);
+      filter: brightness(1.2);
+    }
+
+    .final-reveal {
+      animation: finalPop .5s ease-out;
+      text-shadow: 0 0 22px rgba(255, 255, 255, .8);
+    }
+
+    @keyframes slotGlow {
+      0% {
+        text-shadow: 0 0 8px rgba(255, 255, 255, .4);
+        filter: brightness(1.1);
+      }
+
+      100% {
+        text-shadow: 0 0 16px rgba(255, 255, 255, .85);
+        filter: brightness(1.3);
+      }
+    }
+
+    @keyframes finalPop {
+      0% {
+        transform: scale(1.1);
+      }
+
+      50% {
+        transform: scale(1.16);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    @media (max-width: 820px) {
+      .painel-cards {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        overflow-y: auto;
+      }
+
+      .vs-central {
+        display: none;
+      }
+    }
+
+    footer {
+      font-size: .75rem;
+      color: #6b7c8d;
+      margin: 2.5rem 0 1.5rem;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topo">
+    <div class="container d-flex flex-wrap justify-content-between align-items-center gap-3">
+      <div>
+        <h1>Resultados — Eliminatórias</h1>
+        <p>Torneio de Robótica de Gravataí 2026</p>
+      </div>
+      <div class="barra-acoes">
+        <p id="statusMsg" class="status-msg">Carregando partidas…</p>
+        <button id="btnSom" class="btn btn-outline-light btn-sm" title="Ligar/desligar som" aria-pressed="true">🔊 Som</button>
+        <button id="btnAtualizar" class="btn btn-outline-light btn-sm" disabled>Atualizar</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container py-3">
+    <div id="listaPartidas" aria-live="polite"></div>
+  </main>
+
+  <footer>
+    Clique em “Ver detalhes da partida” para revelar o placar no telão.
+  </footer>
+
+  <!-- Overlay de revelação (telão) -->
+  <div class="revelacao" id="revelacao" role="dialog" aria-modal="true" aria-label="Resultado da partida">
+    <div class="revelacao-topo">
+      <div>
+        <div class="revelacao-titulo" id="revTitulo">Final</div>
+        <div class="revelacao-sub" id="revSub">Jogo 64</div>
+      </div>
+      <button id="btnVoltar" class="btn btn-light btn-lg fw-bold">← Voltar</button>
+    </div>
+    <div class="painel-cards">
+      <div class="score-card red" id="cardA">
+        <div class="sc-alliance" id="nomeA">Aliança A</div>
+        <div class="sc-times" id="timesA"></div>
+        <div class="sc-total" data-final="0" id="totalA">0</div>
+        <div class="sc-metrics" id="metricsA"></div>
+        <div class="sc-coop" id="coopA"><span>Cooperação</span><strong data-final="0">0</strong></div>
+      </div>
+      <div class="vs-central">VS</div>
+      <div class="score-card blue" id="cardB">
+        <div class="sc-alliance" id="nomeB">Aliança B</div>
+        <div class="sc-times" id="timesB"></div>
+        <div class="sc-total" data-final="0" id="totalB">0</div>
+        <div class="sc-metrics" id="metricsB"></div>
+        <div class="sc-coop" id="coopB"><span>Cooperação</span><strong data-final="0">0</strong></div>
+      </div>
+    </div>
+    <div class="campeao-faixa" id="campeaoFaixa"></div>
+  </div>
+
+  <script type="module">
+    import { carregarSheetData } from "../../website/sheets-to-website/sheetUtils.js";
+    import { construirChaveamento, coluna, normKey } from "../cronograma-jogos/chaveamento.js";
+
+    // Mesmas planilhas usadas pelo cronograma (cronograma-jogos.html:1356-1358)
+    const SHEET_JOGOS_ELIM_URL = "https://docs.google.com/spreadsheets/d/1SW3MyTRQzhMUCHjvXLhrdTijCCtq1yfgv6RAHdV9QYs/edit?gid=520356987#gid=520356987";
+    const SHEET_ALIANCAS_URL = "https://docs.google.com/spreadsheets/d/1SW3MyTRQzhMUCHjvXLhrdTijCCtq1yfgv6RAHdV9QYs/edit?gid=892503405#gid=892503405";
+    const SHEET_RESULTADOS_ELIM_URL = "https://docs.google.com/spreadsheets/d/1PGOdUi3p0ZttiHlhkk3Il53ZvThFwsQfWqdoDPlXP0s/edit?gid=406945627#gid=406945627";
+
+    const statusMsg = document.getElementById('statusMsg');
+    const btnAtualizar = document.getElementById('btnAtualizar');
+    const listaEl = document.getElementById('listaPartidas');
+    const overlay = document.getElementById('revelacao');
+
+    let detalhesElimPorJogo = {}; // numeroJogo -> { nomeAliancaNorm: linhaMaisRecente }
+
+    function escapeHtml(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+        ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    // ---- Detalhe por jogo (réplica de cronograma-jogos.html:1650-1691) ----
+    function parseTsElim(ts) {
+      if (!ts) return 0;
+      const m = String(ts).match(/(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?/);
+      if (!m) return 0;
+      const [, d, mo, y, h, mi, s] = m;
+      return new Date(+y, +mo - 1, +d, +h, +mi, +(s || 0)).getTime();
+    }
+
+    function construirDetalhesElim(rows) {
+      const map = {};
+      (rows || []).forEach(r => {
+        const num = String(coluna(r, 'numeroJogo')).trim();
+        const nome = String(coluna(r, 'nomeAlianca')).trim();
+        if (!num || !nome) return;
+        const ts = parseTsElim(coluna(r, 'Carimbo de data/hora'));
+        if (!map[num]) map[num] = {};
+        const k = normKey(nome);
+        const atual = map[num][k];
+        if (!atual || ts >= (atual.__ts || 0)) map[num][k] = { ...r, __ts: ts };
+      });
+      return map;
+    }
+
+    function extrairPontosAlianca(row) {
+      const n = v => Number(v || 0) || 0;
+      const pN1 = n(coluna(row, 'ptsN1Alianca'));
+      const pN2 = n(coluna(row, 'ptsN2Alianca'));
+      const pN3 = n(coluna(row, 'ptsN3Alianca'));
+      const pChao = n(coluna(row, 'ptsChaoAlianca'));
+      const pEscalada = n(coluna(row, 'ptsEscaladaAlianca'));
+      const coop = n(coluna(row, 'ptsCoopAlianca'));
+      const total = n(coluna(row, 'ptsTotais')) || (pN1 + pN2 + pN3 + pChao + pEscalada + coop);
+      return { pN1, pN2, pN3, pChao, pEscalada, coop, total };
+    }
+
+    // ---- Monta a lista de partidas a partir do chaveamento ----
+    // Cada entrada: { fase, jogo, aliA, aliB, timesA, timesB }
+    function montarPartidas(c) {
+      const out = [];
+      const push = (fase, jogo, m) => {
+        if (!jogo) return;
+        out.push({
+          fase, jogo: String(jogo),
+          aliA: m.aliancas[0], aliB: m.aliancas[1],
+          timesA: m.times ? (m.times[0] || []) : [],
+          timesB: m.times ? (m.times[1] || []) : []
+        });
+      };
+      c.quartas.forEach(q => push('Quartas de final', q.jogo, q));
+      push('Semifinal', c.semis.esq.jogo, c.semis.esq);
+      push('Semifinal', c.semis.dir.jogo, c.semis.dir);
+      (c.final.jogos || []).forEach(j => push('Final', j, c.final));
+      (c.terceiro.jogos || []).forEach(j => push('Disputa de 3º lugar', j, c.terceiro));
+      return out;
+    }
+
+    // Existe resultado das DUAS alianças desse jogo?
+    function jogoTemResultado(p) {
+      if (!p.aliA || !p.aliB) return false;
+      const mapa = detalhesElimPorJogo[p.jogo] || {};
+      return !!(mapa[normKey(p.aliA)] && mapa[normKey(p.aliB)]);
+    }
+
+    function nomeLado(nome) {
+      return escapeHtml(nome || 'A definir');
+    }
+
+    function renderLista(partidas) {
+      const fases = ['Quartas de final', 'Semifinal', 'Final', 'Disputa de 3º lugar'];
+      let html = '';
+      fases.forEach(fase => {
+        const grupo = partidas.filter(p => p.fase === fase);
+        if (!grupo.length) return;
+        html += `<h2 class="fase-titulo">${escapeHtml(fase)}</h2><div class="partidas-grid">`;
+        grupo.forEach(p => {
+          const pronta = jogoTemResultado(p);
+          const tag = pronta
+            ? `<span class="partida-tag pronta">Resultado disponível</span>`
+            : `<span class="partida-tag pendente">Aguardando resultado</span>`;
+          const btn = pronta
+            ? `<button class="btn btn-primary btn-ver" data-jogo="${p.jogo}">Ver detalhes da partida</button>`
+            : `<button class="btn btn-outline-secondary btn-ver" disabled>Aguardando resultado</button>`;
+          html += `
+            <div class="partida-card">
+              <div class="partida-topo">
+                <span class="partida-jogo">Jogo ${escapeHtml(p.jogo)}</span>
+                ${tag}
+              </div>
+              <div class="partida-confronto">
+                <span class="partida-lado a"><span class="dot red"></span>${nomeLado(p.aliA)}</span>
+                <span class="partida-vs">VS</span>
+                <span class="partida-lado b">${nomeLado(p.aliB)}<span class="dot blue"></span></span>
+              </div>
+              ${btn}
+            </div>`;
+        });
+        html += `</div>`;
+      });
+      listaEl.innerHTML = html || `<p class="text-muted">Nenhuma partida encontrada.</p>`;
+    }
+
+    // ---- Overlay de revelação ----
+    const metricasDef = [
+      { k: 'pN1', label: 'N1' }, { k: 'pN2', label: 'N2' }, { k: 'pN3', label: 'N3' },
+      { k: 'pChao', label: 'Chão' }, { k: 'pEscalada', label: 'Escalada' }
+    ];
+
+    function preencherCard(lado, nomeAli, times, pontos) {
+      document.getElementById('nome' + lado).textContent = nomeAli || 'A definir';
+      const timesWrap = document.getElementById('times' + lado);
+      timesWrap.innerHTML = (times || []).filter(Boolean)
+        .map(t => `<span class="ti">${escapeHtml(t)}</span>`).join('');
+      const total = document.getElementById('total' + lado);
+      total.dataset.final = pontos.total;
+      total.textContent = '0';
+      const metricsWrap = document.getElementById('metrics' + lado);
+      metricsWrap.innerHTML = metricasDef.map(m =>
+        `<div class="sc-metric"><span>${m.label}</span><strong data-final="${pontos[m.k]}">0</strong></div>`
+      ).join('');
+      const coop = document.getElementById('coop' + lado);
+      coop.classList.toggle('has-coop', pontos.coop > 0);
+      const coopStrong = coop.querySelector('strong');
+      coopStrong.dataset.final = pontos.coop;
+      coopStrong.textContent = '0';
+    }
+
+    function abrirRevelacao(p) {
+      const mapa = detalhesElimPorJogo[p.jogo] || {};
+      const rowA = mapa[normKey(p.aliA)];
+      const rowB = mapa[normKey(p.aliB)];
+      if (!rowA || !rowB) return;
+      const pa = extrairPontosAlianca(rowA);
+      const pb = extrairPontosAlianca(rowB);
+
+      // nomes das equipes: usa o que veio no resultado; cai pro chaveamento se faltar
+      const timesA = [coluna(rowA, 'equipe1'), coluna(rowA, 'equipe2')].filter(Boolean);
+      const timesB = [coluna(rowB, 'equipe1'), coluna(rowB, 'equipe2')].filter(Boolean);
+
+      document.getElementById('revTitulo').textContent = p.fase;
+      document.getElementById('revSub').textContent = `Jogo ${p.jogo}`;
+      document.getElementById('campeaoFaixa').textContent = '';
+
+      const cardA = document.getElementById('cardA');
+      const cardB = document.getElementById('cardB');
+      cardA.classList.remove('winner');
+      cardB.classList.remove('winner');
+
+      preencherCard('A', p.aliA, timesA.length ? timesA : p.timesA, pa);
+      preencherCard('B', p.aliB, timesB.length ? timesB : p.timesB, pb);
+
+      overlay.classList.add('aberto');
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+
+      // som real da roleta (Gran Turismo): tiques desacelerando + fanfarra no fim.
+      // A animação é sincronizada com o áudio — os números "travam" quando os tiques
+      // param (~6,5s) e o vencedor surge junto da fanfarra (~8s).
+      tocarRoleta();
+
+      // todos os números giram desacelerando e travam JUNTOS com o troféu (na fanfarra)
+      animateScore(document.getElementById('totalA'), pa.total, REV_VENCEDOR_MS);
+      animateScore(document.getElementById('totalB'), pb.total, REV_VENCEDOR_MS);
+      [cardA, cardB].forEach(card => {
+        card.querySelectorAll('.sc-metric strong, .sc-coop strong').forEach(el => {
+          animateMetric(el, Number(el.dataset.final) || 0, REV_VENCEDOR_MS);
+        });
+      });
+
+      // revela o vencedor quando a fanfarra do áudio entra
+      revTimer = setTimeout(() => {
+        if (pa.total === pb.total) {
+          document.getElementById('campeaoFaixa').textContent = '🤝 Empate';
+          return;
+        }
+        const venceuA = pa.total > pb.total;
+        (venceuA ? cardA : cardB).classList.add('winner');
+        const vencedorNome = venceuA ? p.aliA : p.aliB;
+        document.getElementById('campeaoFaixa').textContent = `🏆 ${vencedorNome}`;
+      }, REV_VENCEDOR_MS);
+    }
+
+    function fecharRevelacao() {
+      overlay.classList.remove('aberto');
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+      pararRoleta();
+      if (revTimer) { clearTimeout(revTimer); revTimer = null; }
+    }
+
+    // ================= Som de roleta (Gran Turismo) =================
+    // Áudio real recortado de "Gran Turismo Roulette" (assets/images/roleta-gt.mp3):
+    // tiques desacelerando + fanfarra de parada. Sincronizado com a revelação.
+    const ROLETA_SRC = '../assets/images/roleta-gt.mp3';
+    const REV_VENCEDOR_MS = 8000;  // números travam e o troféu surge aqui (junto da fanfarra)
+    let revTimer = null;
+    let audioRoleta = null;
+    let somLigado = localStorage.getItem('telaoSom') !== 'off';
+
+    function initAudio() {
+      if (audioRoleta) return;
+      audioRoleta = new Audio(ROLETA_SRC);
+      audioRoleta.preload = 'auto';
+    }
+
+    // Toca o áudio da roleta do início
+    function tocarRoleta() {
+      if (!somLigado) return;
+      initAudio();
+      try { audioRoleta.currentTime = 0; audioRoleta.play().catch(() => {}); } catch (e) {}
+    }
+
+    // Interrompe o áudio (ao fechar a revelação ou ao mutar)
+    function pararRoleta() {
+      if (!audioRoleta) return;
+      audioRoleta.pause();
+      try { audioRoleta.currentTime = 0; } catch (e) {}
+    }
+
+    function atualizarBotaoSom() {
+      const b = document.getElementById('btnSom');
+      b.textContent = somLigado ? '🔊 Som' : '🔇 Mudo';
+      b.setAttribute('aria-pressed', somLigado ? 'true' : 'false');
+    }
+
+    document.getElementById('btnSom').addEventListener('click', () => {
+      somLigado = !somLigado;
+      localStorage.setItem('telaoSom', somLigado ? 'on' : 'off');
+      if (!somLigado) pararRoleta();   // corta o som imediatamente ao mutar
+      else initAudio();
+      atualizarBotaoSom();
+    });
+    atualizarBotaoSom();
+
+    // Giro estilo roleta: o número troca em "tiques" que vão desacelerando (começa
+    // rápido e vai afrouxando, igual à roleta) e trava exatamente em `dur` — batendo
+    // com o troféu e a fanfarra do áudio. Todos os números chamam com o mesmo `dur`,
+    // então param juntos.
+    function girarDesacelerando(el, alvo, dur, maxRandom, revealMs) {
+      el.classList.add('slot-spinning');
+      const tempos = [];
+      let t = 0, intervalo = 55;               // 1º tique rápido (~55ms)
+      while (t < dur - 1) { tempos.push(t); t += intervalo; intervalo *= 1.09; }
+      tempos.push(dur);                          // trava exatamente no fim
+      const ultimo = tempos.length - 1;
+      tempos.forEach((quando, i) => {
+        setTimeout(() => {
+          if (i === ultimo) {                    // trava no valor real
+            el.textContent = alvo;
+            el.classList.remove('slot-spinning');
+            el.classList.add('final-reveal');
+            setTimeout(() => el.classList.remove('final-reveal'), revealMs);
+            return;
+          }
+          const s = i / ultimo;                  // progresso 0..1
+          if (s < 0.72) {
+            el.textContent = Math.floor(Math.random() * maxRandom);
+          } else {
+            // reta final: oscila em torno do alvo com faixa cada vez menor
+            const range = Math.max(2, Math.round(maxRandom * (1 - s)));
+            el.textContent = Math.max(0, Math.round(alvo + (Math.random() - 0.5) * range));
+          }
+        }, quando);
+      });
+    }
+
+    // Placar principal
+    function animateScore(el, novoValor, dur = 3000) {
+      const alvo = Number(novoValor) || 0;
+      girarDesacelerando(el, alvo, dur, Math.max(100, alvo * 2), 500);
+    }
+
+    // Métricas menores (N1..Escalada, Cooperação)
+    function animateMetric(el, novoValor, dur = 3000) {
+      const alvo = Number(novoValor) || 0;
+      girarDesacelerando(el, alvo, dur, Math.max(20, alvo * 3), 300);
+    }
+
+    // ---- Carregamento ----
+    let partidasAtuais = [];
+
+    async function carregar() {
+      statusMsg.textContent = 'Carregando partidas…';
+      btnAtualizar.disabled = true;
+      try {
+        const [aliancasRows, jogosRows, resultadosRows] = await Promise.all([
+          carregarSheetData(SHEET_ALIANCAS_URL),
+          carregarSheetData(SHEET_JOGOS_ELIM_URL),
+          carregarSheetData(SHEET_RESULTADOS_ELIM_URL)
+        ]);
+        const c = construirChaveamento(aliancasRows, jogosRows, resultadosRows);
+        detalhesElimPorJogo = construirDetalhesElim(resultadosRows);
+        partidasAtuais = montarPartidas(c);
+        renderLista(partidasAtuais);
+        const prontas = partidasAtuais.filter(jogoTemResultado).length;
+        statusMsg.textContent = prontas
+          ? `${prontas} partida(s) com resultado disponível.`
+          : 'Nenhum resultado disponível ainda.';
+      } catch (err) {
+        console.error('❌ Erro ao carregar resultados:', err);
+        statusMsg.textContent = 'Erro ao carregar resultados.';
+      } finally {
+        btnAtualizar.disabled = false;
+      }
+    }
+
+    // Delegação: clique em "Ver detalhes da partida"
+    listaEl.addEventListener('click', e => {
+      const btn = e.target.closest('.btn-ver[data-jogo]');
+      if (!btn) return;
+      const p = partidasAtuais.find(x => x.jogo === btn.dataset.jogo && jogoTemResultado(x));
+      if (p) abrirRevelacao(p);
+    });
+
+    document.getElementById('btnVoltar').addEventListener('click', fecharRevelacao);
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && overlay.classList.contains('aberto')) fecharRevelacao();
+    });
+    btnAtualizar.addEventListener('click', carregar);
+
+    carregar();
+  </script>
+</body>
+
+</html>
