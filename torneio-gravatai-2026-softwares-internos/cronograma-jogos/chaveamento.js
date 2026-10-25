@@ -5,11 +5,11 @@
 //                confrontos das quartas (2 linhas por jogo, uma por aliança)
 //  - Resultados: respostas do formulário (numeroJogo, nomeAlianca, ptsTotais)
 //
-// Estrutura fixa (8 alianças), igual à imagem de referência:
-//   Quartas:  55(esq-topo) 56(esq-baixo) 57(dir-topo) 58(dir-baixo)
-//   Semis:    59 = vencedor(55) x vencedor(56)   |   60 = vencedor(57) x vencedor(58)
-//   Final:    vencedor(59) x vencedor(60)
-//   3º lugar: perdedor(59) x perdedor(60)
+// Estrutura fixa (8 alianças), conforme a planilha de agenda das eliminatórias:
+//   Quartas:  60(esq-topo) 61(esq-baixo) 62(dir-topo) 63(dir-baixo)
+//   Semis:    64 = vencedor(60) x vencedor(61)   |   65 = vencedor(62) x vencedor(63)
+//   Final:    vencedor(64) x vencedor(65)  (melhor de 3: 69, 70, 71)
+//   3º lugar: perdedor(64) x perdedor(65)  (melhor de 3: 66, 67, 68)
 //
 // O vencedor de um jogo é a aliança com maior ptsTotais naquele numeroJogo.
 // Final e 3º lugar podem ser "melhor de N" (série) — conta as vitórias.
@@ -30,10 +30,10 @@ export function coluna(obj, ...nomes) {
 
 // Números dos jogos por fase (ajuste aqui se a planilha mudar).
 export const CHAVE_CONFIG = {
-    quartas: ['55', '56', '57', '58'], // ordem: esq-topo, esq-baixo, dir-topo, dir-baixo
-    semis: { esq: '59', dir: '60' },
-    final: ['64', '65', '66'],         // melhor de N
-    terceiro: ['61', '62', '63']       // melhor de N
+    quartas: ['60', '61', '62', '63'], // ordem: esq-topo, esq-baixo, dir-topo, dir-baixo
+    semis: { esq: '64', dir: '65' },
+    final: ['69', '70', '71'],         // melhor de N
+    terceiro: ['66', '67', '68']       // melhor de N
 };
 
 export function construirChaveamento(aliancasRows, jogosRows, resultadosRows, cfg = CHAVE_CONFIG) {
