@@ -732,7 +732,7 @@ function verificarTodasCooperacoes() {
     // Verificar NETWORKING
     const networkingAtivo = verificarNetworking();
     estado.cooperacao.networking = networkingAtivo;
-    estado.cooperacao.networkingPontos = networkingAtivo ? 6 : 0;
+    estado.cooperacao.networkingPontos = networkingAtivo ? 10 : 0;
     atualizarStatusCooperacao('networking', networkingAtivo);
     
     // Atualizar pontos NETWORKING
@@ -743,7 +743,7 @@ function verificarTodasCooperacoes() {
     
     if (networkingAtivo && !estado.cooperacao.networkingMsgMostrada) {
         console.log('🤝 NETWORKING ativado automaticamente!');
-        mostrarMensagem('NETWORKING ativado! +6pts cooperação', 'sucesso');
+        mostrarMensagem('NETWORKING ativado! +10pts cooperação', 'sucesso');
         estado.cooperacao.networkingMsgMostrada = true;
     } else if (!networkingAtivo) {
         estado.cooperacao.networkingMsgMostrada = false;

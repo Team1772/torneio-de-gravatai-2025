@@ -216,7 +216,7 @@ function atualizarCooperacao() {
     // Calcular total de cooperação
     let totalCoop = 0;
     if (estado.cooperacao.coopetition) totalCoop += 2;
-    if (estado.cooperacao.networking) totalCoop += 6;
+    if (estado.cooperacao.networking) totalCoop += 10;
     if (estado.cooperacao.integration) totalCoop += 4;
     
     document.getElementById('totalCooperacao').textContent = totalCoop;
@@ -245,7 +245,7 @@ function calcularPontos() {
         // Pontos de cooperação
         let ptsCoop = 0;
         if (estado.cooperacao.coopetition) ptsCoop += 2;
-        if (estado.cooperacao.networking) ptsCoop += 6;
+        if (estado.cooperacao.networking) ptsCoop += 10;
         if (estado.cooperacao.integration) ptsCoop += 4;
         
         // Total individual (sem cooperação)
