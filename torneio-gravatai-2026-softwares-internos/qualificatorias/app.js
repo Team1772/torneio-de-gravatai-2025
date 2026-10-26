@@ -447,15 +447,20 @@ function verificarCoopetition() {
     const posicoesAzul = botoesN1Azul.map(b => b.posicao);
     
     // Posições N1: 8, 9, 10, 11 (4 posições)
+    // A quadra é ESPELHADA fisicamente: a marcação do lado verde fica no canto
+    // oposto da do lado azul. Então a coopetition numa mesma peça física ocorre
+    // quando o verde está numa posição e o azul está na posição ESPELHADA:
+    //   verde 8 (esq) <-> azul 11 (dir)   |   verde 9 <-> azul 10
     const posicoesN1 = [8, 9, 10, 11];
+    const ESPELHO_N1 = { 8: 11, 9: 10, 10: 9, 11: 8 };
     const statusPosicoes = [];
     let pontosTotal = 0;
-    
+
     posicoesN1.forEach(pos => {
-        const ambosTemPilar = posicoesVerde.includes(pos) && posicoesAzul.includes(pos);
+        const ambosTemPilar = posicoesVerde.includes(pos) && posicoesAzul.includes(ESPELHO_N1[pos]);
         statusPosicoes.push(ambosTemPilar);
         if (ambosTemPilar) {
-            pontosTotal += 2; // 2 pontos por posição completada
+            pontosTotal += 2; // 2 pontos por peça física completada pelas duas equipes
         }
     });
     
