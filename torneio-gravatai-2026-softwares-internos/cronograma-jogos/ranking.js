@@ -11,7 +11,7 @@
 //  - Total = individuais + cooperação (mesma base do gráfico, para que
 //    a ordenação e os números exibidos sejam sempre consistentes).
 //  - Médias = somas / número de jogos daquela equipe.
-//  - Ordenação (desempate): média de pontos → média individuais → média coop.
+//  - Ordenação: média total → média individuais → média coop.
 
 export function normKey(s) {
   return String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[\s_]/g, '').toLowerCase();
