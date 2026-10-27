@@ -1581,7 +1581,7 @@
     setInterval(atualizarTabela, 30000)
 
     // ================= Ranking =================
-    function fmt(n) { return Math.round(n); }
+    function fmt(n) { return Number(n).toFixed(2); }
 
     function renderRankingTabela(lista) {
       const tb = document.getElementById('ranking-body');
